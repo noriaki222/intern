@@ -6,6 +6,10 @@ public class BulletControl : MonoBehaviour
 {
     [SerializeField] private float speed = 5; //e’e‚ÌƒXƒs[ƒh
 
+    [SerializeField] private float Reflectionspeed = 10; //”½Ëe’e‚ÌƒXƒs[ƒh
+
+    bool BulletRefection = false;
+
     void Start()
     {
 
@@ -20,9 +24,18 @@ public class BulletControl : MonoBehaviour
 
     public void Move()
     {
-        Vector3 lazerPos = transform.position; //Vector3Œ^‚ÌplayerPos‚ÉŒ»İ‚ÌˆÊ’uî•ñ‚ğŠi”[
-        lazerPos.x -= speed * Time.deltaTime; //xÀ•W‚Éspeed‚ğ‰ÁZ
-        transform.position = lazerPos; //Œ»İ‚ÌˆÊ’uî•ñ‚É”½‰f‚³‚¹‚é
+        if (BulletRefection == false)
+        {
+            Vector3 lazerPos = transform.position; //Vector3Œ^‚ÌplayerPos‚ÉŒ»İ‚ÌˆÊ’uî•ñ‚ğŠi”[
+            lazerPos.x -= speed * Time.deltaTime; //xÀ•W‚Éspeed‚ğ‰ÁZ
+            transform.position = lazerPos; //Œ»İ‚ÌˆÊ’uî•ñ‚É”½‰f‚³‚¹‚é
+        }
+        else
+        {
+            Vector3 lazerPos = transform.position; //Vector3Œ^‚ÌplayerPos‚ÉŒ»İ‚ÌˆÊ’uî•ñ‚ğŠi”[
+            lazerPos.x += Reflectionspeed * Time.deltaTime; //xÀ•W‚Éspeed‚ğ‰ÁZ
+            transform.position = lazerPos; //Œ»İ‚ÌˆÊ’uî•ñ‚É”½‰f‚³‚¹‚é
+        }
     }
 
     private void OnBecameInvisible()
@@ -32,6 +45,15 @@ public class BulletControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if(collision.gameObject.CompareTag("Player")|| collision.gameObject.CompareTag("Enemy"))
         Destroy(this.gameObject);
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+
+    {
+        if (other.gameObject.CompareTag("PlayerAttackPoint"))
+        {
+            BulletRefection = true;
+        }
     }
 }
