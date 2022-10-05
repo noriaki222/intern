@@ -27,4 +27,9 @@ public class PlayLife : MonoBehaviour
     {
         return isLossFin;
     }
+
+    public void PlayAddAnim()
+    {
+        isLossFin = false;
+    }
 }

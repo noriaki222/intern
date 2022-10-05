@@ -23,5 +23,9 @@ public class TestInput : MonoBehaviour
         {
             life.LossLife();
         }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            life.AddLife();
+        }
     }
 }
