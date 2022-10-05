@@ -17,11 +17,18 @@ public class TestInput : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.F1))
         {
+            // ƒRƒ“ƒ{‰ÁZ
             hit.AddHit();
         }
         if(Input.GetKeyDown(KeyCode.F2))
         {
+            // ‘Ì—ÍŒ¸­
             life.LossLife();
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            // ‘Ì—Í‘‰Á
+            life.AddLife();
         }
     }
 }
