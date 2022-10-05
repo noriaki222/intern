@@ -6,6 +6,8 @@ public class TestInput : MonoBehaviour
 {
     [SerializeField] private HitUI hit;
     [SerializeField] private LifeUI life;
+    [SerializeField] private EnemyHpBar enemyHp;
+    [SerializeField] private float decreaseHp = 20.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,11 @@ public class TestInput : MonoBehaviour
         {
             // ‘Ì—Í‘‰Á
             life.AddLife();
+        }
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            // “G‘Ì—ÍŒ¸­
+            enemyHp.DecHp(decreaseHp);
         }
     }
 }
