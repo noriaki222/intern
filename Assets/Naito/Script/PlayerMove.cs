@@ -26,6 +26,8 @@ public class PlayerMove : MonoBehaviour
     //アタックポイント格納用
     [SerializeField] private Transform attackPoint;
 
+    [SerializeField] private LifeUI life;
+
 
     private void Start()
     {
@@ -78,7 +80,8 @@ public class PlayerMove : MonoBehaviour
 
     void PlayerDamage()
     {
-        PlayerHP--;
+        // 体力減少
+        life.LossLife();
         CollisionFlag = true;
         //ダメージ判定が終わった後、3秒後に無敵を解除する
         Invoke("InvincibleEnd", 3.0f);
