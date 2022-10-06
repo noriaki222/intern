@@ -66,8 +66,8 @@ public class SpiderSpecialAttack : MonoBehaviour
                     state = STATE_SILK.DELETE;
                 break;
             case STATE_SILK.DELETE:
-                DeleteSilk();
-                state = STATE_SILK.NONE;
+                if(DeleteSilk())
+                    state = STATE_SILK.NONE;
                 break;
             default:
                 break;
@@ -98,9 +98,11 @@ public class SpiderSpecialAttack : MonoBehaviour
                 work2 = UnityEngine.Random.Range(0, 4);
             }
 
-
-            param[i].startPos = GetRandPos(work);
+            param[i].startPos = GetRandPos(work, true);
             param[i].endPos = GetRandPos(work2);
+
+            while((param[i].endPos - param[i].startPos).magnitude < 12.0f)
+                param[i].endPos = GetRandPos(work2);
 
             // 角度を求める
             float angle = GetAngle(param[i].startPos, param[i].endPos);
@@ -206,7 +208,7 @@ public class SpiderSpecialAttack : MonoBehaviour
         {
             param[i].small_spider.transform.position = Vector3.MoveTowards(param[i].small_spider.transform.position, param[i].off_end, speed);
 
-            if (go < param.Count && ((param[go - 1].small_spider.transform.position - param[go - 1].off_end).magnitude < 1.0f))
+            if (go < param.Count && ((param[go - 1].small_spider.transform.position - param[go - 1].off_end).magnitude < 15.0f))
             {
                 ++go;
             }
@@ -218,34 +220,61 @@ public class SpiderSpecialAttack : MonoBehaviour
     }
 
     // 表示させた糸を非表示に
-    private void DeleteSilk()
+    private bool DeleteSilk()
     {
+        bool fin = false;
+        int go = 1;
+        for (int i = 0; i < go; ++i)
+        {
+            param[i].spiderSilk.transform.position = Vector3.MoveTowards(param[i].spiderSilk.transform.position, param[i].off_end, speed);
 
+            if (go < param.Count && ((param[go - 1].spiderSilk.transform.position - param[go - 1].off_end).magnitude < 1.0f))
+            {
+                ++go;
+            }
+        }
+
+        if (((param[param.Count - 1].spiderSilk.transform.position - param[param.Count - 1].off_end).magnitude < 1.0f))
+            fin = true;
+
+        return fin;
     }
 
     // 画面端の座標を返す
     // 引数：0～3で画面の上下左右を指定
     // 戻り値：座標
-    private Vector3 GetRandPos(int num)
+    private Vector3 GetRandPos(int num, bool flg = false)
     {
         Vector3 pos = Vector3.zero;
         switch(num)
         {
             case 0: // 上
-                pos.x = UnityEngine.Random.Range(-12.0f, 12.0f);
+                if (!flg)
+                    pos.x = UnityEngine.Random.Range(-12.0f, 12.0f);
+                else
+                    pos.x = 0.0f;
                 pos.y = 6.0f;
                 break;
             case 1: // 下
-                pos.x = UnityEngine.Random.Range(-12.0f, 12.0f);
+                if (!flg)
+                    pos.x = UnityEngine.Random.Range(-12.0f, 12.0f);
+                else
+                    pos.x = 0.0f;
                 pos.y = -6.0f;
                 break;
             case 2: // 左
                 pos.x = -12.0f;
-                pos.y = UnityEngine.Random.Range(-6.0f, 6.0f);
+                if (!flg)
+                    pos.y = UnityEngine.Random.Range(-6.0f, 6.0f);
+                else
+                    pos.y = 0.0f;
                 break;
             case 3: // 右
                 pos.x = 12.0f;
-                pos.y = UnityEngine.Random.Range(-6.0f, 6.0f);
+                if (!flg)
+                    pos.y = UnityEngine.Random.Range(-6.0f, 6.0f);
+                else
+                    pos.y = 0.0f;
                 break;
         }
 
