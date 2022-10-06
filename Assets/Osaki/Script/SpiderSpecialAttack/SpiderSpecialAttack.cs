@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 /*
  始点、終点座標の範囲
@@ -13,45 +14,209 @@ using UnityEngine;
 public class SpiderSpecialAttack : MonoBehaviour
 {
     [SerializeField] private GameObject spiderSilk;
-    private Vector3 startPos;
-    private Vector3 endPos;
+    [SerializeField] private GameObject start;
+    [SerializeField] private GameObject offstart;
+    [SerializeField] private GameObject offend;
+    [SerializeField] private GameObject end;
 
-    private Vector3 line;
+    [SerializeField] private GameObject small_spider;
+    [SerializeField] private float speed = 1.0f;
+    private Vector3 startPos;   // 開始座標
+    private Vector3 endPos;     // 終了座標
 
-    private bool isStart = false;
+    private Vector3 stopPos;    // 一時停止座標
+
+    // 攻撃ステート
+    private enum STATE_SILK
+    {
+        CREATE,
+        MOVE_SILK,
+        ATTACK,
+        DELETE,
+
+        MAX_STATE,
+        NONE
+    };
+    private STATE_SILK state = STATE_SILK.NONE;
+
     // Start is called before the first frame update
     void Start()
     {
-        startPos = endPos = line = Vector3.zero;
+        startPos = endPos = stopPos = Vector3.zero;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        
+        switch (state)
+        {
+            case STATE_SILK.CREATE:
+                CreateLine();
+                state = STATE_SILK.MOVE_SILK;
+                break;
+            case STATE_SILK.MOVE_SILK:
+                MoveSpiderSilk();
+                if((spiderSilk.transform.position - stopPos).magnitude < 1.0f)
+                    state = STATE_SILK.ATTACK;
+                break;
+            case STATE_SILK.ATTACK:
+                AttackSmallSpider();
+                //state = STATE_SILK.DELETE;
+                break;
+            case STATE_SILK.DELETE:
+                DeleteSilk();
+                state = STATE_SILK.NONE;
+                break;
+            default:
+                break;
+        }
     }
 
     public void StartAttack()
     {
-        isStart = true;
+        if(state == STATE_SILK.NONE)
+        {
+            state = STATE_SILK.CREATE;
+        }
     }
 
     // 糸の始点と終点を決定し、ベクトルを作成し、
-    // ベクトルに沿うように回転、糸の端を始点に移動
+    // オブジェクトを開始地点へ移動
     private void CreateLine()
     {
+        UnityEngine.Random.InitState(DateTime.Now.Millisecond);
+        // 始点と終点を決定
+        int work = UnityEngine.Random.Range(0, 4);
+        startPos = GetRandPos(work);
 
+        int work2 = UnityEngine.Random.Range(0, 4);
+        while(work2 == work)
+        {
+            work2 = UnityEngine.Random.Range(0, 4);
+        }
+
+        endPos = GetRandPos(work2);
+
+        // 角度を求める
+        float angle = GetAngle(startPos, endPos);
+
+        // オブジェクトを回転
+        var rot = spiderSilk.transform.eulerAngles;
+        rot.z = angle;
+        spiderSilk.transform.eulerAngles = rot;
+
+        // オブジェクトを移動
+        float objLength = spiderSilk.transform.localScale.x;
+        float off_x, off_y;
+        float off_ex, off_ey;
+
+        if(((endPos.y - startPos.y) / (endPos.x - startPos.x)) >= 0.0f)
+        {
+            //Debug.Log("傾き：正");
+            if((endPos.x - startPos.x) >= 0.0f)
+            {
+                //Debug.Log("左下から右上");
+                off_x = startPos.x - ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                off_y = startPos.y - ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+                off_ex = endPos.x + ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                off_ey = endPos.y + ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+            }
+            else
+            {
+                //Debug.Log("右上から左下");
+                off_x = startPos.x + ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                off_y = startPos.y + ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+                off_ey = endPos.y - ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+                off_ex = endPos.x - ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+            }
+        }
+        else
+        {
+            //Debug.Log("傾き：負");
+            if ((endPos.x - startPos.x) >= 0.0f)
+            {
+                //Debug.Log("左上から右下");
+                off_x = startPos.x - ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                off_y = startPos.y + ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+                off_ex = endPos.x + ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                off_ey = endPos.y - ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+            }
+            else
+            {
+                //Debug.Log("右下から左上");
+                off_x = startPos.x + ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                off_y = startPos.y - ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+                off_ex = endPos.x - ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                off_ey = endPos.y + ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+            }
+        }
+
+        stopPos = new Vector3((endPos.x + startPos.x) / 2, (endPos.y + startPos.y) / 2, 0.0f);
+        Debug.Log("停止座標：" + stopPos);
+
+        spiderSilk.transform.position = new Vector3(off_x, off_y, 0.0f);
+        offstart.transform.position = new Vector3(off_x, off_y, 0.0f);
+        offend.transform.position = new Vector3(off_ex, off_ey, 0.0f);
+
+        start.transform.position = startPos;
+        end.transform.position = endPos;
+
+        small_spider.transform.position = offstart.transform.position;
+    }
+
+    // 2座標から角度を求める
+    private float GetAngle(Vector2 start, Vector2 target)
+    {
+        Vector2 dt = target - start;
+        float rad = Mathf.Atan2(dt.y, dt.x);
+        float degree = rad * Mathf.Rad2Deg;
+
+        return degree;
     }
 
     // ベクトルにそって糸を始点から終点へ向かって移動させる
     private void MoveSpiderSilk()
     {
-
+        spiderSilk.transform.position = Vector3.MoveTowards(spiderSilk.transform.position, stopPos, speed);
     }
 
     // ベクトルにそって子蜘蛛を移動させる
     private void AttackSmallSpider()
     {
+        small_spider.transform.position = Vector3.MoveTowards(small_spider.transform.position, offend.transform.position, speed * 1.1f);
+    }
 
+    // 表示させた糸を非表示に
+    private void DeleteSilk()
+    {
+
+    }
+
+    // 画面端の座標を返す
+    // 引数：0～3で画面の上下左右を指定
+    // 戻り値：座標
+    private Vector3 GetRandPos(int num)
+    {
+        Vector3 pos = Vector3.zero;
+        switch(num)
+        {
+            case 0: // 上
+                pos.x = UnityEngine.Random.Range(-12.0f, 12.0f);
+                pos.y = 6.0f;
+                break;
+            case 1: // 下
+                pos.x = UnityEngine.Random.Range(-12.0f, 12.0f);
+                pos.y = -6.0f;
+                break;
+            case 2: // 左
+                pos.x = -12.0f;
+                pos.y = UnityEngine.Random.Range(-6.0f, 6.0f);
+                break;
+            case 3: // 右
+                pos.x = 12.0f;
+                pos.y = UnityEngine.Random.Range(-6.0f, 6.0f);
+                break;
+        }
+
+        return pos;
     }
 }
