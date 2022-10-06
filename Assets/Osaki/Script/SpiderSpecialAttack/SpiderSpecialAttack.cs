@@ -14,17 +14,12 @@ using System;
 public class SpiderSpecialAttack : MonoBehaviour
 {
     [SerializeField] private GameObject spiderSilk;
-    [SerializeField] private GameObject start;
-    [SerializeField] private GameObject offstart;
-    [SerializeField] private GameObject offend;
-    [SerializeField] private GameObject end;
-
     [SerializeField] private GameObject small_spider;
     [SerializeField] private float speed = 1.0f;
-    private Vector3 startPos;   // 開始座標
-    private Vector3 endPos;     // 終了座標
 
-    private Vector3 stopPos;    // 一時停止座標
+    [SerializeField] private int LineNum = 3;
+
+    private List<SpiderSpecialParam> param = new List<SpiderSpecialParam>();
 
     // 攻撃ステート
     private enum STATE_SILK
@@ -42,7 +37,16 @@ public class SpiderSpecialAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startPos = endPos = stopPos = Vector3.zero;
+        for(int i = 0; i < LineNum; ++i)
+        {
+            param.Add(new SpiderSpecialParam());
+        }
+
+        for(int i = 0; i < param.Count; ++i)
+        {
+            param[i].spiderSilk = Instantiate(spiderSilk);
+            param[i].small_spider = Instantiate(small_spider);
+        }
     }
 
     private void FixedUpdate()
@@ -54,13 +58,12 @@ public class SpiderSpecialAttack : MonoBehaviour
                 state = STATE_SILK.MOVE_SILK;
                 break;
             case STATE_SILK.MOVE_SILK:
-                MoveSpiderSilk();
-                if((spiderSilk.transform.position - stopPos).magnitude < 1.0f)
+                if(MoveSpiderSilk())
                     state = STATE_SILK.ATTACK;
                 break;
             case STATE_SILK.ATTACK:
-                AttackSmallSpider();
-                //state = STATE_SILK.DELETE;
+                if(AttackSmallSpider())
+                    state = STATE_SILK.DELETE;
                 break;
             case STATE_SILK.DELETE:
                 DeleteSilk();
@@ -84,83 +87,83 @@ public class SpiderSpecialAttack : MonoBehaviour
     private void CreateLine()
     {
         UnityEngine.Random.InitState(DateTime.Now.Millisecond);
-        // 始点と終点を決定
-        int work = UnityEngine.Random.Range(0, 4);
-        startPos = GetRandPos(work);
-
-        int work2 = UnityEngine.Random.Range(0, 4);
-        while(work2 == work)
+        for (int i = 0; i < param.Count; ++i)
         {
-            work2 = UnityEngine.Random.Range(0, 4);
-        }
+            // 始点と終点を決定
+            int work = UnityEngine.Random.Range(0, 4);
 
-        endPos = GetRandPos(work2);
-
-        // 角度を求める
-        float angle = GetAngle(startPos, endPos);
-
-        // オブジェクトを回転
-        var rot = spiderSilk.transform.eulerAngles;
-        rot.z = angle;
-        spiderSilk.transform.eulerAngles = rot;
-
-        // オブジェクトを移動
-        float objLength = spiderSilk.transform.localScale.x;
-        float off_x, off_y;
-        float off_ex, off_ey;
-
-        if(((endPos.y - startPos.y) / (endPos.x - startPos.x)) >= 0.0f)
-        {
-            //Debug.Log("傾き：正");
-            if((endPos.x - startPos.x) >= 0.0f)
+            int work2 = UnityEngine.Random.Range(0, 4);
+            while (work2 == work)
             {
-                //Debug.Log("左下から右上");
-                off_x = startPos.x - ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
-                off_y = startPos.y - ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
-                off_ex = endPos.x + ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
-                off_ey = endPos.y + ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+                work2 = UnityEngine.Random.Range(0, 4);
+            }
+
+
+            param[i].startPos = GetRandPos(work);
+            param[i].endPos = GetRandPos(work2);
+
+            // 角度を求める
+            float angle = GetAngle(param[i].startPos, param[i].endPos);
+
+            // オブジェクトを回転
+            var rot = param[i].spiderSilk.transform.eulerAngles;
+            rot.z = angle;
+            param[i].spiderSilk.transform.eulerAngles = rot;
+
+            // オブジェクトを移動
+            float objLength = param[i].spiderSilk.transform.localScale.x;
+            float off_x, off_y;
+            float off_ex, off_ey;
+
+            if (((param[i].endPos.y - param[i].startPos.y) / (param[i].endPos.x - param[i].startPos.x)) >= 0.0f)
+            {
+                //Debug.Log("傾き：正");
+                if ((param[i].endPos.x - param[i].startPos.x) >= 0.0f)
+                {
+                    //Debug.Log("左下から右上");
+                    off_x = param[i].startPos.x - ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                    off_y = param[i].startPos.y - ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+                    off_ex = param[i].endPos.x + ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                    off_ey = param[i].endPos.y + ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+                }
+                else
+                {
+                    //Debug.Log("右上から左下");
+                    off_x = param[i].startPos.x + ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                    off_y = param[i].startPos.y + ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+                    off_ey = param[i].endPos.y - ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+                    off_ex = param[i].endPos.x - ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                }
             }
             else
             {
-                //Debug.Log("右上から左下");
-                off_x = startPos.x + ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
-                off_y = startPos.y + ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
-                off_ey = endPos.y - ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
-                off_ex = endPos.x - ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                //Debug.Log("傾き：負");
+                if ((param[i].endPos.x - param[i].startPos.x) >= 0.0f)
+                {
+                    //Debug.Log("左上から右下");
+                    off_x = param[i].startPos.x - ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                    off_y = param[i].startPos.y + ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+                    off_ex = param[i].endPos.x + ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                    off_ey = param[i].endPos.y - ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+                }
+                else
+                {
+                    //Debug.Log("右下から左上");
+                    off_x = param[i].startPos.x + ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                    off_y = param[i].startPos.y - ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+                    off_ex = param[i].endPos.x - ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
+                    off_ey = param[i].endPos.y + ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
+                }
             }
+
+            param[i].stopPos = new Vector3((param[i].endPos.x + param[i].startPos.x) / 2, (param[i].endPos.y + param[i].startPos.y) / 2, 0.0f);
+
+            param[i].spiderSilk.transform.position = new Vector3(off_x, off_y, 0.0f);
+            param[i].off_start = new Vector3(off_x, off_y, 0.0f);
+            param[i].off_end = new Vector3(off_ex, off_ey, 0.0f);
+
+            param[i].small_spider.transform.position = param[i].off_start;
         }
-        else
-        {
-            //Debug.Log("傾き：負");
-            if ((endPos.x - startPos.x) >= 0.0f)
-            {
-                //Debug.Log("左上から右下");
-                off_x = startPos.x - ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
-                off_y = startPos.y + ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
-                off_ex = endPos.x + ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
-                off_ey = endPos.y - ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
-            }
-            else
-            {
-                //Debug.Log("右下から左上");
-                off_x = startPos.x + ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
-                off_y = startPos.y - ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
-                off_ex = endPos.x - ((objLength / 2) * Mathf.Abs(Mathf.Cos(angle * Mathf.Deg2Rad)));
-                off_ey = endPos.y + ((objLength / 2) * Mathf.Abs(Mathf.Sin(angle * Mathf.Deg2Rad)));
-            }
-        }
-
-        stopPos = new Vector3((endPos.x + startPos.x) / 2, (endPos.y + startPos.y) / 2, 0.0f);
-        Debug.Log("停止座標：" + stopPos);
-
-        spiderSilk.transform.position = new Vector3(off_x, off_y, 0.0f);
-        offstart.transform.position = new Vector3(off_x, off_y, 0.0f);
-        offend.transform.position = new Vector3(off_ex, off_ey, 0.0f);
-
-        start.transform.position = startPos;
-        end.transform.position = endPos;
-
-        small_spider.transform.position = offstart.transform.position;
     }
 
     // 2座標から角度を求める
@@ -174,15 +177,44 @@ public class SpiderSpecialAttack : MonoBehaviour
     }
 
     // ベクトルにそって糸を始点から終点へ向かって移動させる
-    private void MoveSpiderSilk()
+    private bool MoveSpiderSilk()
     {
-        spiderSilk.transform.position = Vector3.MoveTowards(spiderSilk.transform.position, stopPos, speed);
+        bool fin = false;
+        int go = 1;
+        for(int i = 0; i < go; ++i)
+        {
+            param[i].spiderSilk.transform.position = Vector3.MoveTowards(param[i].spiderSilk.transform.position, param[i].stopPos, speed);
+
+            if (go < param.Count && ((param[go - 1].spiderSilk.transform.position - param[go - 1].stopPos).magnitude < 1.0f))
+            {
+                ++go;
+            }
+        }
+
+        if (((param[param.Count - 1].spiderSilk.transform.position - param[param.Count - 1].stopPos).magnitude < 1.0f))
+            fin = true;
+
+        return fin;
     }
 
     // ベクトルにそって子蜘蛛を移動させる
-    private void AttackSmallSpider()
+    private bool AttackSmallSpider()
     {
-        small_spider.transform.position = Vector3.MoveTowards(small_spider.transform.position, offend.transform.position, speed * 1.1f);
+        bool fin = false;
+        int go = 1;
+        for (int i = 0; i < go; ++i)
+        {
+            param[i].small_spider.transform.position = Vector3.MoveTowards(param[i].small_spider.transform.position, param[i].off_end, speed);
+
+            if (go < param.Count && ((param[go - 1].small_spider.transform.position - param[go - 1].off_end).magnitude < 1.0f))
+            {
+                ++go;
+            }
+        }
+        if (((param[param.Count - 1].small_spider.transform.position - param[param.Count - 1].off_end).magnitude < 1.0f))
+            fin = true;
+
+        return fin;
     }
 
     // 表示させた糸を非表示に
