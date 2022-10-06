@@ -21,12 +21,12 @@ public class PlayerMove : MonoBehaviour
     private bool CollisionFlag = false;
     //点滅用変数
     [SerializeField] private SpriteRenderer sp;
-    //攻撃の当たり判定用
-    [SerializeField] private GameObject AttackArea;
-    //アタックポイント格納用
-    [SerializeField] private Transform attackPoint;
-
+    //ライフUI用
     [SerializeField] private LifeUI life;
+    //ホーミングオブジェクト
+    [SerializeField] private GameObject HomingObj;
+    //攻撃エリア用
+    [SerializeField] private PlayerAttack AttackArea;
 
 
     private void Start()
@@ -53,9 +53,10 @@ public class PlayerMove : MonoBehaviour
             this.rbody2D.AddForce(transform.up * power);
             jumpCount++;
         }
-        if(Input.GetKeyDown(KeyCode.Space))
+        //攻撃
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            Instantiate(AttackArea, attackPoint.position, Quaternion.identity);
+            AttackArea.AttackAreaCreate();
         }
         //プレイヤーの移動制限
         //transform.position = new Vector2(Mathf.Clamp(

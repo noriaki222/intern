@@ -8,6 +8,9 @@ public class BulletControl : MonoBehaviour
 
     [SerializeField] private float Reflectionspeed = 10; //反射銃弾のスピード
 
+    //コンボ加算用
+    //[SerializeField] private HitUI hit;
+
     bool BulletRefection = false;
 
     void Start()
@@ -53,6 +56,7 @@ public class BulletControl : MonoBehaviour
         if (other.gameObject.CompareTag("PlayerAttackPoint"))
         {
             BulletRefection = true;
+            //hit.AddHit();
         }
     }
 }

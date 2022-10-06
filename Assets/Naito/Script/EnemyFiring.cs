@@ -16,6 +16,7 @@ public class EnemyFiring : MonoBehaviour
     private bool CollisionFlag = false;
     //“_–Å—p•Ï”
     [SerializeField] private SpriteRenderer sp;
+
     void Update()
     {
         bulletcount += Time.deltaTime;

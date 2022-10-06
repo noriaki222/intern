@@ -4,20 +4,37 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    [SerializeField] private HitUI hit;
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("AttackAreaDereta", 0.3f);
+        //ゲームオブジェクトを非アクティブ状態に
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public void AttackAreaCreate()
+    {
+        gameObject.SetActive(true);
+        Invoke("AttackAreaDereta", 1.0f);
     }
 
     void AttackAreaDereta()
     {
-        Destroy(this.gameObject);
+        //ゲームオブジェクトを非アクティブ状態に
+        gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("Bullet"))
+        {
+            hit.AddHit();
+        }
     }
 }
