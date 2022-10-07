@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviour
     //プレイヤーのリジットボディ
     private Rigidbody2D rbody2D;
     //プレイヤーがジャンプしていいかの処理
-    private int jumpCount = 0;
+    [SerializeField] private int jumpCount = 0;
     //プレイヤーのHP
     [SerializeField] private int PlayerHP = 5;
     //当たり判定フラグ
@@ -27,6 +27,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private GameObject HomingObj;
     //攻撃エリア用
     [SerializeField] private PlayerAttack AttackArea;
+    //移動方向格納用
+    private float x_val;
 
 
     private void Start()
@@ -37,16 +39,27 @@ public class PlayerMove : MonoBehaviour
     //Update is called once per frame
     void Update()
     {
+        x_val = Input.GetAxis("Horizontal");
         //ダメージ判定を受けているとき、点滅する
         if(CollisionFlag)
         {
             //Mathf.Absは絶対値を返す、Mathf.Sinは＋なら１，－なら0を返す
             float level = Mathf.Abs(Mathf.Sin(Time.time * 10));
             //上の式で0と1が交互に来るので、それを透明度に入れて反転させている
-            sp.color = new Color(0.0f, 1.0f, 1.0f, level);
+            sp.color = new Color(1.0f, 1.0f, 1.0f, level);
+        }
+        if(x_val>0)
+        {
+            //右を向く
+            transform.localScale = new Vector3(-0.07f, 0.07f, 1);
+        }
+        else if(x_val<0)
+        {
+            //左を向く
+            transform.localScale = new Vector3(0.07f, 0.07f, 1);
         }
         //横移動
-        transform.Translate(Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, 0, 0);
+        transform.Translate(x_val * speed * Time.deltaTime, 0, 0);
         //ジャンプ
         if (Input.GetKeyDown(KeyCode.UpArrow)&&this.jumpCount<1)
         {
@@ -91,7 +104,7 @@ public class PlayerMove : MonoBehaviour
     void InvincibleEnd()
     {
         CollisionFlag = false;
-        sp.color = new Color(0.0f, 1.0f, 1.0f, 1.0f);
+        sp.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
 }

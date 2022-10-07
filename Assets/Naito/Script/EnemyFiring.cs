@@ -71,6 +71,6 @@ public class EnemyFiring : MonoBehaviour
     void InvincibleEnd()
     {
         CollisionFlag = false;
-        sp.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+        sp.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     }
 }
