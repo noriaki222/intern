@@ -8,6 +8,7 @@ public class TestInput : MonoBehaviour
     [SerializeField] private LifeUI life;
     [SerializeField] private EnemyHpBar enemyHp;
     [SerializeField] private float decreaseHp = 20.0f;
+    [SerializeField] private SpiderSpecialAttack attack;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +37,11 @@ public class TestInput : MonoBehaviour
         {
             // “G‘Ì—ÍŒ¸­
             enemyHp.DecHp(decreaseHp);
+        }
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            // “G‘Ì—ÍŒ¸­
+            attack.StartAttack();
         }
     }
 }
