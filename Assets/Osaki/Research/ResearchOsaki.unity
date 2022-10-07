@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &115305290
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -421,6 +421,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HitUI
       objectReference: {fileID: 0}
+    - target: {fileID: 3119710402433503912, guid: cb08e97b39cbb7c47aea0f8de4ca9081, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3119710402433503913, guid: cb08e97b39cbb7c47aea0f8de4ca9081, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -583,6 +587,10 @@ PrefabInstance:
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 6730563945465484254, guid: 227c3f7567801264c8a52f10d6b3609d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6730563945465484254, guid: 227c3f7567801264c8a52f10d6b3609d, type: 3}
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
@@ -610,6 +618,10 @@ PrefabInstance:
     - target: {fileID: 1532480871793045470, guid: 6d8445d7c3288ed40941291521023ee0, type: 3}
       propertyPath: m_Name
       value: LifeUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 1532480871793045470, guid: 6d8445d7c3288ed40941291521023ee0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1532480871793045471, guid: 6d8445d7c3288ed40941291521023ee0, type: 3}
       propertyPath: m_Pivot.x
@@ -827,7 +839,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1199041272
 Transform:
   m_ObjectHideFlags: 0
@@ -875,7 +887,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1203749048
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1215,6 +1227,10 @@ PrefabInstance:
     - target: {fileID: 5585972434089233589, guid: 095945fa47b93a642962d794bf7844ae, type: 3}
       propertyPath: m_Name
       value: EnemyUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5585972434089233589, guid: 095945fa47b93a642962d794bf7844ae, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5585972434089233610, guid: 095945fa47b93a642962d794bf7844ae, type: 3}
       propertyPath: m_Pivot.x

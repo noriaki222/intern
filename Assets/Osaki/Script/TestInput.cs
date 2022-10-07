@@ -1,0 +1,47 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class TestInput : MonoBehaviour
+{
+    [SerializeField] private HitUI hit;
+    [SerializeField] private LifeUI life;
+    [SerializeField] private EnemyHpBar enemyHp;
+    [SerializeField] private float decreaseHp = 20.0f;
+    [SerializeField] private SpiderSpecialAttack attack;
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.F1))
+        {
+            // ƒRƒ“ƒ{‰ÁZ
+            hit.AddHit();
+        }
+        if(Input.GetKeyDown(KeyCode.F2))
+        {
+            // ‘Ì—ÍŒ¸­
+            life.LossLife();
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            // ‘Ì—Í‘‰Á
+            life.AddLife();
+        }
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            // “G‘Ì—ÍŒ¸­
+            enemyHp.DecHp(decreaseHp);
+        }
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            // “G‘Ì—ÍŒ¸­
+            attack.StartAttack();
+        }
+    }
+}
