@@ -14,7 +14,7 @@ public class DragonThunder : MonoBehaviour
     private SpriteRenderer scaffold_color;
     private float timer = 0.0f;
 
-    private enum STATE_THUNDER
+    public enum STATE_THUNDER
     {
         CREATE,
         WAIT,
