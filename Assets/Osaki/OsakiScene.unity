@@ -385,6 +385,7 @@ MonoBehaviour:
   thunder: {fileID: 1906081738}
   waitTime: 0.5
   speed: 10
+  max_thunder: 5
 --- !u!1001 &683251637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1387,7 +1388,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1981955421}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.99, y: -4, z: 0}
+  m_LocalPosition: {x: -16.14, y: -6.28, z: 0}
   m_LocalScale: {x: 2.6557004, y: 0.35608393, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -47,7 +47,7 @@ public class TestInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F6))
         {
             // —Ž—‹
-            thunder.StartAttack();
+            thunder.StartAttack(3);
         }
     }
 }
