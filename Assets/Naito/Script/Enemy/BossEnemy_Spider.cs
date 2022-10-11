@@ -153,6 +153,30 @@ public class BossEnemy_Spider : MonoBehaviour
                 }
                 TrapBulletcnt = 0;
             }
+            if(NowHP==50.0f)
+            {
+                if(SPFlag1==false)
+                {
+                    SPattack.StartAttack();
+                    SPFlag1 = true;
+                }
+            }
+            if (NowHP == 30.0f)
+            {
+                if (SPFlag2 == false)
+                {
+                    SPattack.StartAttack();
+                    SPFlag2 = true;
+                }
+            }
+            if (NowHP == 10.0f)
+            {
+                if (SPFlag3 == false)
+                {
+                    SPattack.StartAttack();
+                    SPFlag3 = true;
+                }
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D other)
