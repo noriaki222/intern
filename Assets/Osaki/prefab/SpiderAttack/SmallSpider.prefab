@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8953937866584891480}
   - component: {fileID: -9180240217458411871}
   - component: {fileID: 526514136015409265}
+  - component: {fileID: -814617411774223275}
   m_Layer: 8
   m_Name: SmallSpider
   m_TagString: EnemyBullet
@@ -123,3 +124,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-814617411774223275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8953937866584891479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c465730c1ab1bab498c4911979cbf8d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -32,6 +32,8 @@ public class BossEnemy_Spider : MonoBehaviour
     [SerializeField] private float HomingBulletTiming = 3.0f;
     [SerializeField] private float SnipingBulletTiming = 3.0f;
     [SerializeField] private float TrapBulletTiming = 3.0f;
+    //äeíeÇ™èoÇÈÇ©èoÇ»Ç¢Ç©ÇÃämó¶
+    private int BulletRnd;
     //ë_åÇëŒè€ÅiPlayerÅjÇÃç¿ïWÇì¸ÇÍÇÈóp
     [SerializeField] private GameObject PlayerPos;
 
@@ -44,15 +46,17 @@ public class BossEnemy_Spider : MonoBehaviour
     //É_ÉÅÅ[ÉWÇêHÇÁÇ¡ÇΩÇ∆Ç´ÅAÇ«ÇÍÇ≠ÇÁÇ¢HPÇ™çÌÇÍÇÈÇ©Çì¸óÕ
     [SerializeField] private float decreaseHp = 5.0f;
     //ìGÇÃåªç›ÇÃHPÇäiî[Ç∑ÇÈóp
-    private float NowHP;
+    [SerializeField] private float NowHP;
     //ïKéEãZ
     [SerializeField] private SpiderSpecialAttack SPattack;
+    //ïKéEãZÉtÉâÉOÅi1âÒÇµÇ©ë≈ÇΩÇ»Ç¢ÇÊÇ§Ç…Ç∑ÇÈÇΩÇﬂÅj
+    private bool SPFlag1 = false;
+    private bool SPFlag2 = false;
+    private bool SPFlag3 = false;
 
     // Update is called once per frame
     void Update()
     {
-        //É}ÉCÉtÉåÅ[ÉÄÉJÉEÉìÉgÇëùâ¡
-        Bulletcnt += Time.deltaTime;
         //ç°ÇÃHPÇäiî[
         NowHP = enemyHp.GetNowHp();
         //É_ÉÅÅ[ÉWîªíËÇéÛÇØÇƒÇ¢ÇÈÇ∆Ç´ÅAì_ñ≈Ç∑ÇÈ
@@ -63,28 +67,92 @@ public class BossEnemy_Spider : MonoBehaviour
             //è„ÇÃéÆÇ≈0Ç∆1Ç™åå›Ç…óàÇÈÇÃÇ≈ÅAÇªÇÍÇìßñæìxÇ…ì¸ÇÍÇƒîΩì]Ç≥ÇπÇƒÇ¢ÇÈ
             sp.color = new Color(1.0f, 0.0f, 0.0f, level);
         }
-        if (Bulletcnt > BulletTiming)
+        if(NowHP > 70.0f)
         {
+            Bulletcnt += Time.deltaTime;
+            HomingBulletcnt += Time.deltaTime;
             //í èÌíe
-            Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
-            if (NowHP <= 85.0f)
+            if(Bulletcnt>BulletTiming)
             {
-                //í«îˆíe
-                Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
+                Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+                Bulletcnt = 0;
             }
-            if(NowHP <= 50.0f)
+            //í«îˆíe
+            if(HomingBulletcnt > HomingBulletTiming)
             {
-                //ë_åÇíe
-                Instantiate(SnipingBullet, SnipingPoint.position, Quaternion.AngleAxis(GetAim(), Vector3.forward));
+                BulletRnd = Random.Range(1, 4);
+                if(BulletRnd == 3)
+                {
+                    Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
+                }
+                HomingBulletcnt = 0;
             }
-            if(NowHP <= 30)
+        }
+        if(NowHP <= 70 && NowHP > 50)
+        {
+            Bulletcnt += Time.deltaTime;
+            HomingBulletcnt += Time.deltaTime;
+            TrapBulletcnt += Time.deltaTime;
+            //í èÌíe
+            if (Bulletcnt > BulletTiming)
             {
-                float Aimrad = Random.Range(180.0f, 270.0f);
-                //ë_åÇíe
-                Instantiate(TrapBullet, TrapPoint.position, Quaternion.AngleAxis(Aimrad, Vector3.forward));
-                SPattack.StartAttack();
+                Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+                Bulletcnt = 0;
             }
-            Bulletcnt = 0.0f;
+            //í«îˆíe
+            if (HomingBulletcnt > HomingBulletTiming)
+            {
+                BulletRnd = Random.Range(1, 3);
+                if (BulletRnd == 2)
+                {
+                    Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
+                }
+                HomingBulletcnt = 0;
+            }
+            //„©íe
+            if(TrapBulletcnt>TrapBulletTiming)
+            {
+                BulletRnd = Random.Range(1, 5);
+                if(BulletRnd == 4)
+                {
+                    float Aimrad = Random.Range(180.0f, 270.0f);
+                    Instantiate(TrapBullet, TrapPoint.position, Quaternion.AngleAxis(Aimrad, Vector3.forward));
+                }
+                TrapBulletcnt = 0;
+            }
+        }
+        if(NowHP <= 50 && NowHP > 0)
+        {
+            Bulletcnt += Time.deltaTime;
+            HomingBulletcnt += Time.deltaTime;
+            TrapBulletcnt += Time.deltaTime;
+            //í èÌíe
+            if (Bulletcnt > BulletTiming)
+            {
+                Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+                Bulletcnt = 0;
+            }
+            //í«îˆíe
+            if (HomingBulletcnt > HomingBulletTiming)
+            {
+                BulletRnd = Random.Range(1, 3);
+                if (BulletRnd == 2)
+                {
+                    Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
+                }
+                HomingBulletcnt = 0;
+            }
+            //„©íe
+            if (TrapBulletcnt > TrapBulletTiming)
+            {
+                BulletRnd = Random.Range(1, 4);
+                if (BulletRnd == 3)
+                {
+                    float Aimrad = Random.Range(180.0f, 270.0f);
+                    Instantiate(TrapBullet, TrapPoint.position, Quaternion.AngleAxis(Aimrad, Vector3.forward));
+                }
+                TrapBulletcnt = 0;
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D other)

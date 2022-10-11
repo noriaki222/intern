@@ -506,6 +506,10 @@ PrefabInstance:
       value: player
       objectReference: {fileID: 0}
     - target: {fileID: 2945990657590886234, guid: cb0b6172d27de9244acc53eca4026bf1, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2945990657590886234, guid: cb0b6172d27de9244acc53eca4026bf1, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
@@ -2275,10 +2279,14 @@ MonoBehaviour:
   SnipingPoint: {fileID: 986941466}
   TrapPoint: {fileID: 165557079}
   BulletTiming: 3
+  HomingBulletTiming: 3
+  SnipingBulletTiming: 3
+  TrapBulletTiming: 3
   PlayerPos: {fileID: 2023704954}
   sp: {fileID: 1165522336}
   enemyHp: {fileID: 1630565517}
   decreaseHp: 10
+  NowHP: 0
   SPattack: {fileID: 1308733567}
 --- !u!1001 &1170455923
 PrefabInstance:

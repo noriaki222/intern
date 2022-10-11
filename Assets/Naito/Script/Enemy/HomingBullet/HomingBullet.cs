@@ -64,7 +64,7 @@ public class HomingBullet : MonoBehaviour
             Vector3 Homing = Enemy.transform.position - bulletTrans.position;
             if (BoolRefection == false)
             {
-                rb.AddForce(Homing.normalized * RefectionSpeed * 5, ForceMode2D.Impulse);
+                rb.AddForce(Homing.normalized * RefectionSpeed * 2, ForceMode2D.Impulse);
                 BoolRefection = true;
             }
         }
