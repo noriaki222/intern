@@ -22,10 +22,16 @@ public class BossEnemy_Spider : MonoBehaviour
     //罠弾の出現場所を格納する用
     [SerializeField] private Transform TrapPoint;
 
-    //弾の発射に使うカウント
+    //各弾の発射に使うカウント
     private float Bulletcnt;
-    //弾が一回出るのにかかる時間
+    private float HomingBulletcnt;
+    private float SnipingBulletcnt;
+    private float TrapBulletcnt;
+    //各弾が一回出るのにかかる時間
     [SerializeField] private float BulletTiming = 3.0f;
+    [SerializeField] private float HomingBulletTiming = 3.0f;
+    [SerializeField] private float SnipingBulletTiming = 3.0f;
+    [SerializeField] private float TrapBulletTiming = 3.0f;
     //狙撃対象（Player）の座標を入れる用
     [SerializeField] private GameObject PlayerPos;
 
@@ -39,6 +45,8 @@ public class BossEnemy_Spider : MonoBehaviour
     [SerializeField] private float decreaseHp = 5.0f;
     //敵の現在のHPを格納する用
     private float NowHP;
+    //必殺技
+    [SerializeField] private SpiderSpecialAttack SPattack;
 
     // Update is called once per frame
     void Update()
@@ -74,6 +82,7 @@ public class BossEnemy_Spider : MonoBehaviour
                 float Aimrad = Random.Range(180.0f, 270.0f);
                 //狙撃弾
                 Instantiate(TrapBullet, TrapPoint.position, Quaternion.AngleAxis(Aimrad, Vector3.forward));
+                SPattack.StartAttack();
             }
             Bulletcnt = 0.0f;
         }
@@ -92,7 +101,7 @@ public class BossEnemy_Spider : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Bullet"))
+        if (collision.gameObject.CompareTag("PlayerBullet"))
         {
             //ダメージフラグがfalseだったらダメージ
             if (DamageFlag == false)

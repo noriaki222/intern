@@ -29,6 +29,7 @@ public class BoonController : MonoBehaviour
         {
             BulletRefection = true;
             rd.velocity = Vector3.zero;
+            this.gameObject.tag = "PlayerBullet";
         }
     }
 
