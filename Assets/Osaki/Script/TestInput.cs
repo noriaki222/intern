@@ -10,6 +10,7 @@ public class TestInput : MonoBehaviour
     [SerializeField] private float decreaseHp = 20.0f;
     [SerializeField] private SpiderSpecialAttack attack;
     [SerializeField] private DragonThunder thunder;
+    [SerializeField] private int thunderNum = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +48,7 @@ public class TestInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F6))
         {
             // —Ž—‹
-            thunder.StartAttack(3);
+            thunder.StartAttack(thunderNum);
         }
     }
 }

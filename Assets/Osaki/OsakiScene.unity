@@ -750,6 +750,10 @@ PrefabInstance:
       propertyPath: thunder
       value: 
       objectReference: {fileID: 652062341}
+    - target: {fileID: 1815545807879353369, guid: f162bbf906d9cbd488c0c866067e0a64, type: 3}
+      propertyPath: thunderNum
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f162bbf906d9cbd488c0c866067e0a64, type: 3}
 --- !u!4 &1199041272 stripped

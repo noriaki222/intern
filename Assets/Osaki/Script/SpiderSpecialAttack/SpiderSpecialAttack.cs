@@ -20,6 +20,7 @@ public class SpiderSpecialAttack : MonoBehaviour
     [SerializeField] private int LineNum = 3;
 
     private List<SpiderSpecialParam> param = new List<SpiderSpecialParam>();
+    private List<Rigidbody2D> rbs = new List<Rigidbody2D>();
 
     // 攻撃ステート
     private enum STATE_SILK
@@ -46,6 +47,7 @@ public class SpiderSpecialAttack : MonoBehaviour
         {
             param[i].spiderSilk = Instantiate(spiderSilk);
             param[i].small_spider = Instantiate(small_spider);
+            rbs.Add(param[i].small_spider.GetComponent<Rigidbody2D>());
         }
     }
 
@@ -165,6 +167,9 @@ public class SpiderSpecialAttack : MonoBehaviour
             param[i].off_end = new Vector3(off_ex, off_ey, 0.0f);
 
             param[i].small_spider.transform.position = param[i].off_start;
+
+            param[i].spiderSilk.SetActive(true);
+            param[i].small_spider.SetActive(true);
         }
     }
 
@@ -206,9 +211,13 @@ public class SpiderSpecialAttack : MonoBehaviour
         int go = 1;
         for (int i = 0; i < go; ++i)
         {
-            param[i].small_spider.transform.position = Vector3.MoveTowards(param[i].small_spider.transform.position, param[i].off_end, speed);
+            if (rbs[i].velocity.magnitude == 0.0f)
+                param[i].small_spider.transform.position = Vector3.MoveTowards(param[i].small_spider.transform.position, param[i].off_end, speed);
 
-            if (go < param.Count && ((param[go - 1].small_spider.transform.position - param[go - 1].off_end).magnitude < 15.0f))
+            if ((param[go - 1].small_spider.transform.position - param[go - 1].off_end).magnitude < 15.0f)
+                param[go - 1].small_spider.SetActive(false);
+
+            if (go < param.Count && !param[go - 1].small_spider.activeSelf)
             {
                 ++go;
             }
@@ -230,6 +239,9 @@ public class SpiderSpecialAttack : MonoBehaviour
 
             if (go < param.Count && ((param[go - 1].spiderSilk.transform.position - param[go - 1].off_end).magnitude < 1.0f))
             {
+                rbs[i].velocity = Vector2.zero;
+                param[i].spiderSilk.SetActive(false);
+                param[i].small_spider.SetActive(false);
                 ++go;
             }
         }
