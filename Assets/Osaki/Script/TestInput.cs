@@ -11,6 +11,7 @@ public class TestInput : MonoBehaviour
     [SerializeField] private SpiderSpecialAttack attack;
     [SerializeField] private DragonThunder thunder;
     [SerializeField] private int thunderNum = 1;
+    [SerializeField] private Shake shake;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +50,11 @@ public class TestInput : MonoBehaviour
         {
             // —Ž—‹
             thunder.StartAttack(thunderNum);
+        }
+        if (Input.GetKeyDown(KeyCode.F7))
+        {
+            // —h‚ê‚é
+            shake.PlayShake();
         }
     }
 }
