@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviour
     //プレイヤーのリジットボディ
     private Rigidbody2D rbody2D;
     //プレイヤーがジャンプしていいかの処理
-    private int jumpCount = 0;
+    [SerializeField] private int jumpCount = 0;
     //プレイヤーのHP
     [SerializeField] private int PlayerHP = 5;
     //当たり判定フラグ
@@ -27,6 +27,12 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private GameObject HomingObj;
     //攻撃エリア用
     [SerializeField] private PlayerAttack AttackArea;
+    //移動方向格納用
+    private float x_val;
+    //罠にかかっているかの判断用
+    [SerializeField] private bool BoolTrap = false;
+    //プレイヤーがトラップから抜けるのに必要なクリック数
+    private int Trapcnt;
 
 
     private void Start()
@@ -37,31 +43,59 @@ public class PlayerMove : MonoBehaviour
     //Update is called once per frame
     void Update()
     {
-        //ダメージ判定を受けているとき、点滅する
-        if(CollisionFlag)
+        if (CollisionFlag)
         {
+            //ダメージ判定を受けているとき、点滅する
             //Mathf.Absは絶対値を返す、Mathf.Sinは＋なら１，－なら0を返す
             float level = Mathf.Abs(Mathf.Sin(Time.time * 10));
             //上の式で0と1が交互に来るので、それを透明度に入れて反転させている
-            sp.color = new Color(0.0f, 1.0f, 1.0f, level);
+            sp.color = new Color(1.0f, 1.0f, 1.0f, level);
         }
-        //横移動
-        transform.Translate(Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, 0, 0);
-        //ジャンプ
-        if (Input.GetKeyDown(KeyCode.UpArrow)&&this.jumpCount<1)
+        if (BoolTrap == false)
         {
-            this.rbody2D.AddForce(transform.up * power);
-            jumpCount++;
+            rbody2D.isKinematic = false;
+            x_val = Input.GetAxis("Horizontal");
+            if (x_val > 0)
+            {
+                //右を向く
+                transform.localScale = new Vector3(-0.07f, 0.07f, 1);
+            }
+            else if (x_val < 0)
+            {
+                //左を向く
+                transform.localScale = new Vector3(0.07f, 0.07f, 1);
+            }
+            //横移動
+            transform.Translate(x_val * speed * Time.deltaTime, 0, 0);
+            //ジャンプ
+            if (Input.GetKeyDown(KeyCode.UpArrow) && this.jumpCount < 1)
+            {
+                this.rbody2D.AddForce(transform.up * power);
+                jumpCount++;
+            }
+            //攻撃
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                AttackArea.AttackAreaCreate();
+            }
+            //プレイヤーの移動制限
+            //transform.position = new Vector2(Mathf.Clamp(
+            //    transform.position.x, -moveableRange, moveableRange),
+            //    transform.position.y);
         }
-        //攻撃
-        if (Input.GetKeyDown(KeyCode.Space))
+        else
         {
-            AttackArea.AttackAreaCreate();
+            //rbody2D.velocity = Vector3.zero;
+            //rbody2D.isKinematic = true;
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                Trapcnt++;
+            }
+            if(Trapcnt>10)
+            {
+                BoolTrap = false;
+            }
         }
-        //プレイヤーの移動制限
-        //transform.position = new Vector2(Mathf.Clamp(
-        //    transform.position.x, -moveableRange, moveableRange),
-        //    transform.position.y);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -77,6 +111,11 @@ public class PlayerMove : MonoBehaviour
             if(CollisionFlag==false)
             PlayerDamage();
         }
+        if(other.gameObject.CompareTag("Trap"))
+        {
+            BoolTrap = true;
+            Trapcnt = 0;
+        }
     }
 
     void PlayerDamage()
@@ -91,7 +130,7 @@ public class PlayerMove : MonoBehaviour
     void InvincibleEnd()
     {
         CollisionFlag = false;
-        sp.color = new Color(0.0f, 1.0f, 1.0f, 1.0f);
+        sp.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
 }

@@ -30,7 +30,7 @@ public class HomingBullet : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         bulletTrans = GetComponent<Transform>();
         Player = GameObject.Find("player");
-        Enemy = GameObject.Find("HomingEnemy");
+        Enemy = GameObject.Find("BossEnemy_Spider");
         Invoke("HBulletChang", 2.0f);
     }
 
