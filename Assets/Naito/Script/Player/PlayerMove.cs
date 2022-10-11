@@ -29,6 +29,10 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private PlayerAttack AttackArea;
     //移動方向格納用
     private float x_val;
+    //罠にかかっているかの判断用
+    [SerializeField] private bool BoolTrap = false;
+    //プレイヤーがトラップから抜けるのに必要なクリック数
+    private int Trapcnt;
 
 
     private void Start()
@@ -39,42 +43,59 @@ public class PlayerMove : MonoBehaviour
     //Update is called once per frame
     void Update()
     {
-        x_val = Input.GetAxis("Horizontal");
-        //ダメージ判定を受けているとき、点滅する
-        if(CollisionFlag)
+        if (CollisionFlag)
         {
+            //ダメージ判定を受けているとき、点滅する
             //Mathf.Absは絶対値を返す、Mathf.Sinは＋なら１，－なら0を返す
             float level = Mathf.Abs(Mathf.Sin(Time.time * 10));
             //上の式で0と1が交互に来るので、それを透明度に入れて反転させている
             sp.color = new Color(1.0f, 1.0f, 1.0f, level);
         }
-        if(x_val>0)
+        if (BoolTrap == false)
         {
-            //右を向く
-            transform.localScale = new Vector3(-0.07f, 0.07f, 1);
+            rbody2D.isKinematic = false;
+            x_val = Input.GetAxis("Horizontal");
+            if (x_val > 0)
+            {
+                //右を向く
+                transform.localScale = new Vector3(-0.07f, 0.07f, 1);
+            }
+            else if (x_val < 0)
+            {
+                //左を向く
+                transform.localScale = new Vector3(0.07f, 0.07f, 1);
+            }
+            //横移動
+            transform.Translate(x_val * speed * Time.deltaTime, 0, 0);
+            //ジャンプ
+            if (Input.GetKeyDown(KeyCode.UpArrow) && this.jumpCount < 1)
+            {
+                this.rbody2D.AddForce(transform.up * power);
+                jumpCount++;
+            }
+            //攻撃
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                AttackArea.AttackAreaCreate();
+            }
+            //プレイヤーの移動制限
+            //transform.position = new Vector2(Mathf.Clamp(
+            //    transform.position.x, -moveableRange, moveableRange),
+            //    transform.position.y);
         }
-        else if(x_val<0)
+        else
         {
-            //左を向く
-            transform.localScale = new Vector3(0.07f, 0.07f, 1);
+            //rbody2D.velocity = Vector3.zero;
+            //rbody2D.isKinematic = true;
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                Trapcnt++;
+            }
+            if(Trapcnt>10)
+            {
+                BoolTrap = false;
+            }
         }
-        //横移動
-        transform.Translate(x_val * speed * Time.deltaTime, 0, 0);
-        //ジャンプ
-        if (Input.GetKeyDown(KeyCode.UpArrow)&&this.jumpCount<1)
-        {
-            this.rbody2D.AddForce(transform.up * power);
-            jumpCount++;
-        }
-        //攻撃
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AttackArea.AttackAreaCreate();
-        }
-        //プレイヤーの移動制限
-        //transform.position = new Vector2(Mathf.Clamp(
-        //    transform.position.x, -moveableRange, moveableRange),
-        //    transform.position.y);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -89,6 +110,11 @@ public class PlayerMove : MonoBehaviour
             //ダメージフラグがfalseだったらダメージ
             if(CollisionFlag==false)
             PlayerDamage();
+        }
+        if(other.gameObject.CompareTag("Trap"))
+        {
+            BoolTrap = true;
+            Trapcnt = 0;
         }
     }
 
