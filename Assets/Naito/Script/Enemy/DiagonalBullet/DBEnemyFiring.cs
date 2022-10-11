@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFiring : MonoBehaviour
+public class DBEnemyFiring : MonoBehaviour
 {
     //弾のプレハブ入れる用
     [SerializeField] private GameObject bullet;
@@ -16,6 +16,10 @@ public class EnemyFiring : MonoBehaviour
     private bool CollisionFlag = false;
     //点滅用変数
     [SerializeField] private SpriteRenderer sp;
+    [SerializeField] private EnemyHpBar enemyHp;
+    [SerializeField] private float decreaseHp = 20.0f;
+    [SerializeField] private GameObject PlayerPos;
+
     void Update()
     {
         bulletcount += Time.deltaTime;
@@ -29,7 +33,8 @@ public class EnemyFiring : MonoBehaviour
         }
         if (bulletcount>3.0f)
         {
-            Instantiate(bullet, attackPoint.position, Quaternion.identity);
+            float Aimrad = GetAim();
+            Instantiate(bullet, attackPoint.position, Quaternion.AngleAxis(Aimrad,Vector3.forward));
             bulletcount = 0.0f;
         }
     }
@@ -63,6 +68,8 @@ public class EnemyFiring : MonoBehaviour
     {
         EnemyHP--;
         CollisionFlag = true;
+        // 敵体力減少
+        enemyHp.DecHp(decreaseHp);
         //ダメージ判定が終わった後、3秒後に無敵を解除する
         Invoke("InvincibleEnd", 3.0f);
     }
@@ -70,6 +77,17 @@ public class EnemyFiring : MonoBehaviour
     void InvincibleEnd()
     {
         CollisionFlag = false;
-        sp.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+        sp.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
+    private float GetAim()
+    {
+        Vector2 p1 = attackPoint.transform.position;
+        Vector2 p2 = PlayerPos.transform.position;
+        float dx = p2.x - p1.x;
+        float dy = p2.y - p1.y;
+        float rad = Mathf.Atan2(dy, dx);
+
+        return rad * Mathf.Rad2Deg;
     }
 }

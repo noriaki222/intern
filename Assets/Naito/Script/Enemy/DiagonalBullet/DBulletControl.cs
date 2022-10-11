@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletControl : MonoBehaviour
+public class DBulletControl : MonoBehaviour
 {
     [SerializeField] private float speed = 5; //e’e‚ÌƒXƒs[ƒh
 
     [SerializeField] private float Reflectionspeed = 10; //”½Ëe’e‚ÌƒXƒs[ƒh
+
+    //ƒRƒ“ƒ{‰ÁZ—p
+    //[SerializeField] private HitUI hit;
 
     bool BulletRefection = false;
 
@@ -26,15 +29,15 @@ public class BulletControl : MonoBehaviour
     {
         if (BulletRefection == false)
         {
-            Vector3 lazerPos = transform.position; //Vector3Œ^‚ÌplayerPos‚ÉŒ»İ‚ÌˆÊ’uî•ñ‚ğŠi”[
-            lazerPos.x -= speed * Time.deltaTime; //xÀ•W‚Éspeed‚ğ‰ÁZ
-            transform.position = lazerPos; //Œ»İ‚ÌˆÊ’uî•ñ‚É”½‰f‚³‚¹‚é
+            //’eˆÚ“®
+            transform.Translate(speed * Time.deltaTime, 0, 0);
         }
         else
         {
             Vector3 lazerPos = transform.position; //Vector3Œ^‚ÌplayerPos‚ÉŒ»İ‚ÌˆÊ’uî•ñ‚ğŠi”[
             lazerPos.x += Reflectionspeed * Time.deltaTime; //xÀ•W‚Éspeed‚ğ‰ÁZ
             transform.position = lazerPos; //Œ»İ‚ÌˆÊ’uî•ñ‚É”½‰f‚³‚¹‚é
+            transform.localScale = new Vector3(0.5f, -0.5f, 1);
         }
     }
 
@@ -45,7 +48,7 @@ public class BulletControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Player")|| collision.gameObject.CompareTag("Enemy"))
+        if(collision.gameObject.CompareTag("Player")|| collision.gameObject.CompareTag("Enemy")|| collision.gameObject.CompareTag("Floor"))
         Destroy(this.gameObject);
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -53,6 +56,7 @@ public class BulletControl : MonoBehaviour
         if (other.gameObject.CompareTag("PlayerAttackPoint"))
         {
             BulletRefection = true;
+            //hit.AddHit();
         }
     }
 }
