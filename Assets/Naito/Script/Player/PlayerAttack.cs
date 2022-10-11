@@ -21,7 +21,7 @@ public class PlayerAttack : MonoBehaviour
     public void AttackAreaCreate()
     {
         gameObject.SetActive(true);
-        Invoke("AttackAreaDereta", 1.0f);
+        Invoke("AttackAreaDereta", 0.1f);
     }
 
     void AttackAreaDereta()
