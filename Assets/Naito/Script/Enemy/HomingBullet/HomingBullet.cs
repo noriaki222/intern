@@ -17,7 +17,7 @@ public class HomingBullet : MonoBehaviour
     //弾のTransform
     private Transform bulletTrans;
     //追いかける対象
-    private GameObject Player;
+    [SerializeField] private GameObject Player;
     //反射先
     private GameObject Enemy;
     //ホーミング使い分け
@@ -31,7 +31,6 @@ public class HomingBullet : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         bulletTrans = GetComponent<Transform>();
-        Player = GameObject.Find("player");
         Enemy = GameObject.Find("BossEnemy_Spider");
         Invoke("HBulletChang", 2.0f);
     }

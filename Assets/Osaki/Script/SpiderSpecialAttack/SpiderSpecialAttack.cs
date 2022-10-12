@@ -168,6 +168,8 @@ public class SpiderSpecialAttack : MonoBehaviour
 
             param[i].small_spider.transform.position = param[i].off_start;
 
+            param[i].small_spider.tag = "EnemyBullet";
+
             param[i].spiderSilk.SetActive(true);
             param[i].small_spider.SetActive(true);
         }
