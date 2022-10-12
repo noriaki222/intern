@@ -43,7 +43,7 @@ public class BulletControl : MonoBehaviour
                 Vector3 lazerPos = transform.position; //Vector3Œ^‚ÌplayerPos‚ÉŒ»İ‚ÌˆÊ’uî•ñ‚ğŠi”[
                 lazerPos.x += Reflectionspeed * Time.deltaTime; //xÀ•W‚Éspeed‚ğ‰ÁZ
                 transform.position = lazerPos; //Œ»İ‚ÌˆÊ’uî•ñ‚É”½‰f‚³‚¹‚é
-                transform.localScale = new Vector3(0.5f, 0.5f, 1);
+                transform.localScale = new Vector3(-0.5f, 0.5f, 1);
             }
             else
             {
