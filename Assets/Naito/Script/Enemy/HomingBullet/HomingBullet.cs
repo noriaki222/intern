@@ -24,6 +24,8 @@ public class HomingBullet : MonoBehaviour
     private bool HomingChang = false;
     //”½ŽËŽg‚¢•ª‚¯
     private bool BulletRefection = false;
+    //”½ŽË‚ðˆê‰ñ‚¾‚¯‚É
+    private bool BoolRefection = false;
 
     private void Start()
     {
@@ -60,7 +62,11 @@ public class HomingBullet : MonoBehaviour
         else
         {
             Vector3 Homing = Enemy.transform.position - bulletTrans.position;
-            rb.AddForce(Homing.normalized * RefectionSpeed);
+            if (BoolRefection == false)
+            {
+                rb.AddForce(Homing.normalized * RefectionSpeed * 2, ForceMode2D.Impulse);
+                BoolRefection = true;
+            }
         }
 
     }
@@ -75,7 +81,7 @@ public class HomingBullet : MonoBehaviour
         if (other.gameObject.CompareTag("PlayerAttackPoint"))
         {
             BulletRefection = true;
-
+            this.gameObject.tag = "PlayerBullet";
         }
     }
 

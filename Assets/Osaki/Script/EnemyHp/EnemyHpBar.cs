@@ -19,7 +19,7 @@ public class EnemyHpBar : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(gain.fillAmount);
+        //Debug.Log(gain.fillAmount);
         now.fillAmount = nowHp / maxHp;
 
         var work = Mathf.Lerp(gain.fillAmount, now.fillAmount, rate);

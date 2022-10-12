@@ -105,7 +105,7 @@ public class PlayerMove : MonoBehaviour
             jumpCount = 0;
         }
 
-        if (other.gameObject.CompareTag("Bullet"))
+        if (other.gameObject.CompareTag("EnemyBullet"))
         {
             //ダメージフラグがfalseだったらダメージ
             if(CollisionFlag==false)

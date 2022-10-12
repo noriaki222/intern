@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private HitUI hit;
+    [SerializeField] private Shake shake;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,9 +33,11 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Bullet"))
+        if(collision.gameObject.CompareTag("PlayerBullet"))
         {
             hit.AddHit();
+            // —h‚ê‚é
+            shake.PlayShake();
         }
     }
 }

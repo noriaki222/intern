@@ -57,6 +57,7 @@ public class BulletControl : MonoBehaviour
         if (other.gameObject.CompareTag("PlayerAttackPoint"))
         {
             BulletRefection = true;
+            this.gameObject.tag = "PlayerBullet";
             //hit.AddHit();
         }
     }
