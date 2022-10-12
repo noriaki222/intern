@@ -23,7 +23,7 @@ public class SPBullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("PlayerAttackPoint"))
         {
-            rb.AddForce(transform.right * 5.0f, ForceMode2D.Impulse);
+            //rb.AddForce(transform.right * 30.0f, ForceMode2D.Impulse);
             this.gameObject.tag = "PlayerBullet";
             this.gameObject.layer =6;
             //hit.AddHit();
@@ -32,9 +32,9 @@ public class SPBullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Enemy")&&this.gameObject.CompareTag("PlayerBullet"))
+        if((collision.gameObject.CompareTag("Enemy")&&this.gameObject.CompareTag("PlayerBullet"))|| collision.gameObject.CompareTag("Player"))
         {
-            this.gameObject.SetActive(false);
+            //this.gameObject.SetActive(false);
             this.gameObject.tag = "EnemyBullet";
             this.gameObject.layer = 8;
             rb.velocity = Vector2.zero;

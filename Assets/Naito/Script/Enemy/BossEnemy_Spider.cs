@@ -57,6 +57,7 @@ public class BossEnemy_Spider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("DamageFlag" + DamageFlag);
         //ç°ÇÃHPÇäiî[
         NowHP = enemyHp.GetNowHp();
         //É_ÉÅÅ[ÉWîªíËÇéÛÇØÇƒÇ¢ÇÈÇ∆Ç´ÅAì_ñ≈Ç∑ÇÈ
@@ -92,6 +93,7 @@ public class BossEnemy_Spider : MonoBehaviour
         {
             Bulletcnt += Time.deltaTime;
             HomingBulletcnt += Time.deltaTime;
+            SnipingBulletcnt += Time.deltaTime;
             TrapBulletcnt += Time.deltaTime;
             //í èÌíe
             if (Bulletcnt > BulletTiming)
@@ -108,6 +110,17 @@ public class BossEnemy_Spider : MonoBehaviour
                     Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
                 }
                 HomingBulletcnt = 0;
+            }
+            //ë_åÇíe
+            if(SnipingBulletcnt > SnipingBulletTiming)
+            {
+                BulletRnd = Random.Range(1, 5);
+                if (BulletRnd == 4)
+                {
+                    float Snipingrad = GetAim();
+                    Instantiate(SnipingBullet, SnipingPoint.position, Quaternion.AngleAxis(Snipingrad, Vector3.forward));
+                }
+                SnipingBulletcnt = 0;
             }
             //„©íe
             if(TrapBulletcnt>TrapBulletTiming)
@@ -123,36 +136,57 @@ public class BossEnemy_Spider : MonoBehaviour
         }
         if(NowHP <= 50 && NowHP > 0)
         {
-            Bulletcnt += Time.deltaTime;
-            HomingBulletcnt += Time.deltaTime;
-            TrapBulletcnt += Time.deltaTime;
-            //í èÌíe
-            if (Bulletcnt > BulletTiming)
-            {
-                Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
-                Bulletcnt = 0;
-            }
-            //í«îˆíe
-            if (HomingBulletcnt > HomingBulletTiming)
-            {
-                BulletRnd = Random.Range(1, 3);
-                if (BulletRnd == 2)
-                {
-                    Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
-                }
-                HomingBulletcnt = 0;
-            }
-            //„©íe
-            if (TrapBulletcnt > TrapBulletTiming)
-            {
-                BulletRnd = Random.Range(1, 4);
-                if (BulletRnd == 3)
-                {
-                    float Aimrad = Random.Range(180.0f, 270.0f);
-                    Instantiate(TrapBullet, TrapPoint.position, Quaternion.AngleAxis(Aimrad, Vector3.forward));
-                }
-                TrapBulletcnt = 0;
-            }
+            //Bulletcnt += Time.deltaTime;
+            //HomingBulletcnt += Time.deltaTime;
+            //SnipingBulletcnt += Time.deltaTime;
+            //TrapBulletcnt += Time.deltaTime;
+            ////í èÌíe
+            //if (Bulletcnt > BulletTiming)
+            //{
+            //    BulletRnd = Random.Range(1, 3);
+            //    if (BulletRnd == 1)
+            //    {
+            //        Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+            //    }
+            //    else if(BulletRnd == 2)
+            //    {
+            //        Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+            //        Invoke("FirstBullet", 0.5f);
+            //    }
+            //    Bulletcnt = 0;
+            //}
+            ////í«îˆíe
+            //if (HomingBulletcnt > HomingBulletTiming)
+            //{
+            //    BulletRnd = Random.Range(1, 3);
+            //    if (BulletRnd == 2)
+            //    {
+            //        Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
+            //    }
+            //    HomingBulletcnt = 0;
+            //}
+            ////ë_åÇíe
+            //if (SnipingBulletcnt > SnipingBulletTiming)
+            //{
+            //    BulletRnd = Random.Range(1, 3);
+            //    if (BulletRnd == 2)
+            //    {
+            //        float Snipingrad = GetAim();
+            //        Instantiate(SnipingBullet, SnipingPoint.position, Quaternion.AngleAxis(Snipingrad, Vector3.forward));
+            //    }
+            //    SnipingBulletcnt = 0;
+            //}
+            ////„©íe
+            //if (TrapBulletcnt > TrapBulletTiming)
+            //{
+            //    BulletRnd = Random.Range(1, 4);
+            //    if (BulletRnd == 3)
+            //    {
+            //        float Aimrad = Random.Range(180.0f, 270.0f);
+            //        Instantiate(TrapBullet, TrapPoint.position, Quaternion.AngleAxis(Aimrad, Vector3.forward));
+            //    }
+            //    TrapBulletcnt = 0;
+            //}
             if(NowHP==50.0f)
             {
                 if(SPFlag1==false)
@@ -193,13 +227,16 @@ public class BossEnemy_Spider : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("ì¸Ç¡ÇΩ");
         if (collision.gameObject.CompareTag("PlayerBullet"))
         {
+            Debug.Log("ìñÇΩÇ¡ÇΩ");
             //É_ÉÅÅ[ÉWÉtÉâÉOÇ™falseÇæÇ¡ÇΩÇÁÉ_ÉÅÅ[ÉW
             if (DamageFlag == false)
             {
                 EnemyDamage();
             }
+            collision.gameObject.SetActive(false);
         }
     }
     void EnemyDamage()
@@ -224,5 +261,16 @@ public class BossEnemy_Spider : MonoBehaviour
         float rad = Mathf.Atan2(dy, dx);
 
         return rad * Mathf.Rad2Deg;
+    }
+
+    private void FirstBullet()
+    {
+        Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+        Invoke("LastBullet", 0.5f);
+    }
+
+    private void LastBullet()
+    {
+        Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
     }
 }
