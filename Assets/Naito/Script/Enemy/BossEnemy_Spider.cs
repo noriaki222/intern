@@ -136,58 +136,58 @@ public class BossEnemy_Spider : MonoBehaviour
         }
         if(NowHP <= 50 && NowHP > 0)
         {
-            //Bulletcnt += Time.deltaTime;
-            //HomingBulletcnt += Time.deltaTime;
-            //SnipingBulletcnt += Time.deltaTime;
-            //TrapBulletcnt += Time.deltaTime;
-            ////’Êí’e
-            //if (Bulletcnt > BulletTiming)
-            //{
-            //    BulletRnd = Random.Range(1, 3);
-            //    if (BulletRnd == 1)
-            //    {
-            //        Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
-            //    }
-            //    else if(BulletRnd == 2)
-            //    {
-            //        Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
-            //        Invoke("FirstBullet", 0.5f);
-            //    }
-            //    Bulletcnt = 0;
-            //}
-            ////’Ç”ö’e
-            //if (HomingBulletcnt > HomingBulletTiming)
-            //{
-            //    BulletRnd = Random.Range(1, 3);
-            //    if (BulletRnd == 2)
-            //    {
-            //        Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
-            //    }
-            //    HomingBulletcnt = 0;
-            //}
-            ////‘_Œ‚’e
-            //if (SnipingBulletcnt > SnipingBulletTiming)
-            //{
-            //    BulletRnd = Random.Range(1, 3);
-            //    if (BulletRnd == 2)
-            //    {
-            //        float Snipingrad = GetAim();
-            //        Instantiate(SnipingBullet, SnipingPoint.position, Quaternion.AngleAxis(Snipingrad, Vector3.forward));
-            //    }
-            //    SnipingBulletcnt = 0;
-            //}
-            ////ã©’e
-            //if (TrapBulletcnt > TrapBulletTiming)
-            //{
-            //    BulletRnd = Random.Range(1, 4);
-            //    if (BulletRnd == 3)
-            //    {
-            //        float Aimrad = Random.Range(180.0f, 270.0f);
-            //        Instantiate(TrapBullet, TrapPoint.position, Quaternion.AngleAxis(Aimrad, Vector3.forward));
-            //    }
-            //    TrapBulletcnt = 0;
-            //}
-            if(NowHP==50.0f)
+            Bulletcnt += Time.deltaTime;
+            HomingBulletcnt += Time.deltaTime;
+            SnipingBulletcnt += Time.deltaTime;
+            TrapBulletcnt += Time.deltaTime;
+            //’Êí’e
+            if (Bulletcnt > BulletTiming)
+            {
+                BulletRnd = Random.Range(1, 3);
+                if (BulletRnd == 1)
+                {
+                    Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+                }
+                else if (BulletRnd == 2)
+                {
+                    Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+                    Invoke("FirstBullet", 0.5f);
+                }
+                Bulletcnt = 0;
+            }
+            //’Ç”ö’e
+            if (HomingBulletcnt > HomingBulletTiming)
+            {
+                BulletRnd = Random.Range(1, 3);
+                if (BulletRnd == 2)
+                {
+                    Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
+                }
+                HomingBulletcnt = 0;
+            }
+            //‘_Œ‚’e
+            if (SnipingBulletcnt > SnipingBulletTiming)
+            {
+                BulletRnd = Random.Range(1, 3);
+                if (BulletRnd == 2)
+                {
+                    float Snipingrad = GetAim();
+                    Instantiate(SnipingBullet, SnipingPoint.position, Quaternion.AngleAxis(Snipingrad, Vector3.forward));
+                }
+                SnipingBulletcnt = 0;
+            }
+            //ã©’e
+            if (TrapBulletcnt > TrapBulletTiming)
+            {
+                BulletRnd = Random.Range(1, 4);
+                if (BulletRnd == 3)
+                {
+                    float Aimrad = Random.Range(180.0f, 270.0f);
+                    Instantiate(TrapBullet, TrapPoint.position, Quaternion.AngleAxis(Aimrad, Vector3.forward));
+                }
+                TrapBulletcnt = 0;
+            }
+            if (NowHP==50.0f)
             {
                 if(SPFlag1==false)
                 {

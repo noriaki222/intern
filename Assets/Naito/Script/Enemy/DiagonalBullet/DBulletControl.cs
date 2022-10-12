@@ -8,6 +8,9 @@ public class DBulletControl : MonoBehaviour
 
     [SerializeField] private float Reflectionspeed = 10; //反射銃弾のスピード
 
+    //プレイヤーの位置情報入れる人
+    [SerializeField] private GameObject Player;
+
     //コンボ加算用
     //[SerializeField] private HitUI hit;
 
@@ -34,10 +37,20 @@ public class DBulletControl : MonoBehaviour
         }
         else
         {
-            Vector3 lazerPos = transform.position; //Vector3型のplayerPosに現在の位置情報を格納
-            lazerPos.x += Reflectionspeed * Time.deltaTime; //x座標にspeedを加算
-            transform.position = lazerPos; //現在の位置情報に反映させる
-            transform.localScale = new Vector3(0.5f, -0.5f, 1);
+            if (this.transform.position.x > Player.transform.position.x)
+            {
+                Vector3 lazerPos = transform.position; //Vector3型のplayerPosに現在の位置情報を格納
+                lazerPos.x += Reflectionspeed * Time.deltaTime; //x座標にspeedを加算
+                transform.position = lazerPos; //現在の位置情報に反映させる
+                transform.localScale = new Vector3(0.5f, -0.5f, 1);
+            }
+            else
+            {
+                Vector3 lazerPos = transform.position; //Vector3型のplayerPosに現在の位置情報を格納
+                lazerPos.x -= Reflectionspeed * Time.deltaTime; //x座標にspeedを加算
+                transform.position = lazerPos; //現在の位置情報に反映させる
+                transform.localScale = new Vector3(0.5f, 0.5f, 1);
+            }
         }
     }
 
