@@ -115,8 +115,8 @@ public class SpiderSpecialAttack : MonoBehaviour
             param[i].spiderSilk.transform.eulerAngles = rot;
 
             // オブジェクトを移動
-            // float objLength = param[i].spiderSilk.transform.localScale.x;
-            float objLength = param[i].spiderSilk.GetComponent<SpriteRenderer>().bounds.size.x * 2.0f;
+            float objLength = param[i].spiderSilk.transform.localScale.x;
+            // float objLength = param[i].spiderSilk.GetComponent<SpriteRenderer>().bounds.size.x * 2.0f;
             float off_x, off_y;
             float off_ex, off_ey;
 
