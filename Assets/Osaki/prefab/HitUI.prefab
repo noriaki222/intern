@@ -344,6 +344,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3946dc3b14d81c4bb6aa2439cf0c4d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  no: {fileID: 0}
-  text: {fileID: 0}
+  no: {fileID: 1270365900770129346}
+  text: {fileID: 1814878376965095787}
   ResetTime: 60

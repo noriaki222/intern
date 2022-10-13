@@ -54,6 +54,15 @@ public class BossEnemy_Spider : MonoBehaviour
     private bool SPFlag2 = false;
     private bool SPFlag3 = false;
 
+    //SEèoÇ∑óp
+    AudioSource audioSource;
+    [SerializeField] private AudioClip sound1;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -76,6 +85,7 @@ public class BossEnemy_Spider : MonoBehaviour
             if(Bulletcnt>BulletTiming)
             {
                 Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+                audioSource.PlayOneShot(sound1);
                 Bulletcnt = 0;
             }
             //í«îˆíe
@@ -85,6 +95,7 @@ public class BossEnemy_Spider : MonoBehaviour
                 if(BulletRnd == 3)
                 {
                     Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
+                    audioSource.PlayOneShot(sound1);
                 }
                 HomingBulletcnt = 0;
             }
@@ -99,6 +110,7 @@ public class BossEnemy_Spider : MonoBehaviour
             if (Bulletcnt > BulletTiming)
             {
                 Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+                audioSource.PlayOneShot(sound1);
                 Bulletcnt = 0;
             }
             //í«îˆíe
@@ -108,6 +120,7 @@ public class BossEnemy_Spider : MonoBehaviour
                 if (BulletRnd == 2)
                 {
                     Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
+                    audioSource.PlayOneShot(sound1);
                 }
                 HomingBulletcnt = 0;
             }
@@ -147,10 +160,12 @@ public class BossEnemy_Spider : MonoBehaviour
                 if (BulletRnd == 1)
                 {
                     Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+                    audioSource.PlayOneShot(sound1);
                 }
                 else if (BulletRnd == 2)
                 {
                     Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+                    audioSource.PlayOneShot(sound1);
                     Invoke("FirstBullet", 0.5f);
                 }
                 Bulletcnt = 0;
@@ -162,6 +177,7 @@ public class BossEnemy_Spider : MonoBehaviour
                 if (BulletRnd == 2)
                 {
                     Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
+                    audioSource.PlayOneShot(sound1);
                 }
                 HomingBulletcnt = 0;
             }
@@ -266,11 +282,13 @@ public class BossEnemy_Spider : MonoBehaviour
     private void FirstBullet()
     {
         Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+        audioSource.PlayOneShot(sound1);
         Invoke("LastBullet", 0.5f);
     }
 
     private void LastBullet()
     {
         Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+        audioSource.PlayOneShot(sound1);
     }
 }
