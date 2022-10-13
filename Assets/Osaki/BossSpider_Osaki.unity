@@ -2154,6 +2154,7 @@ MonoBehaviour:
   decreaseHp: 10
   NowHP: 0
   SPattack: {fileID: 1308733567}
+  sound1: {fileID: 0}
 --- !u!1001 &1170455923
 PrefabInstance:
   m_ObjectHideFlags: 0
