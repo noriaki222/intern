@@ -25,9 +25,9 @@ TagManager:
   - Enemy
   - Floor
   - Wall
-  - 
-  - 
-  - 
+  - BoonStart
+  - KidsBoon
+  - Player
   - 
   - 
   - 

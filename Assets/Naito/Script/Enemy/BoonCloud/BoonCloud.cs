@@ -13,6 +13,11 @@ public class BoonCloud : MonoBehaviour
     private float RndPos;
     //íeÇèoÇ∑Ç∆Ç±ÇÎóp
     private Vector3 BoonPos;
+
+    private void Start()
+    {
+        Invoke("DestroyObj",6.0f);
+    }
     void Update()
     {
         cnt += Time.deltaTime;
@@ -23,5 +28,10 @@ public class BoonCloud : MonoBehaviour
             Instantiate(bullet,BoonPos, Quaternion.identity);
             cnt = 0;
         }
+    }
+
+    private void DestroyObj()
+    {
+        Destroy(this.gameObject);
     }
 }
