@@ -55,58 +55,51 @@ public class PlayerMove : MonoBehaviour
         }
         if (BoolTrap == false)
         {
-            if (AttackArea.GetHitStop() == false)
+            rbody2D.isKinematic = false;
+            x_val = Input.GetAxis("Horizontal");
+            Debug.Log(x_val);
+            if (x_val > 0)
             {
-                rbody2D.isKinematic = false;
-                x_val = Input.GetAxis("Horizontal");
-                Debug.Log(x_val);
-                if (x_val > 0)
+                //右を向く
+                transform.localScale = new Vector3(0.1f, 0.1f, 1);
+                //歩く
+                transform.Translate(Walkspeed * Time.deltaTime, 0, 0);
+                if (x_val >= 0.8f)
                 {
-                    //右を向く
-                    transform.localScale = new Vector3(0.1f, 0.1f, 1);
-                    //歩く
-                    transform.Translate(Walkspeed * Time.deltaTime, 0, 0);
-                    if (x_val >= 0.8f)
-                    {
-                        //走る
-                        transform.Translate(Dashspeed * Time.deltaTime, 0, 0);
-                    }
+                    //走る
+                    transform.Translate(Dashspeed * Time.deltaTime, 0, 0);
                 }
-                else if (x_val < 0)
-                {
-                    //左を向く
-                    transform.localScale = new Vector3(-0.1f, 0.1f, 1);
-                    //歩く
-                    transform.Translate(-Walkspeed * Time.deltaTime, 0, 0);
-                    if (x_val <= -0.8f)
-                    {
-                        //走る
-                        transform.Translate(-Dashspeed * Time.deltaTime, 0, 0);
-                    }
-                }
-                //横移動
-                //transform.Translate(x_val * speed * Time.deltaTime, 0, 0);
-                //ジャンプ
-                if ((Input.GetKeyDown(KeyCode.UpArrow) && this.jumpCount < 1) || ((Input.GetKeyDown("joystick button 0") || Input.GetKeyDown("joystick button 1") ||
-                    Input.GetKeyDown("joystick button 2") || Input.GetKeyDown("joystick button 3")) && this.jumpCount < 1))
-                {
-                    this.rbody2D.AddForce(transform.up * power);
-                    jumpCount++;
-                }
-                //攻撃
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
-                {
-                    AttackArea.AttackAreaCreate();
-                }
-                //プレイヤーの移動制限
-                //transform.position = new Vector2(Mathf.Clamp(
-                //    transform.position.x, -moveableRange, moveableRange),
-                //    transform.position.y);
             }
-            else
+            else if (x_val < 0)
             {
-
+                //左を向く
+                transform.localScale = new Vector3(-0.1f, 0.1f, 1);
+                //歩く
+                transform.Translate(-Walkspeed * Time.deltaTime, 0, 0);
+                if (x_val <= -0.8f)
+                {
+                    //走る
+                    transform.Translate(-Dashspeed * Time.deltaTime, 0, 0);
+                }
             }
+            //横移動
+            //transform.Translate(x_val * speed * Time.deltaTime, 0, 0);
+            //ジャンプ
+            if ((Input.GetKeyDown(KeyCode.UpArrow) && this.jumpCount < 1) || ((Input.GetKeyDown("joystick button 0") || Input.GetKeyDown("joystick button 1") ||
+                Input.GetKeyDown("joystick button 2") || Input.GetKeyDown("joystick button 3")) && this.jumpCount < 1))
+            {
+                this.rbody2D.AddForce(transform.up * power);
+                jumpCount++;
+            }
+            //攻撃
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
+            {
+                AttackArea.AttackAreaCreate();
+            }
+            //プレイヤーの移動制限
+            //transform.position = new Vector2(Mathf.Clamp(
+            //    transform.position.x, -moveableRange, moveableRange),
+            //    transform.position.y);
         }
         else
         {

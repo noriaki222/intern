@@ -39,18 +39,13 @@ public class PlayerAttack : MonoBehaviour
             hit.AddHit();
             // —h‚ê‚é
             shake.PlayShake();
-            HitFlag = true;
-            Invoke("StopRelieve", 0.5f);
+            Time.timeScale = 0.1f;
+            Invoke("StopRelieve", 0.03f);
         }
     }
 
     private void StopRelieve()
     {
-        HitFlag = false;
-    }
-
-    public bool GetHitStop()
-    {
-        return HitFlag;
+        Time.timeScale = 1.0f;
     }
 }
