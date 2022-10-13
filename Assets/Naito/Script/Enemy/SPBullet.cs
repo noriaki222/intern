@@ -9,11 +9,15 @@ public class SPBullet : MonoBehaviour
     private Rigidbody2D rb;
     //プレイヤーの位置情報入れる人
     [SerializeField] private GameObject Player;
+    //SE出す用
+    AudioSource audioSource;
+    [SerializeField] private AudioClip sound1;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        
+        audioSource = GetComponent<AudioSource>();
+
     }
     // Update is called once per frame
     void Update()
@@ -34,6 +38,7 @@ public class SPBullet : MonoBehaviour
             }
             this.gameObject.tag = "PlayerBullet";
             this.gameObject.layer =6;
+            audioSource.PlayOneShot(sound1);
             //hit.AddHit();
         }
     }

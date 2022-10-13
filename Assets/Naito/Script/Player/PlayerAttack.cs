@@ -6,15 +6,12 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private HitUI hit;
     [SerializeField] private Shake shake;
-    [SerializeField] private AudioClip sound1;
-    private Animator Sound;
     private bool HitFlag = false;
     // Start is called before the first frame update
     void Start()
     {
         //ゲームオブジェクトを非アクティブ状態に
         gameObject.SetActive(false);
-        Sound = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -44,7 +41,6 @@ public class PlayerAttack : MonoBehaviour
             shake.PlayShake();
             Time.timeScale = 0.1f;
             Invoke("StopRelieve", 0.03f);
-            
         }
     }
 
