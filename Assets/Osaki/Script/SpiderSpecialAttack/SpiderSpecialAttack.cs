@@ -116,6 +116,7 @@ public class SpiderSpecialAttack : MonoBehaviour
 
             // オブジェクトを移動
             float objLength = param[i].spiderSilk.transform.localScale.x;
+            // float objLength = param[i].spiderSilk.GetComponent<SpriteRenderer>().bounds.size.x * 2.0f;
             float off_x, off_y;
             float off_ex, off_ey;
 
@@ -167,6 +168,8 @@ public class SpiderSpecialAttack : MonoBehaviour
             param[i].off_end = new Vector3(off_ex, off_ey, 0.0f);
 
             param[i].small_spider.transform.position = param[i].off_start;
+
+            param[i].small_spider.tag = "EnemyBullet";
 
             param[i].spiderSilk.SetActive(true);
             param[i].small_spider.SetActive(true);

@@ -17,19 +17,20 @@ public class HomingBullet : MonoBehaviour
     //弾のTransform
     private Transform bulletTrans;
     //追いかける対象
-    private GameObject Player;
+    [SerializeField] private GameObject Player;
     //反射先
     private GameObject Enemy;
     //ホーミング使い分け
     private bool HomingChang = false;
     //反射使い分け
     private bool BulletRefection = false;
+    //反射を一回だけに
+    private bool BoolRefection = false;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         bulletTrans = GetComponent<Transform>();
-        Player = GameObject.Find("player");
         Enemy = GameObject.Find("BossEnemy_Spider");
         Invoke("HBulletChang", 2.0f);
     }
@@ -59,8 +60,24 @@ public class HomingBullet : MonoBehaviour
         }
         else
         {
-            Vector3 Homing = Enemy.transform.position - bulletTrans.position;
-            rb.AddForce(Homing.normalized * RefectionSpeed);
+            if (this.transform.position.x > Player.transform.position.x)
+            {
+                Vector3 Homing = Enemy.transform.position - bulletTrans.position;
+                if (BoolRefection == false)
+                {
+                    rb.AddForce(Homing.normalized * RefectionSpeed * 2, ForceMode2D.Impulse);
+                    BoolRefection = true;
+                }
+            }
+            else
+            {
+                Vector3 Homing = Enemy.transform.position - bulletTrans.position;
+                if (BoolRefection == false)
+                {
+                    rb.AddForce(Vector3.right * -20.0f, ForceMode2D.Impulse);
+                    BoolRefection = true;
+                }
+            }
         }
 
     }
@@ -75,13 +92,13 @@ public class HomingBullet : MonoBehaviour
         if (other.gameObject.CompareTag("PlayerAttackPoint"))
         {
             BulletRefection = true;
-
+            this.gameObject.tag = "PlayerBullet";
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy")|| collision.gameObject.CompareTag("Wall"))
             Destroy(this.gameObject);
     }
 }

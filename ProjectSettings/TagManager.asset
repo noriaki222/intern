@@ -9,6 +9,9 @@ TagManager:
   - Enemy
   - PlayerAttackPoint
   - Trap
+  - EnemyBullet
+  - PlayerBullet
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -18,13 +21,13 @@ TagManager:
   - UI
   - Bullet
   - Trap
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - SPBullet
+  - Enemy
+  - Floor
+  - Wall
+  - BoonStart
+  - KidsBoon
+  - Player
   - 
   - 
   - 
