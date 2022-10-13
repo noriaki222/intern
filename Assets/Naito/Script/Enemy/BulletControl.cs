@@ -10,6 +10,9 @@ public class BulletControl : MonoBehaviour
 
     //プレイヤーの位置情報入れる人
     [SerializeField] private GameObject Player;
+    //SE出す用
+    AudioSource audioSource;
+    [SerializeField] private AudioClip sound1;
 
     //コンボ加算用
     //[SerializeField] private HitUI hit;
@@ -18,7 +21,7 @@ public class BulletControl : MonoBehaviour
 
     void Start()
     {
-
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -43,7 +46,7 @@ public class BulletControl : MonoBehaviour
                 Vector3 lazerPos = transform.position; //Vector3型のplayerPosに現在の位置情報を格納
                 lazerPos.x += Reflectionspeed * Time.deltaTime; //x座標にspeedを加算
                 transform.position = lazerPos; //現在の位置情報に反映させる
-                transform.localScale = new Vector3(0.5f, 0.5f, 1);
+                transform.localScale = new Vector3(-0.5f, 0.5f, 1);
             }
             else
             {
@@ -62,7 +65,7 @@ public class BulletControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Player")|| collision.gameObject.CompareTag("Enemy"))
+        if(collision.gameObject.CompareTag("Player")|| collision.gameObject.CompareTag("Enemy")|| collision.gameObject.CompareTag("Wall"))
         Destroy(this.gameObject);
     }
     private void OnTriggerEnter2D(Collider2D other)
@@ -71,6 +74,7 @@ public class BulletControl : MonoBehaviour
         {
             BulletRefection = true;
             this.gameObject.tag = "PlayerBullet";
+            audioSource.PlayOneShot(sound1);
             //hit.AddHit();
         }
     }

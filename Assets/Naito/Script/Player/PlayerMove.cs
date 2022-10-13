@@ -6,7 +6,9 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     //プレイヤーの移動速度
-    [SerializeField] private float speed = 8.0f;
+    [SerializeField] private float Dashspeed = 6.0f;
+    //プレイヤーの徒歩スピード
+    [SerializeField] private float Walkspeed = 2.0f;
     //プレイヤーの移動範囲
     //public float moveableRange = 30.0f;
     //プレイヤーのジャンプ力
@@ -16,7 +18,7 @@ public class PlayerMove : MonoBehaviour
     //プレイヤーがジャンプしていいかの処理
     [SerializeField] private int jumpCount = 0;
     //プレイヤーのHP
-    [SerializeField] private int PlayerHP = 5;
+    //[SerializeField] private int PlayerHP = 5;
     //当たり判定フラグ
     private bool CollisionFlag = false;
     //点滅用変数
@@ -55,26 +57,42 @@ public class PlayerMove : MonoBehaviour
         {
             rbody2D.isKinematic = false;
             x_val = Input.GetAxis("Horizontal");
+            Debug.Log(x_val);
             if (x_val > 0)
             {
                 //右を向く
-                transform.localScale = new Vector3(-0.07f, 0.07f, 1);
+                transform.localScale = new Vector3(0.1f, 0.1f, 1);
+                //歩く
+                transform.Translate(Walkspeed * Time.deltaTime, 0, 0);
+                if (x_val >= 0.8f)
+                {
+                    //走る
+                    transform.Translate(Dashspeed * Time.deltaTime, 0, 0);
+                }
             }
             else if (x_val < 0)
             {
                 //左を向く
-                transform.localScale = new Vector3(0.07f, 0.07f, 1);
+                transform.localScale = new Vector3(-0.1f, 0.1f, 1);
+                //歩く
+                transform.Translate(-Walkspeed * Time.deltaTime, 0, 0);
+                if (x_val <= -0.8f)
+                {
+                    //走る
+                    transform.Translate(-Dashspeed * Time.deltaTime, 0, 0);
+                }
             }
             //横移動
-            transform.Translate(x_val * speed * Time.deltaTime, 0, 0);
+            //transform.Translate(x_val * speed * Time.deltaTime, 0, 0);
             //ジャンプ
-            if (Input.GetKeyDown(KeyCode.UpArrow) && this.jumpCount < 1)
+            if ((Input.GetKeyDown(KeyCode.UpArrow) && this.jumpCount < 1) || ((Input.GetKeyDown("joystick button 0") || Input.GetKeyDown("joystick button 1") ||
+                Input.GetKeyDown("joystick button 2") || Input.GetKeyDown("joystick button 3")) && this.jumpCount < 1))
             {
                 this.rbody2D.AddForce(transform.up * power);
                 jumpCount++;
             }
             //攻撃
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
             {
                 AttackArea.AttackAreaCreate();
             }
@@ -87,7 +105,8 @@ public class PlayerMove : MonoBehaviour
         {
             //rbody2D.velocity = Vector3.zero;
             //rbody2D.isKinematic = true;
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0") || Input.GetKeyDown("joystick button 1") ||
+                Input.GetKeyDown("joystick button 2") || Input.GetKeyDown("joystick button 3") || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
             {
                 Trapcnt++;
             }

@@ -6,6 +6,7 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private HitUI hit;
     [SerializeField] private Shake shake;
+    private bool HitFlag = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +39,13 @@ public class PlayerAttack : MonoBehaviour
             hit.AddHit();
             // —h‚ê‚é
             shake.PlayShake();
+            Time.timeScale = 0.1f;
+            Invoke("StopRelieve", 0.03f);
         }
+    }
+
+    private void StopRelieve()
+    {
+        Time.timeScale = 1.0f;
     }
 }

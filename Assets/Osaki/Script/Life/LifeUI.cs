@@ -16,7 +16,7 @@ public class LifeUI : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(lifeNum);
+        // Debug.Log(lifeNum);
 
         if(lifeNum > 0 && lifes[lifeNum - 1].GetLossFin())
         {

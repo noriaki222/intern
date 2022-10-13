@@ -11,6 +11,7 @@ TagManager:
   - Trap
   - EnemyBullet
   - PlayerBullet
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -23,6 +24,9 @@ TagManager:
   - SPBullet
   - Enemy
   - Floor
+  - Wall
+  - BoonStart
+  - KidsBoon
   - Player
   - 
   - 
@@ -41,10 +45,10 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
   m_SortingLayers:
+  - name: sky
+    uniqueID: 1419710339
+    locked: 0
   - name: BackGround
     uniqueID: 1908477967
     locked: 0
