@@ -35,11 +35,14 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private bool BoolTrap = false;
     //プレイヤーがトラップから抜けるのに必要なクリック数
     private int Trapcnt;
+    //アニメーションのインスタンスを受け取る用
+    private Animator anim;
 
 
     private void Start()
     {
         rbody2D = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     //Update is called once per frame
@@ -94,7 +97,8 @@ public class PlayerMove : MonoBehaviour
             //攻撃
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
             {
-                AttackArea.AttackAreaCreate();
+                anim.SetBool("AttackFlag", true);
+                Invoke("StartAttack", 0.3f);
             }
             //プレイヤーの移動制限
             //transform.position = new Vector2(Mathf.Clamp(
@@ -150,6 +154,12 @@ public class PlayerMove : MonoBehaviour
     {
         CollisionFlag = false;
         sp.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
+    void StartAttack()
+    {
+        AttackArea.AttackAreaCreate();
+        anim.SetBool("AttackFlag", false);
     }
 
 }
