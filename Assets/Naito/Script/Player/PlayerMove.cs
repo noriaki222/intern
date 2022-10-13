@@ -61,7 +61,7 @@ public class PlayerMove : MonoBehaviour
             if (x_val > 0)
             {
                 //‰E‚ðŒü‚­
-                transform.localScale = new Vector3(-0.07f, 0.07f, 1);
+                transform.localScale = new Vector3(0.1f, 0.1f, 1);
                 //•à‚­
                 transform.Translate(Walkspeed * Time.deltaTime, 0, 0);
                 if(x_val >= 0.8f)
@@ -73,7 +73,7 @@ public class PlayerMove : MonoBehaviour
             else if (x_val < 0)
             {
                 //¶‚ðŒü‚­
-                transform.localScale = new Vector3(0.07f, 0.07f, 1);
+                transform.localScale = new Vector3(-0.1f, 0.1f, 1);
                 //•à‚­
                 transform.Translate(-Walkspeed * Time.deltaTime, 0, 0);
                 if (x_val <= -0.8f)
@@ -85,8 +85,8 @@ public class PlayerMove : MonoBehaviour
             //‰¡ˆÚ“®
             //transform.Translate(x_val * speed * Time.deltaTime, 0, 0);
             //ƒWƒƒƒ“ƒv
-            if ((Input.GetKeyDown(KeyCode.UpArrow) && this.jumpCount < 1) || (Input.GetKeyDown("joystick button 0")|| Input.GetKeyDown("joystick button 1") ||
-                Input.GetKeyDown("joystick button 2") || Input.GetKeyDown("joystick button 3")))
+            if ((Input.GetKeyDown(KeyCode.UpArrow) && this.jumpCount < 1) || ((Input.GetKeyDown("joystick button 0")|| Input.GetKeyDown("joystick button 1") ||
+                Input.GetKeyDown("joystick button 2") || Input.GetKeyDown("joystick button 3")) && this.jumpCount < 1))
             {
                 this.rbody2D.AddForce(transform.up * power);
                 jumpCount++;
@@ -105,7 +105,8 @@ public class PlayerMove : MonoBehaviour
         {
             //rbody2D.velocity = Vector3.zero;
             //rbody2D.isKinematic = true;
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0") || Input.GetKeyDown("joystick button 1") ||
+                Input.GetKeyDown("joystick button 2") || Input.GetKeyDown("joystick button 3") || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
             {
                 Trapcnt++;
             }
