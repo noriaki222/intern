@@ -10,6 +10,9 @@ public class BulletControl : MonoBehaviour
 
     //プレイヤーの位置情報入れる人
     [SerializeField] private GameObject Player;
+    //SE出す用
+    AudioSource audioSource;
+    [SerializeField] private AudioClip sound1;
 
     //コンボ加算用
     //[SerializeField] private HitUI hit;
@@ -18,7 +21,7 @@ public class BulletControl : MonoBehaviour
 
     void Start()
     {
-
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -71,6 +74,7 @@ public class BulletControl : MonoBehaviour
         {
             BulletRefection = true;
             this.gameObject.tag = "PlayerBullet";
+            audioSource.PlayOneShot(sound1);
             //hit.AddHit();
         }
     }

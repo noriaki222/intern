@@ -64,7 +64,7 @@ public class PlayerMove : MonoBehaviour
                 transform.localScale = new Vector3(0.1f, 0.1f, 1);
                 //•à‚­
                 transform.Translate(Walkspeed * Time.deltaTime, 0, 0);
-                if(x_val >= 0.8f)
+                if (x_val >= 0.8f)
                 {
                     //‘–‚é
                     transform.Translate(Dashspeed * Time.deltaTime, 0, 0);
@@ -85,7 +85,7 @@ public class PlayerMove : MonoBehaviour
             //‰¡ˆÚ“®
             //transform.Translate(x_val * speed * Time.deltaTime, 0, 0);
             //ƒWƒƒƒ“ƒv
-            if ((Input.GetKeyDown(KeyCode.UpArrow) && this.jumpCount < 1) || ((Input.GetKeyDown("joystick button 0")|| Input.GetKeyDown("joystick button 1") ||
+            if ((Input.GetKeyDown(KeyCode.UpArrow) && this.jumpCount < 1) || ((Input.GetKeyDown("joystick button 0") || Input.GetKeyDown("joystick button 1") ||
                 Input.GetKeyDown("joystick button 2") || Input.GetKeyDown("joystick button 3")) && this.jumpCount < 1))
             {
                 this.rbody2D.AddForce(transform.up * power);

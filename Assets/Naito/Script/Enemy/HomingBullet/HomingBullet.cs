@@ -26,6 +26,9 @@ public class HomingBullet : MonoBehaviour
     private bool BulletRefection = false;
     //îΩéÀÇàÍâÒÇæÇØÇ…
     private bool BoolRefection = false;
+    //SEèoÇ∑óp
+    AudioSource audioSource;
+    [SerializeField] private AudioClip sound1;
 
     private void Start()
     {
@@ -33,6 +36,7 @@ public class HomingBullet : MonoBehaviour
         bulletTrans = GetComponent<Transform>();
         Enemy = GameObject.Find("BossEnemy_Spider");
         Invoke("HBulletChang", 2.0f);
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -93,6 +97,7 @@ public class HomingBullet : MonoBehaviour
         {
             BulletRefection = true;
             this.gameObject.tag = "PlayerBullet";
+            audioSource.PlayOneShot(sound1);
         }
     }
 
