@@ -15,5 +15,9 @@ public class DarkLightMove : MonoBehaviour
     void Update()
     {
         transform.position += new Vector3(speed, 0.0f, 0.0f);
+        if(transform.position.x >= 15.0f)
+        {
+            transform.position = new Vector3(-15.0f, transform.position.y, transform.position.z);
+        }
     }
 }
