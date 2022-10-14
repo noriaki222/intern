@@ -8,6 +8,10 @@ TagManager:
   - Bullet
   - Enemy
   - PlayerAttackPoint
+  - Trap
+  - EnemyBullet
+  - PlayerBullet
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -15,15 +19,15 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Bullet
+  - Trap
+  - SPBullet
+  - Enemy
+  - Floor
+  - Wall
+  - BoonStart
+  - KidsBoon
+  - Player
   - 
   - 
   - 
@@ -42,6 +46,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: sky
+    uniqueID: 1419710339
+    locked: 0
+  - name: moon
+    uniqueID: 1066412981
+    locked: 0
+  - name: BackGround
+    uniqueID: 1908477967
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

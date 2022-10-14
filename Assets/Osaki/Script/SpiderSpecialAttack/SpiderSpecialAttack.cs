@@ -19,7 +19,13 @@ public class SpiderSpecialAttack : MonoBehaviour
 
     [SerializeField] private int LineNum = 3;
 
+    [SerializeField] private AudioClip sound;
+
+
     private List<SpiderSpecialParam> param = new List<SpiderSpecialParam>();
+    private List<Rigidbody2D> rbs = new List<Rigidbody2D>();
+    private AudioSource audioSource;
+    private bool[] isPlaySe;
 
     // 攻撃ステート
     private enum STATE_SILK
@@ -37,7 +43,7 @@ public class SpiderSpecialAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < LineNum; ++i)
+        for (int i = 0; i < LineNum; ++i)
         {
             param.Add(new SpiderSpecialParam());
         }
@@ -46,6 +52,14 @@ public class SpiderSpecialAttack : MonoBehaviour
         {
             param[i].spiderSilk = Instantiate(spiderSilk);
             param[i].small_spider = Instantiate(small_spider);
+            rbs.Add(param[i].small_spider.GetComponent<Rigidbody2D>());
+        }
+
+        audioSource = GetComponent<AudioSource>();
+        isPlaySe = new bool[LineNum];
+        for(int i = 0; i < LineNum; ++i)
+        {
+            isPlaySe[i] = false;
         }
     }
 
@@ -114,6 +128,7 @@ public class SpiderSpecialAttack : MonoBehaviour
 
             // オブジェクトを移動
             float objLength = param[i].spiderSilk.transform.localScale.x;
+            // float objLength = param[i].spiderSilk.GetComponent<SpriteRenderer>().bounds.size.x * 2.0f;
             float off_x, off_y;
             float off_ex, off_ey;
 
@@ -165,6 +180,11 @@ public class SpiderSpecialAttack : MonoBehaviour
             param[i].off_end = new Vector3(off_ex, off_ey, 0.0f);
 
             param[i].small_spider.transform.position = param[i].off_start;
+
+            param[i].small_spider.tag = "EnemyBullet";
+
+            param[i].spiderSilk.SetActive(true);
+            param[i].small_spider.SetActive(true);
         }
     }
 
@@ -193,8 +213,18 @@ public class SpiderSpecialAttack : MonoBehaviour
             }
         }
 
+        if(!isPlaySe[go -1])
+        {
+            isPlaySe[go - 1] = true;
+            audioSource.PlayOneShot(sound);
+        }
+
         if (((param[param.Count - 1].spiderSilk.transform.position - param[param.Count - 1].stopPos).magnitude < 1.0f))
+        {
             fin = true;
+            for (int i = 0; i < isPlaySe.Length; ++i)
+                isPlaySe[i] = false;
+        }
 
         return fin;
     }
@@ -206,9 +236,13 @@ public class SpiderSpecialAttack : MonoBehaviour
         int go = 1;
         for (int i = 0; i < go; ++i)
         {
-            param[i].small_spider.transform.position = Vector3.MoveTowards(param[i].small_spider.transform.position, param[i].off_end, speed);
+            if (rbs[i].velocity.magnitude == 0.0f)
+                param[i].small_spider.transform.position = Vector3.MoveTowards(param[i].small_spider.transform.position, param[i].off_end, speed);
 
-            if (go < param.Count && ((param[go - 1].small_spider.transform.position - param[go - 1].off_end).magnitude < 15.0f))
+            if ((param[go - 1].small_spider.transform.position - param[go - 1].off_end).magnitude < 15.0f)
+                param[go - 1].small_spider.SetActive(false);
+
+            if (go < param.Count && !param[go - 1].small_spider.activeSelf)
             {
                 ++go;
             }
@@ -230,12 +264,25 @@ public class SpiderSpecialAttack : MonoBehaviour
 
             if (go < param.Count && ((param[go - 1].spiderSilk.transform.position - param[go - 1].off_end).magnitude < 1.0f))
             {
+                rbs[i].velocity = Vector2.zero;
+                param[i].spiderSilk.SetActive(false);
+                param[i].small_spider.SetActive(false);
                 ++go;
             }
         }
 
+        if (!isPlaySe[go - 1])
+        {
+            isPlaySe[go - 1] = true;
+            audioSource.PlayOneShot(sound);
+        }
+
         if (((param[param.Count - 1].spiderSilk.transform.position - param[param.Count - 1].off_end).magnitude < 1.0f))
+        {
             fin = true;
+            for (int i = 0; i < isPlaySe.Length; ++i)
+                isPlaySe[i] = false;
+        }
 
         return fin;
     }

@@ -9,6 +9,9 @@ public class TestInput : MonoBehaviour
     [SerializeField] private EnemyHpBar enemyHp;
     [SerializeField] private float decreaseHp = 20.0f;
     [SerializeField] private SpiderSpecialAttack attack;
+    [SerializeField] private DragonThunder thunder;
+    [SerializeField] private int thunderNum = 1;
+    [SerializeField] private Shake shake;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,8 +43,18 @@ public class TestInput : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            // “G‘Ì—ÍŒ¸­
+            // ’wå‚Ì•KE‹Z
             attack.StartAttack();
+        }
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            // ——‹
+            thunder.StartAttack(thunderNum);
+        }
+        if (Input.GetKeyDown(KeyCode.F7))
+        {
+            // —h‚ê‚é
+            shake.PlayShake();
         }
     }
 }
