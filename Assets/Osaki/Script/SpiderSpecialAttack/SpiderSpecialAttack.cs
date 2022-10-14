@@ -19,9 +19,13 @@ public class SpiderSpecialAttack : MonoBehaviour
 
     [SerializeField] private int LineNum = 3;
 
+    [SerializeField] private AudioClip sound;
+
 
     private List<SpiderSpecialParam> param = new List<SpiderSpecialParam>();
     private List<Rigidbody2D> rbs = new List<Rigidbody2D>();
+    private AudioSource audioSource;
+    private bool[] isPlaySe;
 
     // 攻撃ステート
     private enum STATE_SILK
@@ -49,6 +53,13 @@ public class SpiderSpecialAttack : MonoBehaviour
             param[i].spiderSilk = Instantiate(spiderSilk);
             param[i].small_spider = Instantiate(small_spider);
             rbs.Add(param[i].small_spider.GetComponent<Rigidbody2D>());
+        }
+
+        audioSource = GetComponent<AudioSource>();
+        isPlaySe = new bool[LineNum];
+        for(int i = 0; i < LineNum; ++i)
+        {
+            isPlaySe[i] = false;
         }
     }
 
@@ -202,8 +213,18 @@ public class SpiderSpecialAttack : MonoBehaviour
             }
         }
 
+        if(!isPlaySe[go -1])
+        {
+            isPlaySe[go - 1] = true;
+            audioSource.PlayOneShot(sound);
+        }
+
         if (((param[param.Count - 1].spiderSilk.transform.position - param[param.Count - 1].stopPos).magnitude < 1.0f))
+        {
             fin = true;
+            for (int i = 0; i < isPlaySe.Length; ++i)
+                isPlaySe[i] = false;
+        }
 
         return fin;
     }
@@ -250,8 +271,18 @@ public class SpiderSpecialAttack : MonoBehaviour
             }
         }
 
+        if (!isPlaySe[go - 1])
+        {
+            isPlaySe[go - 1] = true;
+            audioSource.PlayOneShot(sound);
+        }
+
         if (((param[param.Count - 1].spiderSilk.transform.position - param[param.Count - 1].off_end).magnitude < 1.0f))
+        {
             fin = true;
+            for (int i = 0; i < isPlaySe.Length; ++i)
+                isPlaySe[i] = false;
+        }
 
         return fin;
     }
