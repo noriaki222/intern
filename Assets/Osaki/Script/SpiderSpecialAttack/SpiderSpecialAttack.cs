@@ -19,6 +19,7 @@ public class SpiderSpecialAttack : MonoBehaviour
 
     [SerializeField] private int LineNum = 3;
 
+
     private List<SpiderSpecialParam> param = new List<SpiderSpecialParam>();
     private List<Rigidbody2D> rbs = new List<Rigidbody2D>();
 
@@ -38,7 +39,7 @@ public class SpiderSpecialAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < LineNum; ++i)
+        for (int i = 0; i < LineNum; ++i)
         {
             param.Add(new SpiderSpecialParam());
         }

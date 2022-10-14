@@ -12,6 +12,10 @@ public class SPBullet : MonoBehaviour
     //SE出す用
     AudioSource audioSource;
     [SerializeField] private AudioClip sound1;
+    //敵へのダメージを取るよう
+    [SerializeField] private BossEnemy_Spider Boss;
+    //敵に与えるダメージ量
+    [SerializeField] private float Damage = 30.0f;
 
     private void Start()
     {
@@ -45,9 +49,16 @@ public class SPBullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if((collision.gameObject.CompareTag("Enemy")&&this.gameObject.CompareTag("PlayerBullet"))|| collision.gameObject.CompareTag("Player")
-            ||collision.gameObject.CompareTag("Wall"))
+        if(collision.gameObject.CompareTag("Player")||collision.gameObject.CompareTag("Wall"))
         {
+            this.gameObject.SetActive(false);
+            //this.gameObject.tag = "EnemyBullet";
+            this.gameObject.layer = 8;
+            rb.velocity = Vector2.zero;
+        }
+        if (collision.gameObject.CompareTag("Enemy") && this.gameObject.CompareTag("PlayerBullet"))
+        {
+            Boss.EnemyDamage(Damage);
             this.gameObject.SetActive(false);
             //this.gameObject.tag = "EnemyBullet";
             this.gameObject.layer = 8;

@@ -57,6 +57,7 @@ public class BossEnemy_Spider : MonoBehaviour
     //SE出す用
     AudioSource audioSource;
     [SerializeField] private AudioClip sound1;
+    [SerializeField] private AudioClip sound2;
 
     void Start()
     {
@@ -236,32 +237,35 @@ public class BossEnemy_Spider : MonoBehaviour
             //ダメージフラグがfalseだったらダメージ
             if (DamageFlag == false)
             {
-                EnemyDamage();
+                EnemyDamage(10);
             }
 
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("PlayerBullet"))
+    //    {
+    //        Debug.Log("当たった");
+    //        //ダメージフラグがfalseだったらダメージ
+    //        if (DamageFlag == false)
+    //        {
+    //            //EnemyDamage();
+    //        }
+    //        collision.gameObject.SetActive(false);
+    //    }
+    //}
+    public void EnemyDamage(float damage)
     {
-        Debug.Log("入った");
-        if (collision.gameObject.CompareTag("PlayerBullet"))
+        if (DamageFlag == false)
         {
-            Debug.Log("当たった");
-            //ダメージフラグがfalseだったらダメージ
-            if (DamageFlag == false)
-            {
-                EnemyDamage();
-            }
-            collision.gameObject.SetActive(false);
+            DamageFlag = true;
+            // 敵体力減少
+            enemyHp.DecHp(damage);
+            audioSource.PlayOneShot(sound2);
+            //ダメージ判定が終わった後、3秒後に無敵を解除する
+            Invoke("InvincibleEnd", 3.0f);
         }
-    }
-    void EnemyDamage()
-    {
-        DamageFlag = true;
-        // 敵体力減少
-        enemyHp.DecHp(decreaseHp);
-        //ダメージ判定が終わった後、3秒後に無敵を解除する
-        Invoke("InvincibleEnd", 3.0f);
     }
     void InvincibleEnd()
     {
