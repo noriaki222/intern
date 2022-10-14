@@ -37,12 +37,16 @@ public class PlayerMove : MonoBehaviour
     private int Trapcnt;
     //アニメーションのインスタンスを受け取る用
     private Animator anim;
+    //SE出す用
+    AudioSource audioSource;
+    [SerializeField] private AudioClip sound1;
 
 
     private void Start()
     {
         rbody2D = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     //Update is called once per frame
@@ -146,6 +150,7 @@ public class PlayerMove : MonoBehaviour
         // 体力減少
         life.LossLife();
         CollisionFlag = true;
+        audioSource.PlayOneShot(sound1);
         //ダメージ判定が終わった後、3秒後に無敵を解除する
         Invoke("InvincibleEnd", 3.0f);
     }

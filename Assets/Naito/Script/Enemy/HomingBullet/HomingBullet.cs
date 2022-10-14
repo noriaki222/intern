@@ -18,6 +18,10 @@ public class HomingBullet : MonoBehaviour
     private Transform bulletTrans;
     //追いかける対象
     [SerializeField] private GameObject Player;
+    //ボスのダメージ判定を分ける用
+    [SerializeField] private BossEnemy_Spider Boss;
+    //ダメージ量
+    [SerializeField] private float Damage = 20.0f;
     //反射先
     private GameObject Enemy;
     //ホーミング使い分け
@@ -103,7 +107,14 @@ public class HomingBullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy")|| collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Wall"))
+        {
             Destroy(this.gameObject);
+        }
+        if (collision.gameObject.CompareTag("Enemy") && this.gameObject.CompareTag("PlayerBullet"))
+        {
+            Boss.EnemyDamage(Damage);
+            Destroy(this.gameObject);
+        }
     }
 }

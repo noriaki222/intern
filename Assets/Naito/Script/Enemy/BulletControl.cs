@@ -8,6 +8,9 @@ public class BulletControl : MonoBehaviour
 
     [SerializeField] private float Reflectionspeed = 10; //反射銃弾のスピード
 
+    [SerializeField] private BossEnemy_Spider Boss;
+    [SerializeField] private float Damage = 10.0f;
+
     //プレイヤーの位置情報入れる人
     [SerializeField] private GameObject Player;
     //SE出す用
@@ -65,8 +68,15 @@ public class BulletControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Player")|| collision.gameObject.CompareTag("Enemy")|| collision.gameObject.CompareTag("Wall"))
-        Destroy(this.gameObject);
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Wall"))
+        {
+            Destroy(this.gameObject);
+        }
+        if(collision.gameObject.CompareTag("Enemy")&&this.gameObject.CompareTag("PlayerBullet"))
+        {
+            Boss.EnemyDamage(Damage);
+            Destroy(this.gameObject);
+        }
     }
     private void OnTriggerEnter2D(Collider2D other)
     {

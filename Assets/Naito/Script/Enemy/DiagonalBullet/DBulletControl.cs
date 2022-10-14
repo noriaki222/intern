@@ -10,6 +10,10 @@ public class DBulletControl : MonoBehaviour
 
     //プレイヤーの位置情報入れる人
     [SerializeField] private GameObject Player;
+    //ダメージ量
+    [SerializeField] private float Damage = 10.0f;
+    //ボスのダメージ判定を分ける用
+    [SerializeField] private BossEnemy_Spider Boss;
 
     //SE出す用
     AudioSource audioSource;
@@ -65,8 +69,13 @@ public class DBulletControl : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Floor"))
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Floor"))
         {
+            Destroy(this.gameObject);
+        }
+        if (collision.gameObject.CompareTag("Enemy") && this.gameObject.CompareTag("PlayerBullet"))
+        {
+            Boss.EnemyDamage(Damage);
             Destroy(this.gameObject);
         }
     }
