@@ -52,4 +52,10 @@ public class HitUI : MonoBehaviour
     {
         return hit;
     }
+
+    public void ResetHit()
+    {
+        timer = 0.0f;
+        hit = 0;
+    }
 }
