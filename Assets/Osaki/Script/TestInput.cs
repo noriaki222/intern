@@ -12,6 +12,8 @@ public class TestInput : MonoBehaviour
     [SerializeField] private DragonThunder thunder;
     [SerializeField] private int thunderNum = 1;
     [SerializeField] private Shake shake;
+    [SerializeField] private int shakeNum = 0;
+    [SerializeField] private int shakeType = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,7 +56,7 @@ public class TestInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F7))
         {
             // —h‚ê‚é
-            shake.PlayShake();
+            shake.PlayShake(shakeNum, shakeType);
         }
     }
 }

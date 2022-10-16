@@ -23,54 +23,75 @@ public class Shake : MonoBehaviour
        public Vector2 off;    // オフセット
     }
 
-    [SerializeField] private ShakeInfo shakeInfo;
+    [SerializeField] private ShakeInfo[] shakeInfo;
     [SerializeField] private GameObject[] targets;
     private List<Vector3> initPos = new List<Vector3>();
 
-    private bool isShake = false;   // 振動しているか
-    private float totalTime;        // 経過時間
+    private bool[] isShake;   // 振動しているか
+    private float[] totalTime;        // 経過時間
+    private int[] shakeType;    // shakeInfoのタイプ
 
     // Start is called before the first frame update
     void Start()
     {
+        totalTime = new float[targets.Length];
+        isShake = new bool[targets.Length];
+        shakeType = new int[targets.Length];
         for(int i = 0; i < targets.Length; ++i)
         {
             initPos.Add(targets[i].transform.position);
+            totalTime[i] = 0.0f;
+            shakeType[i] = 0;
+            isShake[i] = false;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isShake) return;
-
-        // 揺れる
         for(int i = 0; i < targets.Length; ++i)
         {
-            targets[i].transform.position = GetUpdateShakePos(shakeInfo, totalTime, initPos[i]);
-        }
+            if (!isShake[i])
+                continue;
 
-        // 時間経過後初期位置へ
-        totalTime += Time.deltaTime;
-        if(totalTime > shakeInfo.duration)
-        {
-            isShake = false;
-            totalTime = 0.0f;
+            // 揺れる
+            targets[i].transform.position = GetUpdateShakePos(shakeInfo[shakeType[i]], totalTime[i], initPos[i]);
 
-            for(int i = 0; i < targets.Length; ++i)
+            // 時間経過後初期位置へ
+            totalTime[i] += Time.deltaTime;
+            if(totalTime[i] > shakeInfo[shakeType[i]].duration)
             {
+                isShake[i] = false;
+                totalTime[i] = 0.0f;
+
                 // 初期位置へ
                 targets[i].transform.position = initPos[i];
             }
         }
-
     }
 
-    public void PlayShake()
+    public void PlayShake(int element = -1, int type = 0)
     {
-        if(!isShake)
-            shakeInfo.off = new Vector2(Random.Range(0.0f, 100.0f), Random.Range(0.0f, 100.0f)); 
-        isShake = true;
+        if(element < 0 || element >= isShake.Length)
+        {
+            for(int i = 0; i < isShake.Length; ++i)
+            {
+                isShake[i] = true;
+                if(type < shakeInfo.Length && type >= 0)
+                    shakeType[i] = type;
+            }
+        }
+        else
+        {
+            isShake[element] = true;
+            if (type < shakeInfo.Length && type >= 0)
+                shakeType[element] = type;
+        }
+
+        for(int i = 0; i < shakeInfo.Length; ++i)
+        {
+            shakeInfo[i].off = new Vector2(Random.Range(0.0f, 100.0f), Random.Range(0.0f, 100.0f)); 
+        }
     }
 
     private Vector3 GetUpdateShakePos(ShakeInfo info, float totalTime, Vector3 initPos)
