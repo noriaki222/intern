@@ -1203,6 +1203,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2125671449}
     - target: {fileID: 2945990657590886237, guid: cb0b6172d27de9244acc53eca4026bf1, type: 3}
+      propertyPath: shake
+      value: 
+      objectReference: {fileID: 1883308660}
+    - target: {fileID: 2945990657590886237, guid: cb0b6172d27de9244acc53eca4026bf1, type: 3}
       propertyPath: sound1
       value: 
       objectReference: {fileID: 8300000, guid: 594ce56727291f847a3418e43fb8eebf, type: 3}
@@ -2920,6 +2924,7 @@ MonoBehaviour:
   HomingBullet: {fileID: 1557154680}
   SnipingBullet: {fileID: 117696750}
   TrapBullet: {fileID: 7225532127218028454, guid: f71d91ae00fb8b445bcb00fc57dd1af7, type: 3}
+  Volcano: {fileID: 0}
   BulletPoint: {fileID: 1713814023}
   HomingPoint: {fileID: 801572113}
   SnipingPoint: {fileID: 986941466}
@@ -2928,6 +2933,7 @@ MonoBehaviour:
   HomingBulletTiming: 3
   SnipingBulletTiming: 3
   TrapBulletTiming: 3
+  VolcanoTiming: 3
   PlayerPos: {fileID: 2023704954}
   sp: {fileID: 1165522336}
   enemyHp: {fileID: 1630565517}
@@ -2936,6 +2942,7 @@ MonoBehaviour:
   SPattack: {fileID: 1308733567}
   sound1: {fileID: 8300000, guid: 1dda5c6dd39dee143affd8ae39b2d5a1, type: 3}
   sound2: {fileID: 8300000, guid: 594ce56727291f847a3418e43fb8eebf, type: 3}
+  shake: {fileID: 1883308660}
 --- !u!82 &1165522342
 AudioSource:
   m_ObjectHideFlags: 0

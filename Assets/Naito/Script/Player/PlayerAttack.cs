@@ -38,7 +38,7 @@ public class PlayerAttack : MonoBehaviour
         {
             hit.AddHit();
             // —h‚ê‚é
-            shake.PlayShake();
+            shake.PlayShake(3, 1);
             Time.timeScale = 0.1f;
             Invoke("StopRelieve", 0.03f);
         }

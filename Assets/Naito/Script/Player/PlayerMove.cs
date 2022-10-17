@@ -40,6 +40,12 @@ public class PlayerMove : MonoBehaviour
     //SE出す用
     AudioSource audioSource;
     [SerializeField] private AudioClip sound1;
+    //色々揺らす用
+    [SerializeField] private Shake shake;
+    //攻撃中、余計な動作をしない用
+    private bool NotMove = false;
+    //攻撃が終わったと判断する用
+    private float AttackCnt;
 
 
     private void Start()
@@ -60,7 +66,7 @@ public class PlayerMove : MonoBehaviour
             //上の式で0と1が交互に来るので、それを透明度に入れて反転させている
             sp.color = new Color(1.0f, 1.0f, 1.0f, level);
         }
-        if (BoolTrap == false)
+        if (BoolTrap == false && NotMove == false)
         {
             rbody2D.isKinematic = false;
             x_val = Input.GetAxis("Horizontal");
@@ -96,20 +102,23 @@ public class PlayerMove : MonoBehaviour
                 Input.GetKeyDown("joystick button 2") || Input.GetKeyDown("joystick button 3")) && this.jumpCount < 1))
             {
                 this.rbody2D.AddForce(transform.up * power);
+                anim.SetBool("JumpFlag", true);
                 jumpCount++;
+                Invoke("JumpFlagReset", 0.1f);
             }
             //攻撃
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
             {
                 anim.SetBool("AttackFlag", true);
-                Invoke("StartAttack", 0.3f);
+                NotMove = true;
+                Invoke("StartAttack", 0.45f);
             }
             //プレイヤーの移動制限
             //transform.position = new Vector2(Mathf.Clamp(
             //    transform.position.x, -moveableRange, moveableRange),
             //    transform.position.y);
         }
-        else
+        else if(BoolTrap == true && NotMove == false)
         {
             //rbody2D.velocity = Vector3.zero;
             //rbody2D.isKinematic = true;
@@ -123,6 +132,19 @@ public class PlayerMove : MonoBehaviour
                 BoolTrap = false;
             }
         }
+        else if((BoolTrap == false && NotMove == true)|| (BoolTrap == true && NotMove == true))
+        {
+            AttackCnt += Time.deltaTime;
+            if(AttackCnt > 0.5f)
+            {
+                NotMove = false;
+                AttackCnt = 0.0f;
+            }
+        }
+        if(transform.position.y < 0)
+        {
+            anim.SetBool("LandingFlag", true);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -130,6 +152,7 @@ public class PlayerMove : MonoBehaviour
         if(other.gameObject.CompareTag("Floor"))
         {
             jumpCount = 0;
+            anim.SetBool("LandingFlag", false);
         }
 
         if (other.gameObject.CompareTag("EnemyBullet"))
@@ -151,6 +174,7 @@ public class PlayerMove : MonoBehaviour
         life.LossLife();
         CollisionFlag = true;
         audioSource.PlayOneShot(sound1);
+        shake.PlayShake(0, 0);
         //ダメージ判定が終わった後、3秒後に無敵を解除する
         Invoke("InvincibleEnd", 3.0f);
     }
@@ -165,6 +189,11 @@ public class PlayerMove : MonoBehaviour
     {
         AttackArea.AttackAreaCreate();
         anim.SetBool("AttackFlag", false);
+    }
+
+    void JumpFlagReset()
+    {
+        anim.SetBool("JumpFlag", false);
     }
 
 }
