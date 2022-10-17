@@ -8,6 +8,9 @@ public class HitUI : MonoBehaviour
     [SerializeField] private GameObject no;
     [SerializeField] private GameObject text;
     [SerializeField] private GameObject back;
+
+    [SerializeField] private Transform target;
+    [SerializeField] private Camera cam;
     private HitUINum num;
     [SerializeField] private float ResetTime;
     private float timer = 0.0f;
@@ -25,6 +28,8 @@ public class HitUI : MonoBehaviour
 
     private void FixedUpdate()
     {
+        UpdateScreenPos();
+
         if(hit > 0)
         {
             ++timer;
@@ -79,5 +84,12 @@ public class HitUI : MonoBehaviour
     public void FinFade()
     {
         finFade = true;
+    }
+
+    private void UpdateScreenPos()
+    {
+        var targetWorldPos = target.position;
+        var targetScreenPos = cam.WorldToScreenPoint(targetWorldPos);
+        transform.position = targetScreenPos;
     }
 }
