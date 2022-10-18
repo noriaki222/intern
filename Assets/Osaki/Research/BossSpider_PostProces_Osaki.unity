@@ -620,6 +620,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 243066411629777305, guid: 37bb5fad85ac3c040ac87b06c8cfb552, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 243066411688786429, guid: 37bb5fad85ac3c040ac87b06c8cfb552, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 243066412293520476, guid: 37bb5fad85ac3c040ac87b06c8cfb552, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 243066413335768188, guid: 37bb5fad85ac3c040ac87b06c8cfb552, type: 3}
       propertyPath: m_Name
       value: BackGround
@@ -682,6 +694,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 243066413335768191, guid: 37bb5fad85ac3c040ac87b06c8cfb552, type: 3}
       propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6953541273982534666, guid: 37bb5fad85ac3c040ac87b06c8cfb552, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
