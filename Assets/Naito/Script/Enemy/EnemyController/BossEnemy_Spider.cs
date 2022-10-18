@@ -12,6 +12,8 @@ public class BossEnemy_Spider : MonoBehaviour
     [SerializeField] private GameObject SnipingBullet;
     //罠弾のプレハブ入れる用
     [SerializeField] private GameObject TrapBullet;
+    //火山のプレハブ入れる用
+    [SerializeField] private GameObject Volcano;
 
     //通常弾の出現場所を格納する用
     [SerializeField] private Transform BulletPoint;
@@ -27,11 +29,13 @@ public class BossEnemy_Spider : MonoBehaviour
     private float HomingBulletcnt;
     private float SnipingBulletcnt;
     private float TrapBulletcnt;
+    private float Volcanocnt;
     //各弾が一回出るのにかかる時間
     [SerializeField] private float BulletTiming = 3.0f;
     [SerializeField] private float HomingBulletTiming = 3.0f;
     [SerializeField] private float SnipingBulletTiming = 3.0f;
     [SerializeField] private float TrapBulletTiming = 3.0f;
+    [SerializeField] private float VolcanoTiming = 3.0f;
     //各弾が出るか出ないかの確率
     private int BulletRnd;
     //狙撃対象（Player）の座標を入れる用
@@ -58,6 +62,8 @@ public class BossEnemy_Spider : MonoBehaviour
     AudioSource audioSource;
     [SerializeField] private AudioClip sound1;
     [SerializeField] private AudioClip sound2;
+    //色々揺らす用
+    [SerializeField] private Shake shake;
 
     void Start()
     {
@@ -85,6 +91,8 @@ public class BossEnemy_Spider : MonoBehaviour
             //通常弾
             if(Bulletcnt>BulletTiming)
             {
+                //↓これは試しで火山出したやつ。使いたかったらここから
+                //Instantiate(Volcano, new Vector3(PlayerPos.transform.position.x, PlayerPos.transform.position.y - 2.0f), Quaternion.identity);
                 Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
                 audioSource.PlayOneShot(sound1);
                 Bulletcnt = 0;
@@ -167,7 +175,7 @@ public class BossEnemy_Spider : MonoBehaviour
                 {
                     Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
                     audioSource.PlayOneShot(sound1);
-                    Invoke("FirstBullet", 0.5f);
+                    Invoke("FirstBullet", 0.7f);
                 }
                 Bulletcnt = 0;
             }
@@ -265,6 +273,7 @@ public class BossEnemy_Spider : MonoBehaviour
             audioSource.PlayOneShot(sound2);
             //ダメージ判定が終わった後、3秒後に無敵を解除する
             Invoke("InvincibleEnd", 3.0f);
+            shake.PlayShake(2, 0);
         }
     }
     void InvincibleEnd()
@@ -287,7 +296,7 @@ public class BossEnemy_Spider : MonoBehaviour
     {
         Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
         audioSource.PlayOneShot(sound1);
-        Invoke("LastBullet", 0.5f);
+        Invoke("LastBullet", 0.7f);
     }
 
     private void LastBullet()

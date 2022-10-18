@@ -19,6 +19,9 @@ public class DBulletControl : MonoBehaviour
     AudioSource audioSource;
     [SerializeField] private AudioClip sound1;
 
+    //攻撃エフェクト用
+    [SerializeField] private GameObject Parry;
+
     //コンボ加算用
     //[SerializeField] private HitUI hit;
 
@@ -86,6 +89,7 @@ public class DBulletControl : MonoBehaviour
             BulletRefection = true;
             this.gameObject.tag = "PlayerBullet";
             audioSource.PlayOneShot(sound1);
+            Instantiate(Parry, this.transform.position, Quaternion.identity);
             //hit.AddHit();
         }
     }
