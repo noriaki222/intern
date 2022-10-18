@@ -46,6 +46,9 @@ public class PlayerMove : MonoBehaviour
     private bool NotMove = false;
     //攻撃が終わったと判断する用
     private float AttackCnt;
+    //攻撃エフェクト用
+    [SerializeField] private GameObject Slash;
+    [SerializeField] private Transform SlashPoint;
 
 
     private void Start()
@@ -111,6 +114,7 @@ public class PlayerMove : MonoBehaviour
             {
                 anim.SetBool("AttackFlag", true);
                 NotMove = true;
+                Invoke("StartEffect", 0.3f);
                 Invoke("StartAttack", 0.45f);
             }
             //プレイヤーの移動制限
@@ -194,6 +198,11 @@ public class PlayerMove : MonoBehaviour
     void JumpFlagReset()
     {
         anim.SetBool("JumpFlag", false);
+    }
+
+    void StartEffect()
+    {
+        Instantiate(Slash, SlashPoint.position, Quaternion.identity);
     }
 
 }
