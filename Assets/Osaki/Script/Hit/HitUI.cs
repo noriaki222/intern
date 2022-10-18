@@ -90,6 +90,13 @@ public class HitUI : MonoBehaviour
     {
         var targetWorldPos = target.position;
         var targetScreenPos = cam.WorldToScreenPoint(targetWorldPos);
-        transform.position = targetScreenPos;
+        if (targetScreenPos.x < 510 && targetScreenPos.y > 900.0f)
+        {
+            transform.position = new Vector3(targetScreenPos.x, 900.0f, transform.position.z);
+        }
+        else
+        {
+            transform.position = targetScreenPos;
+        }
     }
 }
