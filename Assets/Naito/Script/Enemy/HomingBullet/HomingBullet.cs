@@ -33,6 +33,8 @@ public class HomingBullet : MonoBehaviour
     //SE出す用
     AudioSource audioSource;
     [SerializeField] private AudioClip sound1;
+    //攻撃エフェクト用
+    [SerializeField] private GameObject Parry;
 
     private void Start()
     {
@@ -102,6 +104,7 @@ public class HomingBullet : MonoBehaviour
             BulletRefection = true;
             this.gameObject.tag = "PlayerBullet";
             audioSource.PlayOneShot(sound1);
+            Instantiate(Parry, this.transform.position, Quaternion.identity);
         }
     }
 

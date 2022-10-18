@@ -6,6 +6,8 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private HitUI hit;
     [SerializeField] private Shake shake;
+    //攻撃エフェクト用
+    [SerializeField] private GameObject Slash;
     private bool HitFlag = false;
     // Start is called before the first frame update
     void Start()
@@ -23,7 +25,8 @@ public class PlayerAttack : MonoBehaviour
     public void AttackAreaCreate()
     {
         gameObject.SetActive(true);
-        Invoke("AttackAreaDereta", 0.1f);
+        //Instantiate(Slash, this.transform.position, Quaternion.identity);
+        Invoke("AttackAreaDereta", 0.3f);
     }
 
     void AttackAreaDereta()

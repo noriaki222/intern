@@ -16,6 +16,8 @@ public class SPBullet : MonoBehaviour
     [SerializeField] private BossEnemy_Spider Boss;
     //敵に与えるダメージ量
     [SerializeField] private float Damage = 30.0f;
+    //攻撃エフェクト用
+    [SerializeField] private GameObject Parry;
 
     private void Start()
     {
@@ -43,6 +45,7 @@ public class SPBullet : MonoBehaviour
             this.gameObject.tag = "PlayerBullet";
             this.gameObject.layer =6;
             audioSource.PlayOneShot(sound1);
+            Instantiate(Parry, this.transform.position, Quaternion.identity);
             //hit.AddHit();
         }
     }
@@ -63,6 +66,7 @@ public class SPBullet : MonoBehaviour
             //this.gameObject.tag = "EnemyBullet";
             this.gameObject.layer = 8;
             rb.velocity = Vector2.zero;
+
         }
     }
 
