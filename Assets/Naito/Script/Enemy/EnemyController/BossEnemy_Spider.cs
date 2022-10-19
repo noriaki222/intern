@@ -64,6 +64,10 @@ public class BossEnemy_Spider : MonoBehaviour
     [SerializeField] private AudioClip sound2;
     //色々揺らす用
     [SerializeField] private Shake shake;
+    //クリア演出用TimeLine
+    [SerializeField] private TimelinePlayer ClearLine;
+    //クリア演出は一度だけ
+    private bool ClearFlag = false;
 
     void Start()
     {
@@ -235,6 +239,14 @@ public class BossEnemy_Spider : MonoBehaviour
                     SPattack.StartAttack();
                     SPFlag3 = true;
                 }
+            }
+        }
+        if(NowHP <= 0)
+        {
+            if (ClearFlag == false)
+            {
+                ClearLine.PlayTimeline();
+                ClearFlag = true;
             }
         }
     }
