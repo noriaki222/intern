@@ -17,7 +17,7 @@ public class CameraControl : MonoBehaviour
     {
         if (ZoomFlag) //Iキーが押されていれば
         {
-            cam.orthographicSize = cam.orthographicSize - 0.015f; //ズームイン。
+            cam.orthographicSize = cam.orthographicSize - 0.02f; //ズームイン。
         }
     }
 }
