@@ -5,7 +5,7 @@ using UnityEngine;
 public class Volcano : MonoBehaviour
 {
     //プレイヤー入れる用
-    [SerializeField] private GameObject Player;
+    private GameObject Player;
     //噴火を止めるかどうかのフラグ
     private bool StartFlag = false;
     //火柱オブジェクト
@@ -20,10 +20,14 @@ public class Volcano : MonoBehaviour
     [SerializeField] private float PillarFireTiming = 0.1f;
     //出現カウント用
     private float PillarFirecnt;
+    //火柱エフェクト用
+    [SerializeField] private GameObject Effact;
     // Start is called before the first frame update
     void Start()
     {
         Invoke("VolcanoStart", 2.0f);
+        Invoke("VolcanoEnd", 8.0f);
+        Player = GameObject.Find("player");
     }
 
     // Update is called once per frame
@@ -46,6 +50,7 @@ public class Volcano : MonoBehaviour
                 if(VolcanoCnt>VolcanoTiming)
                 {
                     PillarFireFlag = true;
+                    Instantiate(Effact, transform.position, Quaternion.identity);
                 }
             }
         }
@@ -63,5 +68,10 @@ public class Volcano : MonoBehaviour
     void VolcanoStart()
     {
         StartFlag = true;
+    }
+
+    void VolcanoEnd()
+    {
+        this.gameObject.SetActive(false);
     }
 }
