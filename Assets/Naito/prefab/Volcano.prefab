@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fe34bf55e5eccb4b8c5b0eaa3a12e6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  PillarFire: {fileID: 0}
+  PillarFire: {fileID: 6049314643935469826, guid: 20629ff2e48a38e428de2eace04009bc, type: 3}
+  VolcanoTiming: 1
   PillarFireTiming: 1
+  Effact: {fileID: 237223638122911573, guid: 3672739ef067681438cb1a71c6b02526, type: 3}

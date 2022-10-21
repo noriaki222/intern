@@ -20,6 +20,8 @@ public class BulletControl : MonoBehaviour
     //UŒ‚ƒGƒtƒFƒNƒg—p
     [SerializeField] private GameObject Parry;
 
+    private bool ChargeFlag = true;
+
     //ƒRƒ“ƒ{‰ÁZ—p
     //[SerializeField] private HitUI hit;
 
@@ -28,6 +30,7 @@ public class BulletControl : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        Invoke("ChargeEnd", 0.3f);
     }
 
     // Update is called once per frame
@@ -39,27 +42,34 @@ public class BulletControl : MonoBehaviour
 
     public void Move()
     {
-        if (BulletRefection == false)
+        if (ChargeFlag)
         {
-            Vector3 lazerPos = transform.position; //Vector3Œ^‚ÌplayerPos‚ÉŒ»İ‚ÌˆÊ’uî•ñ‚ğŠi”[
-            lazerPos.x -= speed * Time.deltaTime; //xÀ•W‚Éspeed‚ğ‰ÁZ
-            transform.position = lazerPos; //Œ»İ‚ÌˆÊ’uî•ñ‚É”½‰f‚³‚¹‚é
+
         }
         else
-        {
-            if (this.transform.position.x > Player.transform.position.x)
+        { 
+            if (BulletRefection == false)
             {
                 Vector3 lazerPos = transform.position; //Vector3Œ^‚ÌplayerPos‚ÉŒ»İ‚ÌˆÊ’uî•ñ‚ğŠi”[
-                lazerPos.x += Reflectionspeed * Time.deltaTime; //xÀ•W‚Éspeed‚ğ‰ÁZ
+                lazerPos.x -= speed * Time.deltaTime; //xÀ•W‚Éspeed‚ğ‰ÁZ
                 transform.position = lazerPos; //Œ»İ‚ÌˆÊ’uî•ñ‚É”½‰f‚³‚¹‚é
-                transform.localScale = new Vector3(-0.5f, 0.5f, 1);
             }
             else
             {
-                Vector3 lazerPos = transform.position; //Vector3Œ^‚ÌplayerPos‚ÉŒ»İ‚ÌˆÊ’uî•ñ‚ğŠi”[
-                lazerPos.x -= Reflectionspeed * Time.deltaTime; //xÀ•W‚Éspeed‚ğ‰ÁZ
-                transform.position = lazerPos; //Œ»İ‚ÌˆÊ’uî•ñ‚É”½‰f‚³‚¹‚é
-                transform.localScale = new Vector3(0.5f, 0.5f, 1);
+                if (this.transform.position.x > Player.transform.position.x)
+                {
+                    Vector3 lazerPos = transform.position; //Vector3Œ^‚ÌplayerPos‚ÉŒ»İ‚ÌˆÊ’uî•ñ‚ğŠi”[
+                    lazerPos.x += Reflectionspeed * Time.deltaTime; //xÀ•W‚Éspeed‚ğ‰ÁZ
+                    transform.position = lazerPos; //Œ»İ‚ÌˆÊ’uî•ñ‚É”½‰f‚³‚¹‚é
+                    transform.localScale = new Vector3(-0.5f, 0.5f, 1);
+                }
+                else
+                {
+                    Vector3 lazerPos = transform.position; //Vector3Œ^‚ÌplayerPos‚ÉŒ»İ‚ÌˆÊ’uî•ñ‚ğŠi”[
+                    lazerPos.x -= Reflectionspeed * Time.deltaTime; //xÀ•W‚Éspeed‚ğ‰ÁZ
+                    transform.position = lazerPos; //Œ»İ‚ÌˆÊ’uî•ñ‚É”½‰f‚³‚¹‚é
+                    transform.localScale = new Vector3(0.5f, 0.5f, 1);
+                }
             }
         }
     }
@@ -91,5 +101,10 @@ public class BulletControl : MonoBehaviour
             Instantiate(Parry, this.transform.position, Quaternion.identity);
             //hit.AddHit();
         }
+    }
+
+    private void ChargeEnd()
+    {
+        ChargeFlag = false;
     }
 }

@@ -58,15 +58,26 @@ public class BossEnemy_Spider : MonoBehaviour
     private bool SPFlag2 = false;
     private bool SPFlag3 = false;
 
+    //火柱フラグ（1回しか打たないようにするため）
+    private bool VolcanoFlag1 = false;
+    private bool VolcanoFlag2 = false;
+
     //SE出す用
     AudioSource audioSource;
     [SerializeField] private AudioClip sound1;
     [SerializeField] private AudioClip sound2;
     //色々揺らす用
     [SerializeField] private Shake shake;
+    //クリア演出用TimeLine
+    [SerializeField] private TimelinePlayer ClearLine;
+    //クリア演出は一度だけ
+    private bool ClearFlag = false;
+    //アニメーションのインスタンスを受け取る用
+    private Animator anim;
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -93,8 +104,10 @@ public class BossEnemy_Spider : MonoBehaviour
             {
                 //↓これは試しで火山出したやつ。使いたかったらここから
                 //Instantiate(Volcano, new Vector3(PlayerPos.transform.position.x, PlayerPos.transform.position.y - 2.0f), Quaternion.identity);
+                anim.SetBool("BulletFlag", true);
                 Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
                 audioSource.PlayOneShot(sound1);
+                Invoke("CreateBullet", 0.3f);
                 Bulletcnt = 0;
             }
             //追尾弾
@@ -120,6 +133,8 @@ public class BossEnemy_Spider : MonoBehaviour
             {
                 Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
                 audioSource.PlayOneShot(sound1);
+                anim.SetBool("BulletFlag", true);
+                Invoke("CreateBullet", 0.3f);
                 Bulletcnt = 0;
             }
             //追尾弾
@@ -155,6 +170,14 @@ public class BossEnemy_Spider : MonoBehaviour
                 }
                 TrapBulletcnt = 0;
             }
+            if (NowHP == 70.0f)
+            {
+                if (VolcanoFlag1 == false)
+                {
+                    Instantiate(Volcano, new Vector3(PlayerPos.transform.position.x, - 4f), Quaternion.identity);
+                    VolcanoFlag1 = true;
+                }
+            }
         }
         if(NowHP <= 50 && NowHP > 0)
         {
@@ -170,6 +193,8 @@ public class BossEnemy_Spider : MonoBehaviour
                 {
                     Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
                     audioSource.PlayOneShot(sound1);
+                    anim.SetBool("BulletFlag", true);
+                    Invoke("CreateBullet", 0.3f);
                 }
                 else if (BulletRnd == 2)
                 {
@@ -212,6 +237,7 @@ public class BossEnemy_Spider : MonoBehaviour
                 }
                 TrapBulletcnt = 0;
             }
+            anim.SetBool("PinchFlag", true);
             if (NowHP==50.0f)
             {
                 if(SPFlag1==false)
@@ -227,6 +253,11 @@ public class BossEnemy_Spider : MonoBehaviour
                     SPattack.StartAttack();
                     SPFlag2 = true;
                 }
+                if (VolcanoFlag2 == false)
+                {
+                    Instantiate(Volcano, new Vector3(PlayerPos.transform.position.x, -4f), Quaternion.identity);
+                    VolcanoFlag2 = true;
+                }
             }
             if (NowHP == 10.0f)
             {
@@ -235,6 +266,14 @@ public class BossEnemy_Spider : MonoBehaviour
                     SPattack.StartAttack();
                     SPFlag3 = true;
                 }
+            }
+        }
+        if(NowHP <= 0)
+        {
+            if (ClearFlag == false)
+            {
+                ClearLine.PlayTimeline();
+                ClearFlag = true;
             }
         }
     }
@@ -249,6 +288,10 @@ public class BossEnemy_Spider : MonoBehaviour
             }
 
         }
+    }
+    void CreateBullet()
+    {
+        anim.SetBool("BulletFlag", false);
     }
     //private void OnCollisionEnter2D(Collision2D collision)
     //{

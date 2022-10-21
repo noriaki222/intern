@@ -47,9 +47,12 @@ public class PlayerMove : MonoBehaviour
     //攻撃が終わったと判断する用
     private float AttackCnt;
     //攻撃エフェクト用
-    [SerializeField] private GameObject Slash;
-    [SerializeField] private Transform SlashPoint;
-
+    [SerializeField] private GameObject SlashGo;
+    [SerializeField] private GameObject SlashBack;
+    [SerializeField] private Transform SlashGoPoint;
+    [SerializeField] private Transform SlashBackPoint;
+    //前を向いているか判断するよう
+    private bool GoBackFlag = true;
 
     private void Start()
     {
@@ -78,6 +81,7 @@ public class PlayerMove : MonoBehaviour
             {
                 //右を向く
                 transform.localScale = new Vector3(0.1f, 0.1f, 1);
+                GoBackFlag = true;
                 //歩く
                 transform.Translate(Walkspeed * Time.deltaTime, 0, 0);
                 if (x_val >= 0.8f)
@@ -90,6 +94,7 @@ public class PlayerMove : MonoBehaviour
             {
                 //左を向く
                 transform.localScale = new Vector3(-0.1f, 0.1f, 1);
+                GoBackFlag = false;
                 //歩く
                 transform.Translate(-Walkspeed * Time.deltaTime, 0, 0);
                 if (x_val <= -0.8f)
@@ -97,6 +102,14 @@ public class PlayerMove : MonoBehaviour
                     //走る
                     transform.Translate(-Dashspeed * Time.deltaTime, 0, 0);
                 }
+            }
+            if(x_val != 0)
+            {
+                anim.SetBool("RunFlag", true);
+            }
+            else
+            {
+                anim.SetBool("RunFlag", false);
             }
             //横移動
             //transform.Translate(x_val * speed * Time.deltaTime, 0, 0);
@@ -202,7 +215,14 @@ public class PlayerMove : MonoBehaviour
 
     void StartEffect()
     {
-        Instantiate(Slash, SlashPoint.position, Quaternion.identity);
+        if (GoBackFlag)
+        {
+            Instantiate(SlashGo, SlashGoPoint.position, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(SlashBack, SlashBackPoint.position, Quaternion.identity);
+        }
     }
 
 }
