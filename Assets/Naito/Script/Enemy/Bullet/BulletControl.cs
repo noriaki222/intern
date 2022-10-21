@@ -27,10 +27,19 @@ public class BulletControl : MonoBehaviour
 
     bool BulletRefection = false;
 
+    private ParticleSystem ps;
+
     void Start()
     {
+        ps = GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
-        Invoke("ChargeEnd", 0.3f);
+        Invoke("ChargeEnd", 0.5f);
+        var fo = ps.forceOverLifetime;
+        fo.x = 0;
+        fo.xMultiplier = 0;
+        fo.y = 3;
+        fo.yMultiplier = 5;
+        Invoke("RotForce", 0.3f);
     }
 
     // Update is called once per frame
@@ -44,10 +53,10 @@ public class BulletControl : MonoBehaviour
     {
         if (ChargeFlag)
         {
-
+           
         }
         else
-        { 
+        {
             if (BulletRefection == false)
             {
                 Vector3 lazerPos = transform.position; //Vector3å^ÇÃplayerPosÇ…åªç›ÇÃà íuèÓïÒÇäiî[
@@ -106,5 +115,14 @@ public class BulletControl : MonoBehaviour
     private void ChargeEnd()
     {
         ChargeFlag = false;
+    }
+
+    private void RotForce()
+    {
+        var fo = ps.forceOverLifetime;
+        fo.x = 3;
+        fo.xMultiplier = 5;
+        fo.y = 0;
+        fo.yMultiplier = 0;
     }
 }
