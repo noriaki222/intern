@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 94212750194312952}
   - component: {fileID: -227968363193417954}
   - component: {fileID: 1143515229330190883}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: DiagonalBullet
   m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
@@ -150,6 +150,10 @@ MonoBehaviour:
   speed: 5
   Reflectionspeed: 10
   Player: {fileID: 0}
+  Damage: 10
+  Boss: {fileID: 0}
+  sound1: {fileID: 0}
+  Parry: {fileID: 0}
 --- !u!82 &1143515229330190883
 AudioSource:
   m_ObjectHideFlags: 0
