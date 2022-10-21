@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Gradient
-  m_Shader: {fileID: -6465566751694194690, guid: 49e667de7cc3b9f4d9676ff8cba388fb, type: 3}
+  m_Name: Shader Graphs_GradientV
+  m_Shader: {fileID: -6465566751694194690, guid: cb59e541f3ee9db4f83da0063aa365f5, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -39,8 +39,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _origin: -0.4
-    - _spread: 1.12
+    - _spread: 0.91
     m_Colors:
-    - _BottomColor: {r: 0.41877824, g: 0.3171235, b: 0.6415094, a: 0}
-    - _TopColor: {r: 0.99215686, g: 0.3119665, b: 0.19999997, a: 0}
+    - _BottomColor: {r: 0, g: 0, b: 0, a: 0}
+    - _TopColor: {r: 1, g: 0.409434, b: 0.409434, a: 0}
   m_BuildTextureStacks: []
