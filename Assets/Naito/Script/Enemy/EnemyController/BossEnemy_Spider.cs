@@ -175,6 +175,8 @@ public class BossEnemy_Spider : MonoBehaviour
                 if (VolcanoFlag1 == false)
                 {
                     Instantiate(Volcano, new Vector3(PlayerPos.transform.position.x, - 4f), Quaternion.identity);
+                    anim.SetBool("FireFlag", true);
+                    Invoke("VolcanoFlagfalse", 0.3f);
                     VolcanoFlag1 = true;
                 }
             }
@@ -221,8 +223,8 @@ public class BossEnemy_Spider : MonoBehaviour
                 BulletRnd = Random.Range(1, 3);
                 if (BulletRnd == 2)
                 {
-                    float Snipingrad = GetAim();
-                    Instantiate(SnipingBullet, SnipingPoint.position, Quaternion.AngleAxis(Snipingrad, Vector3.forward));
+                    anim.SetBool("TrapFlag", true);
+                    Invoke("CreateSnipingBullet", 0.3f);
                 }
                 SnipingBulletcnt = 0;
             }
@@ -232,8 +234,8 @@ public class BossEnemy_Spider : MonoBehaviour
                 BulletRnd = Random.Range(1, 4);
                 if (BulletRnd == 3)
                 {
-                    float Aimrad = Random.Range(180.0f, 270.0f);
-                    Instantiate(TrapBullet, TrapPoint.position, Quaternion.AngleAxis(Aimrad, Vector3.forward));
+                    anim.SetBool("TrapFlag", true);
+                    Invoke("CreateTrapBullet", 0.3f);
                 }
                 TrapBulletcnt = 0;
             }
@@ -242,20 +244,26 @@ public class BossEnemy_Spider : MonoBehaviour
             {
                 if(SPFlag1==false)
                 {
+                    anim.SetBool("SPAttackFlag", true);
                     SPattack.StartAttack();
                     SPFlag1 = true;
+                    Invoke("SPAttackFlagfalse", 0.2f);
                 }
             }
             if (NowHP == 30.0f)
             {
                 if (SPFlag2 == false)
                 {
+                    anim.SetBool("SPAttackFlag", true);
                     SPattack.StartAttack();
                     SPFlag2 = true;
+                    Invoke("SPAttackFlagfalse", 0.2f);
                 }
                 if (VolcanoFlag2 == false)
                 {
                     Instantiate(Volcano, new Vector3(PlayerPos.transform.position.x, -4f), Quaternion.identity);
+                    anim.SetBool("FireFlag", true);
+                    Invoke("VolcanoFlagfalse", 0.3f);
                     VolcanoFlag2 = true;
                 }
             }
@@ -263,8 +271,10 @@ public class BossEnemy_Spider : MonoBehaviour
             {
                 if (SPFlag3 == false)
                 {
+                    anim.SetBool("SPAttackFlag", true);
                     SPattack.StartAttack();
                     SPFlag3 = true;
+                    Invoke("SPAttackFlagfalse", 0.2f);
                 }
             }
         }
@@ -292,6 +302,29 @@ public class BossEnemy_Spider : MonoBehaviour
     void CreateBullet()
     {
         anim.SetBool("BulletFlag", false);
+    }
+
+    void CreateSnipingBullet()
+    {
+        anim.SetBool("TrapFlag", false);
+        float Snipingrad = GetAim();
+        Instantiate(SnipingBullet, SnipingPoint.position, Quaternion.AngleAxis(Snipingrad, Vector3.forward));
+
+    }
+    void CreateTrapBullet()
+    {
+        float Aimrad = Random.Range(180.0f, 270.0f);
+        Instantiate(TrapBullet, TrapPoint.position, Quaternion.AngleAxis(Aimrad, Vector3.forward));
+        anim.SetBool("TrapFlag", false);
+    }
+    void SPAttackFlagfalse()
+    {
+        anim.SetBool("SPAttackFlag", false);
+    }
+
+    void VolcanoFlagfalse()
+    {
+        anim.SetBool("FireFlag", false);
     }
     //private void OnCollisionEnter2D(Collision2D collision)
     //{

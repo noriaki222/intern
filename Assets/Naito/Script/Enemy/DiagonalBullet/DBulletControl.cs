@@ -88,6 +88,7 @@ public class DBulletControl : MonoBehaviour
         {
             BulletRefection = true;
             this.gameObject.tag = "PlayerBullet";
+            this.gameObject.layer = 6;
             audioSource.PlayOneShot(sound1);
             Instantiate(Parry, this.transform.position, Quaternion.identity);
             //hit.AddHit();
