@@ -23,8 +23,8 @@ public class GaussianBlur : MonoBehaviour
     private const int BLUR_MIN = 1;
     private const int BLUR_MAX = 30;
 
+    [SerializeField] private RenderTexture _cameraTexture = null;
     [SerializeField] private RawImage _rawImage;
-    [SerializeField] private Material _material1;
     [SerializeField] private Material _material2;
     [SerializeField] private Material _material3;
 
@@ -38,7 +38,6 @@ public class GaussianBlur : MonoBehaviour
     [SerializeField, Range(BLUR_MIN, BLUR_MAX)] uint _blurStrength = 1;
 
     // 中間バッファー
-    private RenderTexture _rt1;
     private RenderTexture _rt2;
     private RenderTexture _rt3;
     private RenderTexture _rt4;
@@ -81,7 +80,6 @@ public class GaussianBlur : MonoBehaviour
 
     public void OnDestroy()
     {
-        if (_rt1) RenderTexture.ReleaseTemporary(_rt1);
         if (_rt2) RenderTexture.ReleaseTemporary(_rt2);
         if (_rt3) RenderTexture.ReleaseTemporary(_rt3);
         if (_rt4) RenderTexture.ReleaseTemporary(_rt4);
@@ -106,14 +104,12 @@ public class GaussianBlur : MonoBehaviour
         if (currentRect.width != _previousRect.width ||
             currentRect.height != _previousRect.height)
         {
-            if (_rt1) RenderTexture.ReleaseTemporary(_rt1);
             if (_rt2) RenderTexture.ReleaseTemporary(_rt2);
             if (_rt3) RenderTexture.ReleaseTemporary(_rt3);
             if (_rt4) RenderTexture.ReleaseTemporary(_rt4);
 
             float w = Screen.width;
             float h = Screen.height;
-            _rt1 = RenderTexture.GetTemporary((int)w, (int)h);
             _rt2 = RenderTexture.GetTemporary(
                 (int)currentRect.width, (int)currentRect.height);
             _rt3 = RenderTexture.GetTemporary(
@@ -144,11 +140,11 @@ public class GaussianBlur : MonoBehaviour
         SetupRenderTexture(ref r);
 
         // 画面を写し取る
-        Graphics.Blit(null, _rt1, _material1);
+        //Graphics.Blit(_cameratexture, _rt1, _material1);
 
         // RawImage と同じ位置とサイズを切り抜く
         Graphics.CopyTexture(
-            _rt1, 0, 0, (int)r.x, (int)r.y, (int)r.width, (int)r.height, _rt2, 0, 0, 0, 0);
+            _cameraTexture, 0, 0, (int)r.x, (int)r.y, (int)r.width, (int)r.height, _rt2, 0, 0, 0, 0);
 
         Graphics.Blit(_rt3, _rt4, _material3); // 縦方向
         Graphics.Blit(_rt2, _rt3, _material2); // 横方向
