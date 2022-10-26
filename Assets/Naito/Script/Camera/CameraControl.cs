@@ -7,6 +7,7 @@ public class CameraControl : MonoBehaviour
     private Camera cam; //Main CameraのCamera
     private Vector3 CameraPos;
     [SerializeField] private bool ZoomFlag = false;
+    [SerializeField] private bool ZoomOutFlag = false;
 
     void Start()
     {
@@ -18,6 +19,10 @@ public class CameraControl : MonoBehaviour
         if (ZoomFlag) //Iキーが押されていれば
         {
             cam.orthographicSize = cam.orthographicSize - 0.02f; //ズームイン。
+        }
+        if(ZoomOutFlag)
+        {
+            cam.orthographicSize = cam.orthographicSize + 0.02f;
         }
     }
 }
