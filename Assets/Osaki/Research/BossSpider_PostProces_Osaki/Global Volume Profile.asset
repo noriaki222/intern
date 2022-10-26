@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
   m_Name: Tonemapping
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   mode:
     m_OverrideState: 1
     m_Value: 1
@@ -31,13 +31,13 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {r: 0.35276148, g: 0.3187611, b: 0.41509432, a: 1}
+    m_Value: {r: 0.3733713, g: 0.3892631, b: 0.4528302, a: 1}
   highlights:
     m_OverrideState: 1
-    m_Value: {r: 0.5660378, g: 0.5468681, b: 0.39195445, a: 1}
+    m_Value: {r: 0.5647059, g: 0.5525823, b: 0.39215687, a: 1}
   balance:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: 5
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,20 +71,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   postExposure:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 0.3
   contrast:
     m_OverrideState: 1
-    m_Value: 20
+    m_Value: 23
   colorFilter:
-    m_OverrideState: 0
-    m_Value: {r: 0.9528302, g: 0.73134756, b: 0.641812, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 0.87568533, g: 0.9245283, b: 0.8892249, a: 1}
   hueShift:
-    m_OverrideState: 0
-    m_Value: -16
+    m_OverrideState: 1
+    m_Value: 2
   saturation:
     m_OverrideState: 1
-    m_Value: 14
+    m_Value: 0
 --- !u!114 &4665784702992967605
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -100,13 +100,13 @@ MonoBehaviour:
   active: 1
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.5754717, g: 0.045603376, b: 0.045603376, a: 1}
+    m_Value: {r: 0.5568628, g: 0.12156861, b: 0.45637938, a: 1}
   center:
     m_OverrideState: 0
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.384
+    m_Value: 0.446
   smoothness:
     m_OverrideState: 0
     m_Value: 0.2
@@ -128,19 +128,19 @@ MonoBehaviour:
   active: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.8
   intensity:
     m_OverrideState: 1
-    m_Value: 0.98
+    m_Value: 0
   scatter:
     m_OverrideState: 1
-    m_Value: 0.007
+    m_Value: 0.45
   clamp:
     m_OverrideState: 1
     m_Value: 65472
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.3773585, g: 0.044273257, b: 0.022783887, a: 1}
+    m_Value: {r: 0.6039216, g: 0.4080691, b: 0.16862744, a: 1}
   highQualityFiltering:
     m_OverrideState: 1
     m_Value: 1
