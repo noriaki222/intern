@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -814617411774223275}
   - component: {fileID: -1055429537279036668}
   - component: {fileID: 3304291646717559727}
+  - component: {fileID: -8597463902882387926}
   m_Layer: 8
   m_Name: SmallSpider
   m_TagString: EnemyBullet
@@ -122,6 +123,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
+  sound1: {fileID: 0}
+  Boss: {fileID: 0}
+  Damage: 30
+  Parry: {fileID: 0}
 --- !u!58 &-1055429537279036668
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -234,3 +239,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &-8597463902882387926
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8953937866584891479}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 81b7d2fd961983b42ad7aa50564e322e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
