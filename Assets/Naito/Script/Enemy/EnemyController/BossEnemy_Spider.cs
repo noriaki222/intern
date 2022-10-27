@@ -202,7 +202,9 @@ public class BossEnemy_Spider : MonoBehaviour
                 {
                     Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
                     audioSource.PlayOneShot(sound1);
+                    anim.SetBool("TripleFlag", true);
                     Invoke("FirstBullet", 0.7f);
+                    Invoke("CreateTripleBullet", 0.3f);
                 }
                 Bulletcnt = 0;
             }
@@ -302,6 +304,11 @@ public class BossEnemy_Spider : MonoBehaviour
     void CreateBullet()
     {
         anim.SetBool("BulletFlag", false);
+    }
+
+    void CreateTripleBullet()
+    {
+        anim.SetBool("TripleFlag", false);
     }
 
     void CreateSnipingBullet()

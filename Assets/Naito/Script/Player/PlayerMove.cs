@@ -51,6 +51,12 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private GameObject SlashBack;
     [SerializeField] private Transform SlashGoPoint;
     [SerializeField] private Transform SlashBackPoint;
+    //歩き、走りエフェクト用
+    [SerializeField] private GameObject Walk;
+    [SerializeField] private GameObject Jump;
+    [SerializeField] private Transform WalkPoint;
+    private float WalkCnt;
+    private bool WalkFlag;
     //前を向いているか判断するよう
     private bool GoBackFlag = true;
 
@@ -118,6 +124,16 @@ public class PlayerMove : MonoBehaviour
             {
                 anim.SetBool("WalkFlag", false);
             }
+
+            if (x_val != 0 && WalkFlag)
+            {
+                WalkCnt += Time.deltaTime;
+                if (WalkCnt > 0.2f)
+                {
+                    Instantiate(Walk, WalkPoint.position, Quaternion.identity);
+                    WalkCnt = 0;
+                }
+            }
             //if(x_val != 0 && (x_val < 0.8f && x_val > -0.8f))
             //{
             //    anim.SetBool("WalkFlag", true);
@@ -135,7 +151,10 @@ public class PlayerMove : MonoBehaviour
                 this.rbody2D.AddForce(transform.up * power);
                 anim.SetBool("JumpFlag", true);
                 jumpCount++;
+                Instantiate(Jump, WalkPoint.position, Quaternion.identity);
                 Invoke("JumpFlagReset", 0.1f);
+                WalkFlag = false;
+                WalkCnt = 0;
             }
             //攻撃
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
@@ -186,6 +205,7 @@ public class PlayerMove : MonoBehaviour
         {
             jumpCount = 0;
             anim.SetBool("LandingFlag", false);
+            WalkFlag = true;
         }
 
         if (other.gameObject.CompareTag("EnemyBullet"))
