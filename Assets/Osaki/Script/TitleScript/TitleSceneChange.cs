@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class TitleSceneChange : MonoBehaviour
 {
     [SerializeField] private Animator anim;
+    [SerializeField] private GetTitleAnimState fin;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,10 +16,12 @@ public class TitleSceneChange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
+        if(Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Fire2"))
         {
             anim.Play("title", 0 ,0);
-            //SceneManager.LoadScene("MainScene");
         }
+
+        if (fin.GetFin())
+            SceneManager.LoadScene("BossSpider_Light_Naito");
     }
 }
