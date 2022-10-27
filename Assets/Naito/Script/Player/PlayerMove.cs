@@ -74,6 +74,7 @@ public class PlayerMove : MonoBehaviour
         }
         if (BoolTrap == false && NotMove == false)
         {
+            anim.SetBool("ItoFlag", false);
             rbody2D.isKinematic = false;
             x_val = Input.GetAxis("Horizontal");
             Debug.Log(x_val);
@@ -103,14 +104,28 @@ public class PlayerMove : MonoBehaviour
                     transform.Translate(-Dashspeed * Time.deltaTime, 0, 0);
                 }
             }
-            if(x_val != 0)
+
+            if(Mathf.Abs(x_val) < 0.8f && x_val != 0)
+            {
+                anim.SetBool("WalkFlag", true);
+                anim.SetBool("RunFlag", false);
+            }
+            else if(Mathf.Abs(x_val) >= 0.8f && x_val != 0)
             {
                 anim.SetBool("RunFlag", true);
             }
-            else
+            else if(x_val == 0)
             {
-                anim.SetBool("RunFlag", false);
+                anim.SetBool("WalkFlag", false);
             }
+            //if(x_val != 0 && (x_val < 0.8f && x_val > -0.8f))
+            //{
+            //    anim.SetBool("WalkFlag", true);
+            //}
+            //else
+            //{
+            //    anim.SetBool("WalkFlag", false);
+            //}
             //‰¡ˆÚ“®
             //transform.Translate(x_val * speed * Time.deltaTime, 0, 0);
             //ƒWƒƒƒ“ƒv
@@ -137,9 +152,10 @@ public class PlayerMove : MonoBehaviour
         }
         else if(BoolTrap == true && NotMove == false)
         {
+            anim.SetBool("ItoFlag", true);
             //rbody2D.velocity = Vector3.zero;
             //rbody2D.isKinematic = true;
-            if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0") || Input.GetKeyDown("joystick button 1") ||
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0") || Input.GetKeyDown("joystick button 1") ||
                 Input.GetKeyDown("joystick button 2") || Input.GetKeyDown("joystick button 3") || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
             {
                 Trapcnt++;
