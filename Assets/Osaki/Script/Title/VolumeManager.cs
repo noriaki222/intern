@@ -21,7 +21,7 @@ public class VolumeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bloom.intensity.value = ((Mathf.Sin(timer) + 1) / 2) * max;
+        bloom.intensity.value = (Mathf.Sin(timer) + 1) / 2 * max;
         timer += speed;
     }
 }

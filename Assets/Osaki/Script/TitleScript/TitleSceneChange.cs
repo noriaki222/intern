@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class TitleSceneChange : MonoBehaviour
 {
+    [SerializeField] private Animator anim;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +17,8 @@ public class TitleSceneChange : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Return))
         {
-            SceneManager.LoadScene("MainScene");
+            anim.Play("title", 0 ,0);
+            //SceneManager.LoadScene("MainScene");
         }
     }
 }
