@@ -16,7 +16,7 @@ public class TitleSceneChange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Fire2"))
+        if(Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("B"))
         {
             anim.Play("title", 0 ,0);
         }
