@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class renda : MonoBehaviour
+public class akkimessatu : MonoBehaviour
 {
-    [SerializeField] private Shake shake;
+    //[SerializeField] private Shake shake;
     private float Shakefloat = 0.0f;
     private Vector3 RendaPos;
     private Vector3 target;
@@ -12,6 +12,7 @@ public class renda : MonoBehaviour
     void Start()
     {
         target = this.gameObject.transform.position;
+        Shakefloat = 0.2f;
     }
 
     // Update is called once per frame
@@ -27,11 +28,11 @@ public class renda : MonoBehaviour
 
         this.gameObject.transform.position = RendaPos;
 
-        if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
-        {
-            Shakefloat = 0.3f;
-            // —h‚ê‚é
-            shake.PlayShake(4, 1);
-        }
+        //if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
+        //{
+        //    Shakefloat = 0.3f;
+        //    // —h‚ê‚é
+        //    shake.PlayShake(4, 1);
+        //}
     }
 }

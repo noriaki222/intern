@@ -51,8 +51,20 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private GameObject SlashBack;
     [SerializeField] private Transform SlashGoPoint;
     [SerializeField] private Transform SlashBackPoint;
+    //歩き、走りエフェクト用
+    [SerializeField] private GameObject Walk;
+    [SerializeField] private GameObject Jump;
+    [SerializeField] private Transform WalkPoint;
+    private float WalkCnt;
+    private bool WalkFlag;
     //前を向いているか判断するよう
     private bool GoBackFlag = true;
+    //敵のHPを管理しているUIを入れる用
+    [SerializeField] private EnemyHpBar enemyHp;
+    //敵の現在のHPを格納する用
+    [SerializeField] private float NowHP;
+    //クリア演出中動けなくする
+    private bool ClearFlag = false;
 
     private void Start()
     {
@@ -64,119 +76,145 @@ public class PlayerMove : MonoBehaviour
     //Update is called once per frame
     void Update()
     {
-        if (CollisionFlag)
+        //今のHPを格納
+        NowHP = enemyHp.GetNowHp();
+        if (NowHP <= 0)
         {
-            //ダメージ判定を受けているとき、点滅する
-            //Mathf.Absは絶対値を返す、Mathf.Sinは＋なら１，－なら0を返す
-            float level = Mathf.Abs(Mathf.Sin(Time.time * 10));
-            //上の式で0と1が交互に来るので、それを透明度に入れて反転させている
-            sp.color = new Color(1.0f, 1.0f, 1.0f, level);
+            ClearFlag = true;
         }
-        if (BoolTrap == false && NotMove == false)
+        if (ClearFlag)
         {
-            anim.SetBool("ItoFlag", false);
-            rbody2D.isKinematic = false;
-            x_val = Input.GetAxis("Horizontal");
-            Debug.Log(x_val);
-            if (x_val > 0)
-            {
-                //右を向く
-                transform.localScale = new Vector3(0.1f, 0.1f, 1);
-                GoBackFlag = true;
-                //歩く
-                transform.Translate(Walkspeed * Time.deltaTime, 0, 0);
-                if (x_val >= 0.8f)
-                {
-                    //走る
-                    transform.Translate(Dashspeed * Time.deltaTime, 0, 0);
-                }
-            }
-            else if (x_val < 0)
-            {
-                //左を向く
-                transform.localScale = new Vector3(-0.1f, 0.1f, 1);
-                GoBackFlag = false;
-                //歩く
-                transform.Translate(-Walkspeed * Time.deltaTime, 0, 0);
-                if (x_val <= -0.8f)
-                {
-                    //走る
-                    transform.Translate(-Dashspeed * Time.deltaTime, 0, 0);
-                }
-            }
 
-            if(Mathf.Abs(x_val) < 0.8f && x_val != 0)
-            {
-                anim.SetBool("WalkFlag", true);
-                anim.SetBool("RunFlag", false);
-            }
-            else if(Mathf.Abs(x_val) >= 0.8f && x_val != 0)
-            {
-                anim.SetBool("RunFlag", true);
-            }
-            else if(x_val == 0)
-            {
-                anim.SetBool("WalkFlag", false);
-            }
-            //if(x_val != 0 && (x_val < 0.8f && x_val > -0.8f))
-            //{
-            //    anim.SetBool("WalkFlag", true);
-            //}
-            //else
-            //{
-            //    anim.SetBool("WalkFlag", false);
-            //}
-            //横移動
-            //transform.Translate(x_val * speed * Time.deltaTime, 0, 0);
-            //ジャンプ
-            if ((Input.GetKeyDown(KeyCode.UpArrow) && this.jumpCount < 1) || ((Input.GetKeyDown("joystick button 0") || Input.GetKeyDown("joystick button 1") ||
-                Input.GetKeyDown("joystick button 2") || Input.GetKeyDown("joystick button 3")) && this.jumpCount < 1))
-            {
-                this.rbody2D.AddForce(transform.up * power);
-                anim.SetBool("JumpFlag", true);
-                jumpCount++;
-                Invoke("JumpFlagReset", 0.1f);
-            }
-            //攻撃
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
-            {
-                anim.SetBool("AttackFlag", true);
-                NotMove = true;
-                Invoke("StartEffect", 0.3f);
-                Invoke("StartAttack", 0.45f);
-            }
-            //プレイヤーの移動制限
-            //transform.position = new Vector2(Mathf.Clamp(
-            //    transform.position.x, -moveableRange, moveableRange),
-            //    transform.position.y);
         }
-        else if(BoolTrap == true && NotMove == false)
+        else
         {
-            anim.SetBool("ItoFlag", true);
-            //rbody2D.velocity = Vector3.zero;
-            //rbody2D.isKinematic = true;
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0") || Input.GetKeyDown("joystick button 1") ||
-                Input.GetKeyDown("joystick button 2") || Input.GetKeyDown("joystick button 3") || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
+            if (CollisionFlag)
             {
-                Trapcnt++;
+                //ダメージ判定を受けているとき、点滅する
+                //Mathf.Absは絶対値を返す、Mathf.Sinは＋なら１，－なら0を返す
+                float level = Mathf.Abs(Mathf.Sin(Time.time * 10));
+                //上の式で0と1が交互に来るので、それを透明度に入れて反転させている
+                sp.color = new Color(1.0f, 1.0f, 1.0f, level);
             }
-            if(Trapcnt>10)
+            if (BoolTrap == false && NotMove == false)
             {
-                BoolTrap = false;
+                anim.SetBool("ItoFlag", false);
+                rbody2D.isKinematic = false;
+                x_val = Input.GetAxis("Horizontal");
+                Debug.Log(x_val);
+                if (x_val > 0)
+                {
+                    //右を向く
+                    transform.localScale = new Vector3(0.1f, 0.1f, 1);
+                    GoBackFlag = true;
+                    //歩く
+                    transform.Translate(Walkspeed * Time.deltaTime, 0, 0);
+                    if (x_val >= 0.8f)
+                    {
+                        //走る
+                        transform.Translate(Dashspeed * Time.deltaTime, 0, 0);
+                    }
+                }
+                else if (x_val < 0)
+                {
+                    //左を向く
+                    transform.localScale = new Vector3(-0.1f, 0.1f, 1);
+                    GoBackFlag = false;
+                    //歩く
+                    transform.Translate(-Walkspeed * Time.deltaTime, 0, 0);
+                    if (x_val <= -0.8f)
+                    {
+                        //走る
+                        transform.Translate(-Dashspeed * Time.deltaTime, 0, 0);
+                    }
+                }
+
+                if (Mathf.Abs(x_val) < 0.8f && x_val != 0)
+                {
+                    anim.SetBool("WalkFlag", true);
+                    anim.SetBool("RunFlag", false);
+                }
+                else if (Mathf.Abs(x_val) >= 0.8f && x_val != 0)
+                {
+                    anim.SetBool("RunFlag", true);
+                }
+                else if (x_val == 0)
+                {
+                    anim.SetBool("WalkFlag", false);
+                }
+
+                if (x_val != 0 && WalkFlag)
+                {
+                    WalkCnt += Time.deltaTime;
+                    if (WalkCnt > 0.2f)
+                    {
+                        Instantiate(Walk, WalkPoint.position, Quaternion.identity);
+                        WalkCnt = 0;
+                    }
+                }
+                //if(x_val != 0 && (x_val < 0.8f && x_val > -0.8f))
+                //{
+                //    anim.SetBool("WalkFlag", true);
+                //}
+                //else
+                //{
+                //    anim.SetBool("WalkFlag", false);
+                //}
+                //横移動
+                //transform.Translate(x_val * speed * Time.deltaTime, 0, 0);
+                //ジャンプ
+                if ((Input.GetKeyDown(KeyCode.UpArrow) && this.jumpCount < 1) || ((Input.GetKeyDown("joystick button 0") || Input.GetKeyDown("joystick button 1") ||
+                    Input.GetKeyDown("joystick button 2") || Input.GetKeyDown("joystick button 3")) && this.jumpCount < 1))
+                {
+                    this.rbody2D.AddForce(transform.up * power);
+                    anim.SetBool("JumpFlag", true);
+                    jumpCount++;
+                    Instantiate(Jump, WalkPoint.position, Quaternion.identity);
+                    Invoke("JumpFlagReset", 0.1f);
+                    WalkFlag = false;
+                    WalkCnt = 0;
+                }
+                //攻撃
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
+                {
+                    anim.SetBool("AttackFlag", true);
+                    NotMove = true;
+                    Invoke("StartEffect", 0.3f);
+                    Invoke("StartAttack", 0.45f);
+                }
+                //プレイヤーの移動制限
+                //transform.position = new Vector2(Mathf.Clamp(
+                //    transform.position.x, -moveableRange, moveableRange),
+                //    transform.position.y);
             }
-        }
-        else if((BoolTrap == false && NotMove == true)|| (BoolTrap == true && NotMove == true))
-        {
-            AttackCnt += Time.deltaTime;
-            if(AttackCnt > 0.5f)
+            else if (BoolTrap == true && NotMove == false)
             {
-                NotMove = false;
-                AttackCnt = 0.0f;
+                anim.SetBool("ItoFlag", true);
+                //rbody2D.velocity = Vector3.zero;
+                //rbody2D.isKinematic = true;
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0") || Input.GetKeyDown("joystick button 1") ||
+                    Input.GetKeyDown("joystick button 2") || Input.GetKeyDown("joystick button 3") || Input.GetKeyDown("joystick button 4") || Input.GetKeyDown("joystick button 5"))
+                {
+                    Trapcnt++;
+                }
+                if (Trapcnt > 10)
+                {
+                    BoolTrap = false;
+                }
             }
-        }
-        if(transform.position.y < 0)
-        {
-            anim.SetBool("LandingFlag", true);
+            else if ((BoolTrap == false && NotMove == true) || (BoolTrap == true && NotMove == true))
+            {
+                AttackCnt += Time.deltaTime;
+                if (AttackCnt > 0.5f)
+                {
+                    NotMove = false;
+                    AttackCnt = 0.0f;
+                }
+            }
+            if (transform.position.y < 0)
+            {
+                anim.SetBool("LandingFlag", true);
+            }
         }
     }
 
@@ -186,6 +224,7 @@ public class PlayerMove : MonoBehaviour
         {
             jumpCount = 0;
             anim.SetBool("LandingFlag", false);
+            WalkFlag = true;
         }
 
         if (other.gameObject.CompareTag("EnemyBullet"))
