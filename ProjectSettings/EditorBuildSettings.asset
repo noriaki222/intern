@@ -8,13 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/MainScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/TitleScene.unity
     guid: ee0456b5e1af4bd4a84387174ce53239
   - enabled: 1
     path: Assets/Naito/Scene/BossSpider_Light_Naito.unity
     guid: 6fc5ab9ca17fe1a4f95f57d20463b9db
-  - enabled: 1
+  - enabled: 0
     path: Assets/Osaki/BossSpider_TimeLine.unity
     guid: bc59590130ec1dd41a0c2dae56c84301
   m_configObjects: {}
