@@ -75,6 +75,9 @@ public class BossEnemy_Spider : MonoBehaviour
     //アニメーションのインスタンスを受け取る用
     private Animator anim;
 
+    //地面がえぐれるエフェクト用
+    [SerializeField] private GameObject VolcanoEffact;
+    [SerializeField] private Transform VolcanoEffactPoint;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -175,6 +178,7 @@ public class BossEnemy_Spider : MonoBehaviour
                 if (VolcanoFlag1 == false)
                 {
                     Instantiate(Volcano, new Vector3(PlayerPos.transform.position.x, - 4f), Quaternion.identity);
+                    Instantiate(VolcanoEffact, VolcanoEffactPoint.position, Quaternion.identity);
                     anim.SetBool("FireFlag", true);
                     Invoke("VolcanoFlagfalse", 0.3f);
                     VolcanoFlag1 = true;
@@ -202,7 +206,9 @@ public class BossEnemy_Spider : MonoBehaviour
                 {
                     Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
                     audioSource.PlayOneShot(sound1);
+                    anim.SetBool("TripleFlag", true);
                     Invoke("FirstBullet", 0.7f);
+                    Invoke("CreateTripleBullet", 0.3f);
                 }
                 Bulletcnt = 0;
             }
@@ -302,6 +308,11 @@ public class BossEnemy_Spider : MonoBehaviour
     void CreateBullet()
     {
         anim.SetBool("BulletFlag", false);
+    }
+
+    void CreateTripleBullet()
+    {
+        anim.SetBool("TripleFlag", false);
     }
 
     void CreateSnipingBullet()

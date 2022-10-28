@@ -41,7 +41,7 @@ public class HomingBullet : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         bulletTrans = GetComponent<Transform>();
         Enemy = GameObject.Find("BossEnemy_Spider");
-        Invoke("HBulletChang", 2.0f);
+        Invoke("HBulletChang", 5.0f);
         audioSource = GetComponent<AudioSource>();
     }
 
