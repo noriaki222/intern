@@ -75,6 +75,9 @@ public class BossEnemy_Spider : MonoBehaviour
     //アニメーションのインスタンスを受け取る用
     private Animator anim;
 
+    //地面がえぐれるエフェクト用
+    [SerializeField] private GameObject VolcanoEffact;
+    [SerializeField] private Transform VolcanoEffactPoint;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -175,6 +178,7 @@ public class BossEnemy_Spider : MonoBehaviour
                 if (VolcanoFlag1 == false)
                 {
                     Instantiate(Volcano, new Vector3(PlayerPos.transform.position.x, - 4f), Quaternion.identity);
+                    Instantiate(VolcanoEffact, VolcanoEffactPoint.position, Quaternion.identity);
                     anim.SetBool("FireFlag", true);
                     Invoke("VolcanoFlagfalse", 0.3f);
                     VolcanoFlag1 = true;
