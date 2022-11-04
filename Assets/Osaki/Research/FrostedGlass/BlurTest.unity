@@ -713,7 +713,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 243066411451694650, guid: 37bb5fad85ac3c040ac87b06c8cfb552, type: 3}
       propertyPath: m_Intensity
-      value: 0.2
+      value: 0.98
       objectReference: {fileID: 0}
     - target: {fileID: 243066411451694650, guid: 37bb5fad85ac3c040ac87b06c8cfb552, type: 3}
       propertyPath: m_ApplyToSortingLayers.Array.size
@@ -896,6 +896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 454011879}
+  fin: {fileID: 0}
 --- !u!114 &1106956819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -930,7 +931,7 @@ MonoBehaviour:
   _horizaontalScale: 4
   _verticalScale: 4
   _drawSkipFrame: 2
-  _blurStrength: 1
+  _blurStrength: 10
 --- !u!1 &1157555262
 GameObject:
   m_ObjectHideFlags: 0
@@ -1394,8 +1395,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -21.08, y: 61.62}
-  m_SizeDelta: {x: 1069.74, y: 592.98}
+  m_AnchoredPosition: {x: -644.16, y: 0}
+  m_SizeDelta: {x: 631.67, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1631790390
 MonoBehaviour:

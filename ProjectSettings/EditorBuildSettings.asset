@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Osaki/BossSpider_TimeLine.unity
     guid: bc59590130ec1dd41a0c2dae56c84301
+  - enabled: 0
+    path: Assets/Live2D/Cubism/Samples/Animation/Animation.unity
+    guid: 803f5b38f7c073a4abd927303df13812
   m_configObjects: {}

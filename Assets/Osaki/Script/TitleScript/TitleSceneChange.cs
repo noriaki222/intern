@@ -22,6 +22,8 @@ public class TitleSceneChange : MonoBehaviour
         }
 
         if (fin.GetFin())
-            SceneManager.LoadScene("BossSpider_Light_Naito");
+        {
+           // SceneManager.LoadScene("BossSpider_Light_Naito");
+        }
     }
 }
