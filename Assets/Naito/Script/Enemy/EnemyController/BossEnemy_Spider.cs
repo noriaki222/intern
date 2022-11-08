@@ -87,7 +87,7 @@ public class BossEnemy_Spider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("DamageFlag" + DamageFlag);
+        //Debug.Log("DamageFlag" + DamageFlag);
         //今のHPを格納
         NowHP = enemyHp.GetNowHp();
         //ダメージ判定を受けているとき、点滅する
