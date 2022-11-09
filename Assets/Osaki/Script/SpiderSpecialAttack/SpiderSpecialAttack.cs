@@ -28,6 +28,9 @@ public class SpiderSpecialAttack : MonoBehaviour
     private AudioSource audioSource;
     private bool[] isPlaySe;
 
+    // ポーズ用
+    [SerializeField] private PauseManager pause;
+
     // 攻撃ステート
     private enum STATE_SILK
     {
@@ -66,6 +69,12 @@ public class SpiderSpecialAttack : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // ポーズ中
+        if (pause != null && pause.GetPause())
+        {
+            return;
+        }
+
         switch (state)
         {
             case STATE_SILK.CREATE:

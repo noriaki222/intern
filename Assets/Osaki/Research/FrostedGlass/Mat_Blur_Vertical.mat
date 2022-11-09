@@ -50,7 +50,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Blur: 1
+    - _Blur: 13
     - _EnableExternalAlpha: 0
     - _QueueControl: 0
     - _QueueOffset: 0

@@ -29,6 +29,9 @@ public class BulletControl : MonoBehaviour
 
     private ParticleSystem ps;
 
+    // ポーズ用
+    [SerializeField] private PauseManager pause;
+
     void Start()
     {
         ps = GetComponent<ParticleSystem>();
@@ -45,6 +48,12 @@ public class BulletControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // ポーズ中
+        if (pause != null && pause.GetPause())
+        {
+            return;
+        }
+
         Move();
 
     }

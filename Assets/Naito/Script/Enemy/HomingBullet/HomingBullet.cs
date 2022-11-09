@@ -36,6 +36,9 @@ public class HomingBullet : MonoBehaviour
     //攻撃エフェクト用
     [SerializeField] private GameObject Parry;
 
+    // ポーズ用
+    [SerializeField] private PauseManager pause;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -47,6 +50,12 @@ public class HomingBullet : MonoBehaviour
 
     private void Update()
     {
+        // ポーズ中
+        if (pause != null && pause.GetPause())
+        {
+            return;
+        }
+
         if (BulletRefection == false)
         {
             if (HomingChang == false)
