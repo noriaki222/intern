@@ -69,6 +69,9 @@ public class PlayerMove : MonoBehaviour
     //回避用の当たり判定
     private bool AvoiFlag = false;
 
+    // ポーズ用
+    [SerializeField] private PauseManager pause;
+
     private void Start()
     {
         rbody2D = GetComponent<Rigidbody2D>();
@@ -79,6 +82,12 @@ public class PlayerMove : MonoBehaviour
     //Update is called once per frame
     void Update()
     {
+        // ポーズ中
+        if(pause != null && pause.GetPause())
+        {
+            return;
+        }
+
         //今のHPを格納
         NowHP = enemyHp.GetNowHp();
         if (NowHP <= 0)

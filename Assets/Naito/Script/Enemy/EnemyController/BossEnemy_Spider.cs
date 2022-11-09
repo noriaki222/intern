@@ -78,6 +78,10 @@ public class BossEnemy_Spider : MonoBehaviour
     //地面がえぐれるエフェクト用
     [SerializeField] private GameObject VolcanoEffact;
     [SerializeField] private Transform VolcanoEffactPoint;
+
+    // ポーズ用
+    [SerializeField] private PauseManager pause;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -87,6 +91,12 @@ public class BossEnemy_Spider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // ポーズ中
+        if (pause != null && pause.GetPause())
+        {
+            return;
+        }
+
         //Debug.Log("DamageFlag" + DamageFlag);
         //今のHPを格納
         NowHP = enemyHp.GetNowHp();
