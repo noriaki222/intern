@@ -66,6 +66,9 @@ public class PlayerMove : MonoBehaviour
     //クリア演出中動けなくする
     private bool ClearFlag = false;
 
+    //回避用の当たり判定
+    private bool AvoiFlag = false;
+
     private void Start()
     {
         rbody2D = GetComponent<Rigidbody2D>();
@@ -81,6 +84,8 @@ public class PlayerMove : MonoBehaviour
         if (NowHP <= 0)
         {
             ClearFlag = true;
+            //右を向く
+            transform.localScale = new Vector3(0.1f, 0.1f, 1);
         }
         if (ClearFlag)
         {
@@ -182,6 +187,21 @@ public class PlayerMove : MonoBehaviour
                     Invoke("StartEffect", 0.3f);
                     Invoke("StartAttack", 0.45f);
                 }
+                //回避
+                if(Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    AvoiFlag = true;
+                    if (GoBackFlag)
+                    {
+                        rbody2D.AddForce(transform.right * 10.0f, ForceMode2D.Impulse);
+                    }
+                    else
+                    {
+                        rbody2D.AddForce(transform.right * -10.0f, ForceMode2D.Impulse);
+                    }
+                    this.gameObject.layer = 15;
+                    Invoke("AvoiFlagEnd", 0.3f);
+                }
                 //プレイヤーの移動制限
                 //transform.position = new Vector2(Mathf.Clamp(
                 //    transform.position.x, -moveableRange, moveableRange),
@@ -242,13 +262,16 @@ public class PlayerMove : MonoBehaviour
 
     void PlayerDamage()
     {
-        // 体力減少
-        life.LossLife();
-        CollisionFlag = true;
-        audioSource.PlayOneShot(sound1);
-        shake.PlayShake(0, 0);
-        //ダメージ判定が終わった後、3秒後に無敵を解除する
-        Invoke("InvincibleEnd", 3.0f);
+        if (AvoiFlag == false)
+        {
+            // 体力減少
+            life.LossLife();
+            CollisionFlag = true;
+            audioSource.PlayOneShot(sound1);
+            shake.PlayShake(0, 0);
+            //ダメージ判定が終わった後、3秒後に無敵を解除する
+            Invoke("InvincibleEnd", 3.0f);
+        }
     }
 
     void InvincibleEnd()
@@ -266,6 +289,12 @@ public class PlayerMove : MonoBehaviour
     void JumpFlagReset()
     {
         anim.SetBool("JumpFlag", false);
+    }
+
+    void AvoiFlagEnd()
+    {
+        AvoiFlag = false;
+        this.gameObject.layer = 14;
     }
 
     void StartEffect()
