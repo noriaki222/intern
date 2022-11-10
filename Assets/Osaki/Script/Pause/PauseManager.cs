@@ -5,10 +5,13 @@ using UnityEngine;
 public class PauseManager : MonoBehaviour
 {
     private bool isPause = false;
-    // Start is called before the first frame update
-    void Start()
+
+    private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+           isPause = isPause ? false : true;
+        }
     }
 
     public bool GetPause()

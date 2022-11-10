@@ -7,6 +7,8 @@ public class LifeUI : MonoBehaviour
     [SerializeField] private PlayLife[] lifes;
     private int lifeNum;
     private int addNum;
+
+    [SerializeField] private PauseManager pause;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,9 +18,25 @@ public class LifeUI : MonoBehaviour
 
     private void Update()
     {
-        // Debug.Log(lifeNum);
+        // É|Å[ÉYíÜ
+        if (pause != null && pause.GetPause())
+        {
+            for(int i = 0; i < lifes.Length; ++i)
+            {
+                lifes[i].PauseAnim();
+            }
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < lifes.Length; ++i)
+            {
+                lifes[i].PlayAnim();
+            }
+        }
 
-        if(lifeNum > 0 && lifes[lifeNum - 1].GetLossFin())
+
+        if (lifeNum > 0 && lifes[lifeNum - 1].GetLossFin())
         {
             lifes[lifeNum - 1].gameObject.SetActive(false);
             --lifeNum;

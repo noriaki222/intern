@@ -83,9 +83,14 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         // ƒ|[ƒY’†
-        if(pause != null && pause.GetPause())
+        if (pause != null && pause.GetPause())
         {
+            anim.speed = 0.0f;
             return;
+        }
+        else
+        {
+            anim.speed = 1.0f;
         }
 
         //¡‚ÌHP‚ğŠi”[

@@ -11,6 +11,8 @@ public class EnemyHpBar : MonoBehaviour
     [SerializeField] private float maxHp = 100.0f;
     [SerializeField] private float rate = 0.1f;
     private float nowHp;
+
+    [SerializeField] private PauseManager pause;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +21,13 @@ public class EnemyHpBar : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // É|Å[ÉYíÜ
+        if (pause != null && pause.GetPause())
+        {
+            return;
+        }
+
+
         //Debug.Log(gain.fillAmount);
         now.fillAmount = nowHp / maxHp;
 

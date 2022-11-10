@@ -94,7 +94,12 @@ public class BossEnemy_Spider : MonoBehaviour
         // É|Å[ÉYíÜ
         if (pause != null && pause.GetPause())
         {
+            anim.speed = 0.0f;
             return;
+        }
+        else
+        {
+            anim.speed = 1.0f;
         }
 
         //Debug.Log("DamageFlag" + DamageFlag);

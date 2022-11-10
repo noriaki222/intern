@@ -19,6 +19,8 @@ public class HitUI : MonoBehaviour
     private bool startFade = false;
     private Animator anim;
 
+    [SerializeField] private PauseManager pause;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +30,18 @@ public class HitUI : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // ƒ|[ƒY’†
+        if (pause != null && pause.GetPause())
+        {
+            anim.speed = 0.0f;
+            return;
+        }
+        else
+        {
+            anim.speed = 1.0f;
+        }
+
+
         UpdateScreenPos();
 
         if(hit > 0)

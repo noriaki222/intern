@@ -31,6 +31,8 @@ public class Shake : MonoBehaviour
     private float[] totalTime;        // 経過時間
     private int[] shakeType;    // shakeInfoのタイプ
 
+    [SerializeField] private PauseManager pause;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +51,11 @@ public class Shake : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(pause != null && pause.GetPause())
+        {
+            return;
+        }
+
         for(int i = 0; i < targets.Length; ++i)
         {
             if (!isShake[i])

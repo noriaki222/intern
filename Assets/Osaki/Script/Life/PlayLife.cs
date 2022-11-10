@@ -12,6 +12,16 @@ public class PlayLife : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+    public void PauseAnim()
+    {
+        anim.speed = 0.0f;
+    }
+
+    public void PlayAnim()
+    {
+        anim.speed = 1.0f;
+    }
+
     public void PlayLossAnim()
     {
         isLossFin = false;
