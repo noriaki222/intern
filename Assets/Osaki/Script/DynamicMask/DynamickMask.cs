@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
-using UnityEditor.UI;
 
 public class DynamickMask : Graphic
 {
+    [SerializeField]
     public Vector2 vert1;
+    [SerializeField]
     public Vector2 vert2;
+    [SerializeField]
     public Vector2 vert3;
+    [SerializeField]
     public Vector2 vert4;
 
     protected override void OnPopulateMesh(VertexHelper toFill)
