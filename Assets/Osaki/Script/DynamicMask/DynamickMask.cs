@@ -2,16 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
+using UnityEditor.UI;
 
 public class DynamickMask : Graphic
 {
-    [SerializeField]
     public Vector2 vert1;
-    [SerializeField]
     public Vector2 vert2;
-    [SerializeField]
     public Vector2 vert3;
-    [SerializeField]
     public Vector2 vert4;
 
     protected override void OnPopulateMesh(VertexHelper toFill)
@@ -46,5 +44,20 @@ public class DynamickMask : Graphic
         base.OnDidApplyAnimationProperties();
 
         SetVerticesDirty();
+    }
+}
+
+[CustomEditor(typeof(DynamickMask))]
+public class DynamicMaskEditor : GraphicEditor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        var mask = (DynamickMask)target;
+        mask.vert1 = EditorGUILayout.Vector2Field("Vert 1", mask.vert1);
+        mask.vert2 = EditorGUILayout.Vector2Field("Vert 2", mask.vert2);
+        mask.vert3 = EditorGUILayout.Vector2Field("Vert 3", mask.vert3);
+        mask.vert4 = EditorGUILayout.Vector2Field("Vert 4", mask.vert4);
     }
 }
