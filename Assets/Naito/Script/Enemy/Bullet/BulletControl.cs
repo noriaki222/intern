@@ -8,7 +8,7 @@ public class BulletControl : MonoBehaviour
 
     [SerializeField] private float Reflectionspeed = 10; //反射銃弾のスピード
 
-    [SerializeField] private BossEnemy_Spider Boss;
+    [SerializeField] private BossController_Spider Boss;
     [SerializeField] private float Damage = 10.0f;
 
     //プレイヤーの位置情報入れる人
@@ -29,6 +29,9 @@ public class BulletControl : MonoBehaviour
 
     private ParticleSystem ps;
 
+    // ポーズ用
+    [SerializeField] private PauseManager pause;
+
     void Start()
     {
         ps = GetComponent<ParticleSystem>();
@@ -45,6 +48,12 @@ public class BulletControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // ポーズ中
+        if (pause != null && pause.GetPause())
+        {
+            return;
+        }
+
         Move();
 
     }

@@ -41,7 +41,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2166518586079313347}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -100,7 +100,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hit: {fileID: 0}
   shake: {fileID: 0}
-  Slash: {fileID: 5912045119767818900, guid: 70e08838b05a4634bb53b62f6bdd1e25, type: 3}
 --- !u!61 &-1762513119887278283
 BoxCollider2D:
   m_ObjectHideFlags: 0

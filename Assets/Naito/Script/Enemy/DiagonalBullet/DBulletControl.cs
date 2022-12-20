@@ -13,7 +13,7 @@ public class DBulletControl : MonoBehaviour
     //ダメージ量
     [SerializeField] private float Damage = 10.0f;
     //ボスのダメージ判定を分ける用
-    [SerializeField] private BossEnemy_Spider Boss;
+    [SerializeField] private BossController_Spider Boss;
 
     //SE出す用
     AudioSource audioSource;
@@ -53,14 +53,14 @@ public class DBulletControl : MonoBehaviour
                 Vector3 lazerPos = transform.position; //Vector3型のplayerPosに現在の位置情報を格納
                 lazerPos.x += Reflectionspeed * Time.deltaTime; //x座標にspeedを加算
                 transform.position = lazerPos; //現在の位置情報に反映させる
-                transform.localScale = new Vector3(-0.5f, 0.5f, 1);
+                transform.localScale = new Vector3(-0.08f, 0.08f, 1);
             }
             else
             {
                 Vector3 lazerPos = transform.position; //Vector3型のplayerPosに現在の位置情報を格納
                 lazerPos.x -= Reflectionspeed * Time.deltaTime; //x座標にspeedを加算
                 transform.position = lazerPos; //現在の位置情報に反映させる
-                transform.localScale = new Vector3(0.5f, 0.5f, 1);
+                transform.localScale = new Vector3(0.08f, 0.08f, 1);
             }
         }
     }

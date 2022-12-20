@@ -18,7 +18,9 @@ public class BossEnemy_Spider : MonoBehaviour
     //通常弾の出現場所を格納する用
     [SerializeField] private Transform BulletPoint;
     //追尾弾の出現場所を格納する用
-    [SerializeField] private Transform HomingPoint;
+    [SerializeField] private Transform HomingPoint1;
+    [SerializeField] private Transform HomingPoint2;
+    [SerializeField] private Transform HomingPoint3;
     //狙撃弾の出現場所を格納する用
     [SerializeField] private Transform SnipingPoint;
     //罠弾の出現場所を格納する用
@@ -75,6 +77,13 @@ public class BossEnemy_Spider : MonoBehaviour
     //アニメーションのインスタンスを受け取る用
     private Animator anim;
 
+    //地面がえぐれるエフェクト用
+    [SerializeField] private GameObject VolcanoEffact;
+    [SerializeField] private Transform VolcanoEffactPoint;
+
+    // ポーズ用
+    [SerializeField] private PauseManager pause;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -84,7 +93,13 @@ public class BossEnemy_Spider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("DamageFlag" + DamageFlag);
+        // ポーズ中
+        if (pause != null && pause.GetPause())
+        {
+            return;
+        }
+
+        //Debug.Log("DamageFlag" + DamageFlag);
         //今のHPを格納
         NowHP = enemyHp.GetNowHp();
         //ダメージ判定を受けているとき、点滅する
@@ -106,6 +121,7 @@ public class BossEnemy_Spider : MonoBehaviour
                 //Instantiate(Volcano, new Vector3(PlayerPos.transform.position.x, PlayerPos.transform.position.y - 2.0f), Quaternion.identity);
                 anim.SetBool("BulletFlag", true);
                 Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
+                HomingBulletCreate(HomingPoint1.position);
                 audioSource.PlayOneShot(sound1);
                 Invoke("CreateBullet", 0.3f);
                 Bulletcnt = 0;
@@ -116,7 +132,7 @@ public class BossEnemy_Spider : MonoBehaviour
                 BulletRnd = Random.Range(1, 4);
                 if(BulletRnd == 3)
                 {
-                    Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
+                    HomingBulletCreate(HomingPoint1.position);
                     audioSource.PlayOneShot(sound1);
                 }
                 HomingBulletcnt = 0;
@@ -143,7 +159,7 @@ public class BossEnemy_Spider : MonoBehaviour
                 BulletRnd = Random.Range(1, 3);
                 if (BulletRnd == 2)
                 {
-                    Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
+                    HomingBulletCreate(HomingPoint1.position);
                     audioSource.PlayOneShot(sound1);
                 }
                 HomingBulletcnt = 0;
@@ -175,6 +191,7 @@ public class BossEnemy_Spider : MonoBehaviour
                 if (VolcanoFlag1 == false)
                 {
                     Instantiate(Volcano, new Vector3(PlayerPos.transform.position.x, - 4f), Quaternion.identity);
+                    Instantiate(VolcanoEffact, VolcanoEffactPoint.position, Quaternion.identity);
                     anim.SetBool("FireFlag", true);
                     Invoke("VolcanoFlagfalse", 0.3f);
                     VolcanoFlag1 = true;
@@ -202,7 +219,9 @@ public class BossEnemy_Spider : MonoBehaviour
                 {
                     Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
                     audioSource.PlayOneShot(sound1);
+                    anim.SetBool("TripleFlag", true);
                     Invoke("FirstBullet", 0.7f);
+                    Invoke("CreateTripleBullet", 0.3f);
                 }
                 Bulletcnt = 0;
             }
@@ -212,7 +231,7 @@ public class BossEnemy_Spider : MonoBehaviour
                 BulletRnd = Random.Range(1, 3);
                 if (BulletRnd == 2)
                 {
-                    Instantiate(HomingBullet, HomingPoint.position, Quaternion.identity);
+                    HomingBulletCreate(HomingPoint1.position);
                     audioSource.PlayOneShot(sound1);
                 }
                 HomingBulletcnt = 0;
@@ -304,6 +323,11 @@ public class BossEnemy_Spider : MonoBehaviour
         anim.SetBool("BulletFlag", false);
     }
 
+    void CreateTripleBullet()
+    {
+        anim.SetBool("TripleFlag", false);
+    }
+
     void CreateSnipingBullet()
     {
         anim.SetBool("TrapFlag", false);
@@ -379,5 +403,17 @@ public class BossEnemy_Spider : MonoBehaviour
     {
         Instantiate(Bullet, BulletPoint.position, Quaternion.identity);
         audioSource.PlayOneShot(sound1);
+    }
+
+    private void HomingBulletTable()
+    {
+        HomingBulletCreate(HomingPoint1.position);
+        HomingBulletCreate(HomingPoint2.position);
+        HomingBulletCreate(HomingPoint3.position);
+    }
+
+    private void HomingBulletCreate(Vector3 position)
+    {
+        Instantiate(HomingBullet, position, Quaternion.identity);
     }
 }
