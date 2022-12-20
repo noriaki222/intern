@@ -19,7 +19,7 @@ public class HomingBullet : MonoBehaviour
     //追いかける対象
     [SerializeField] private GameObject Player;
     //ボスのダメージ判定を分ける用
-    [SerializeField] private BossEnemy_Spider Boss;
+    [SerializeField] private BossController_Spider Boss;
     //ダメージ量
     [SerializeField] private float Damage = 20.0f;
     //反射先
@@ -44,7 +44,7 @@ public class HomingBullet : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         bulletTrans = GetComponent<Transform>();
         Enemy = GameObject.Find("BossEnemy_Spider");
-        Invoke("HBulletChang", 5.0f);
+        Invoke("HBulletChang", 3.0f);
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -60,12 +60,12 @@ public class HomingBullet : MonoBehaviour
         {
             if (HomingChang == false)
             {
-                rb.AddForce(transform.right * -bulletSpeed);
-                rb.AddForce(transform.up * UpSpeed);
+                //rb.AddForce(transform.right * -bulletSpeed);
+                //rb.AddForce(transform.up * UpSpeed);
 
-                float speedXTemp = Mathf.Clamp(rb.velocity.x, -limitSpeed, limitSpeed); //X方向の速度を制限
-                float speedYTemp = Mathf.Clamp(rb.velocity.y, -limitSpeed, limitSpeed);  //Y方向の速度を制限
-                rb.velocity = new Vector3(speedXTemp, speedYTemp);
+                //float speedXTemp = Mathf.Clamp(rb.velocity.x, -limitSpeed, limitSpeed); //X方向の速度を制限
+                //float speedYTemp = Mathf.Clamp(rb.velocity.y, -limitSpeed, limitSpeed);  //Y方向の速度を制限
+                //rb.velocity = new Vector3(speedXTemp, speedYTemp);
             }
             else
             {
@@ -84,13 +84,14 @@ public class HomingBullet : MonoBehaviour
                 Vector3 Homing = Enemy.transform.position - bulletTrans.position;
                 if (BoolRefection == false)
                 {
-                    rb.AddForce(Homing.normalized * RefectionSpeed * 2, ForceMode2D.Impulse);
+                    //rb.AddForce(Homing.normalized * RefectionSpeed * 2, ForceMode2D.Impulse);
+                    rb.AddForce(Vector3.right * 20.0f, ForceMode2D.Impulse);
                     BoolRefection = true;
                 }
             }
             else
             {
-                Vector3 Homing = Enemy.transform.position - bulletTrans.position;
+                //Vector3 Homing = Enemy.transform.position - bulletTrans.position;
                 if (BoolRefection == false)
                 {
                     rb.AddForce(Vector3.right * -20.0f, ForceMode2D.Impulse);

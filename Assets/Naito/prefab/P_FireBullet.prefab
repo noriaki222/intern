@@ -4859,10 +4859,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04dc666cfb558f940a38a77965ba5d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 8
   Reflectionspeed: 10
+  Boss: {fileID: 0}
+  Damage: 10
   Player: {fileID: 0}
   sound1: {fileID: 0}
+  Parry: {fileID: 0}
 --- !u!70 &-6686843766700813249
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
