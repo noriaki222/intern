@@ -13,7 +13,7 @@ public class DBulletControl : MonoBehaviour
     //ダメージ量
     [SerializeField] private float Damage = 10.0f;
     //ボスのダメージ判定を分ける用
-    [SerializeField] private BossEnemy_Spider Boss;
+    [SerializeField] private BossController_Spider Boss;
 
     //SE出す用
     AudioSource audioSource;

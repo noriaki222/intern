@@ -185,7 +185,7 @@ public class PlayerMove : MonoBehaviour
                     anim.SetBool("AttackFlag", true);
                     NotMove = true;
                     Invoke("StartEffect", 0.3f);
-                    Invoke("StartAttack", 0.45f);
+                    Invoke("StartAttack", 0.3f);
                 }
                 //‰ñ”ð
                 if(Input.GetKeyDown(KeyCode.DownArrow))

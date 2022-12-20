@@ -8,7 +8,7 @@ public class BulletControl : MonoBehaviour
 
     [SerializeField] private float Reflectionspeed = 10; //反射銃弾のスピード
 
-    [SerializeField] private BossEnemy_Spider Boss;
+    [SerializeField] private BossController_Spider Boss;
     [SerializeField] private float Damage = 10.0f;
 
     //プレイヤーの位置情報入れる人
