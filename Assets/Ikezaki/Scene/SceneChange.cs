@@ -21,32 +21,36 @@ public class SceneChange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SceneManager.LoadSceneAsync("TitleScene_Ikezaki");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SceneManager.LoadSceneAsync("TutorialScene_Ikezaki");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            SceneManager.LoadSceneAsync("GameScene_Ikezaki");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            SceneManager.LoadSceneAsync("ClearScene_Ikezaki");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            SceneManager.LoadSceneAsync("GameoverScene_Ikezaki");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
+        //if(Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    SceneManager.LoadSceneAsync("TitleScene_Ikezaki");
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    SceneManager.LoadSceneAsync("TutorialScene_Ikezaki");
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    SceneManager.LoadSceneAsync("GameScene_Ikezaki");
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha4))
+        //{
+        //    SceneManager.LoadSceneAsync("ClearScene_Ikezaki");
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha5))
+        //{
+        //    SceneManager.LoadSceneAsync("GameoverScene_Ikezaki");
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha6))
+        //{
+        //    StartCoroutine(WaitForLoadScene());
+        //}
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             StartCoroutine(WaitForLoadScene());
         }
     }
-    
+
     IEnumerator WaitForLoadScene()
     {
         FadeCanvasClone = Instantiate(FadeCanvasPrefab);
@@ -54,7 +58,7 @@ public class SceneChange : MonoBehaviour
         fadeCanvas = FadeCanvasClone.GetComponent<Fade_Test1>();
         fadeCanvas.bFadeIn = true;
         yield return new WaitForSeconds(FadeIdleTime);
-        yield return SceneManager.LoadSceneAsync("IkezakiScene");
+        yield return SceneManager.LoadSceneAsync("MainScene");
         fadeCanvas.bFadeOut = true;
     }
 }
