@@ -61,6 +61,11 @@ public class BossController_Spider : MonoBehaviour
     //敵が攻撃しているかどうかの判断をする用
     private bool AttackFlag = false;
 
+    //クリア演出用TimeLine
+    [SerializeField] private TimelinePlayer ClearLine;
+    //クリア演出は一度だけ
+    private bool ClearFlag = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -92,23 +97,26 @@ public class BossController_Spider : MonoBehaviour
         //}
 
         //敵の攻撃パターン管理
-        switch (AttackChanger)
+        if (NowHP > 0)
         {
-            case 1:
-                HomingBulletTable1();
-                AttackFlagChanger();
-                AttackChanger = 0;
-                break;
-            case 2:
-                WaveBulletTable();
-                AttackFlagChanger();
-                AttackChanger = 0;
-                break;
-            case 3:
-                SnipingBulletTable1();
-                AttackFlagChanger();
-                AttackChanger = 0;
-                break;
+            switch (AttackChanger)
+            {
+                case 1:
+                    HomingBulletTable1();
+                    AttackFlagChanger();
+                    AttackChanger = 0;
+                    break;
+                case 2:
+                    WaveBulletTable();
+                    AttackFlagChanger();
+                    AttackChanger = 0;
+                    break;
+                case 3:
+                    SnipingBulletTable1();
+                    AttackFlagChanger();
+                    AttackChanger = 0;
+                    break;
+            }
         }
         //デバック用に数字キーで攻撃を変化させるやつ
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -126,6 +134,14 @@ public class BossController_Spider : MonoBehaviour
         {
             AttackChanger = 3;
         }
+        if (NowHP <= 0)
+        {
+            if (ClearFlag == false)
+            {
+                ClearLine.PlayTimeline();
+                ClearFlag = true;
+            }
+        }
     }
 
     public void EnemyDamage(float damage)
@@ -134,7 +150,7 @@ public class BossController_Spider : MonoBehaviour
         {
             DamageFlag = true;
             // 敵体力減少
-            //enemyHp.DecHp(damage);
+            enemyHp.DecHp(damage);
             //audioSource.PlayOneShot(sound2);
             //ダメージ判定が終わった後、3秒後に無敵を解除する
             Invoke("InvincibleEnd", 3.0f);
@@ -190,7 +206,7 @@ public class BossController_Spider : MonoBehaviour
         }
         else
         {
-            Invoke("AttackFlagChanger", 1.0f);
+            Invoke("AttackFlagChanger", 5.0f);
         }
     }
 
@@ -241,7 +257,7 @@ public class BossController_Spider : MonoBehaviour
         }
         else
         {
-            Invoke("AttackFlagChanger", 1.0f);
+            Invoke("AttackFlagChanger", 3.0f);
         }
     }
 

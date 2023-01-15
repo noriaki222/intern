@@ -90,6 +90,11 @@ public class WaveController : MonoBehaviour
     private void ExistenceOff()
     {
         gameObject.SetActive(false);
+        Invoke("EnemyAttackchanger", 2.0f);
+    }
+
+    private void EnemyAttackchanger()
+    {
         Boss.AttackFlagChanger();
     }
 }
